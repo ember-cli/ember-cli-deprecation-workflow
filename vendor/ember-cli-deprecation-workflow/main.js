@@ -5,7 +5,7 @@
   };
 
   Ember.Debug.registerDeprecationHandler(function deprecationCollector(message, options, next){
-    window.deprecationWorkflow.deprecationLog.messages[message] = '    { matchMessage: ' + JSON.stringify(message) + ', handler: "silence" }';
+    window.deprecationWorkflow.deprecationLog.messages[message] = '    { handler: "silence", matchMessage: ' + JSON.stringify(message) + ' }';
     next(message, options);
   });
 

@@ -22,8 +22,8 @@ test('calling flushDeprecations returns string of deprecations', (assert) => {
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
   workflow: [
-    { matchMessage: \"First deprecation\", handler: \"silence\" },
-    { matchMessage: \"Second deprecation\", handler: \"silence\" }
+    { handler: "silence", matchMessage: \"First deprecation\" },
+    { handler: "silence", matchMessage: \"Second deprecation\" }
   ]
 };`);
 });
@@ -40,8 +40,8 @@ test('deprecations are not duplicated', function(assert) {
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
   workflow: [
-    { matchMessage: \"First deprecation\", handler: \"silence\" },
-    { matchMessage: \"Second deprecation\", handler: \"silence\" }
+    { handler: "silence", matchMessage: \"First deprecation\" },
+    { handler: "silence", matchMessage: \"Second deprecation\" }
   ]
 };`);
 });
