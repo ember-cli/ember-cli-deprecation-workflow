@@ -17,7 +17,7 @@ module.exports = {
     app.import('vendor/ember-cli-deprecation-workflow/main.js');
   },
   contentFor: function(type) {
-    if (type === 'app-prefix') {
+    if (type === 'vendor-prefix') {
       // FIXME: This should be excluded in production
       var fs = require('fs');
       var path = require('path');
