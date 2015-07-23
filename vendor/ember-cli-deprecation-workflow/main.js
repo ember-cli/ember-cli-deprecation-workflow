@@ -57,7 +57,7 @@
 
   var preamble = [
     'window.deprecationWorkflow = window.deprecationWorkflow || {};',
-    'window.deprecationWorkflow.config = {\n  throwOnUnhandled: true,\n  workflow: [\n',
+    'window.deprecationWorkflow.config = {\n  workflow: [\n',
   ].join('\n');
 
   var postamble = [
