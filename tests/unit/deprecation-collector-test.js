@@ -21,6 +21,7 @@ test('calling flushDeprecations returns string of deprecations', (assert) => {
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
+  throwOnUnhandled: true,
   workflow: [
     { handler: "silence", matchMessage: \"First deprecation\" },
     { handler: "silence", matchMessage: \"Second deprecation\" }
@@ -39,11 +40,45 @@ test('deprecations are not duplicated', function(assert) {
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
+  throwOnUnhandled: true,
   workflow: [
     { handler: "silence", matchMessage: \"First deprecation\" },
     { handler: "silence", matchMessage: \"Second deprecation\" }
   ]
 };`);
+});
+
+test('specifying `throwOnUnhandled` as true raises', function(assert) {
+  assert.expect(2);
+
+  Ember.ENV.RAISE_ON_DEPRECATION = false;
+
+  window.deprecationWorkflow.config = {
+    throwOnUnhandled: true,
+    workflow: [
+      { handler: 'silence', matchMessage: 'Sshhhhh!!' }
+    ]
+  };
+
+  assert.throws(function() {
+    Ember.deprecate('Foobarrrzzzz');
+  }, /Foobarrrzzzz/, 'setting raiseOnUnhandled throws for unknown workflows');
+
+  Ember.deprecate('Sshhhhh!!');
+  assert.ok(true, 'did not throw when silenced');
+});
+
+test('specifying `throwOnUnhandled` as false does nothing', function(assert) {
+  assert.expect(1);
+
+  Ember.ENV.RAISE_ON_DEPRECATION = false;
+
+  window.deprecationWorkflow.config = {
+    throwOnUnhandled: false
+  };
+
+  Ember.deprecate('Sshhhhh!!');
+  assert.ok(true, 'does not die when throwOnUnhandled is false');
 });
 
 test('deprecation silenced with string matcher', (assert) => {
