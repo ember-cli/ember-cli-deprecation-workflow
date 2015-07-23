@@ -154,3 +154,21 @@ test('deprecation thrown with regex matcher', (assert) => {
     Ember.deprecate('Interesting');
   }, 'deprecation throws');
 });
+
+test('deprecation logging happens even if `throwOnUnhandled` is true', function(assert) {
+  assert.expect(2);
+
+  Ember.ENV.RAISE_ON_DEPRECATION = false;
+
+  window.deprecationWorkflow.config = {
+    throwOnUnhandled: true
+  };
+
+  assert.throws(function() {
+    Ember.deprecate('Foobarrrzzzz');
+  }, /Foobarrrzzzz/, 'setting raiseOnUnhandled throws for unknown workflows');
+
+  let result = window.deprecationWorkflow.flushDeprecations();
+
+  assert.ok(/Foobarrrzzzz/.exec(result), 'unhandled deprecation was added to the deprecationLog');
+});
