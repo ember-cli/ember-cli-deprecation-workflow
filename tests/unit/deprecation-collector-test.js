@@ -16,10 +16,16 @@ module("deprecation collector", {
 });
 
 test('calling flushDeprecations returns string of deprecations', (assert) => {
-  Ember.deprecate('Interesting');
+  Ember.deprecate('First deprecation');
+  Ember.deprecate('Second deprecation');
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
-window.deprecationWorkflow.config = {"workflow":[{"matchMessage":"Interesting","handler":"silence"}]};`);
+window.deprecationWorkflow.config = {
+  workflow: [
+    { matchMessage: \"First deprecation\", handler: \"silence\" },
+    { matchMessage: \"Second deprecation\", handler: \"silence\" }
+  ]
+};`);
 });
 
 test('deprecation silenced with string matcher', (assert) => {

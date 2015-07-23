@@ -3,7 +3,7 @@
   window.deprecationWorkflow.deprecationLog = [];
 
   Ember.Debug.registerDeprecationHandler(function deprecationCollector(message, options, next){
-    window.deprecationWorkflow.deprecationLog.push({ matchMessage: message, handler: 'silence' });
+    window.deprecationWorkflow.deprecationLog.push('    { matchMessage: ' + JSON.stringify(message) + ', handler: "silence" }');
     next(message, options);
   });
 
@@ -47,14 +47,17 @@
 
   var preamble = [
     'window.deprecationWorkflow = window.deprecationWorkflow || {};',
-    'window.deprecationWorkflow.config = {"workflow":',
+    'window.deprecationWorkflow.config = {\n  workflow: [\n',
   ].join('\n');
 
   var postamble = [
-    '};'
+    '  ]\n};'
   ].join('\n');
 
   window.deprecationWorkflow.flushDeprecations = function flushDeprecations() {
-    return preamble+JSON.stringify(window.deprecationWorkflow.deprecationLog)+postamble;
+    var logs = window.deprecationWorkflow.deprecationLog;
+    var deprecations = logs.join(',\n') + '\n';
+
+    return preamble + deprecations + postamble;
   };
 })();
