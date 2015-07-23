@@ -9,7 +9,7 @@ module("workflow config", {
   },
   afterEach() {
     Ember.ENV.RAISE_ON_DEPRECATION = false;
-    window.deprecationWorkflow.deprecationLog = [];
+    window.deprecationWorkflow.deprecationLog = { messages: { } };
     Ember.Logger.log = originalLog;
   }
 });
