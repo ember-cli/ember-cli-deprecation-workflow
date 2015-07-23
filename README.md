@@ -1,5 +1,7 @@
 # Ember-cli-deprecation-workflow
 
+[![Build Status](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow.svg)](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow)
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
