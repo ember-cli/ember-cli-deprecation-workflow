@@ -21,7 +21,6 @@ test('calling flushDeprecations returns string of deprecations', (assert) => {
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
-  throwOnUnhandled: true,
   workflow: [
     { handler: "silence", matchMessage: \"First deprecation\" },
     { handler: "silence", matchMessage: \"Second deprecation\" }
@@ -40,7 +39,6 @@ test('deprecations are not duplicated', function(assert) {
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
-  throwOnUnhandled: true,
   workflow: [
     { handler: "silence", matchMessage: \"First deprecation\" },
     { handler: "silence", matchMessage: \"Second deprecation\" }
