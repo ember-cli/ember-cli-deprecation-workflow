@@ -38,7 +38,7 @@
           // no-op
           break;
         case 'log':
-          Ember.Logger.log(message);
+          Ember.Logger.warn('DEPRECATION: ' + message);
           break;
         case 'throw':
           throw new Error(message);

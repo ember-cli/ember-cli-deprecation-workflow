@@ -1,16 +1,16 @@
 import Ember from "ember";
 import {module, test} from "qunit";
 
-let originalLog;
+let originalWarn;
 
 module("workflow config", {
   beforeEach() {
-    originalLog = Ember.Logger.log;
+    originalWarn = Ember.Logger.warn;
   },
   afterEach() {
     Ember.ENV.RAISE_ON_DEPRECATION = false;
     window.deprecationWorkflow.deprecationLog = { messages: { } };
-    Ember.Logger.log = originalLog;
+    Ember.Logger.warn = originalWarn;
   }
 });
 
@@ -24,8 +24,8 @@ test('deprecation logs with string matcher', (assert) => {
   assert.expect(1);
 
   let message = 'log-me';
-  Ember.Logger.log = function(passedMessage) {
-    assert.equal(passedMessage, message, 'deprecation logs');
+  Ember.Logger.warn = function(passedMessage) {
+    assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
   };
   Ember.deprecate(message);
 });

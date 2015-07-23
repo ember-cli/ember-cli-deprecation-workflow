@@ -1,17 +1,17 @@
 import Ember from "ember";
 import {module, test} from "qunit";
 
-let originalLog;
+let originalWarn;
 
 module("deprecation collector", {
   beforeEach() {
-    originalLog = Ember.Logger.log;
+    originalWarn = Ember.Logger.warn;
   },
   afterEach() {
     Ember.ENV.RAISE_ON_DEPRECATION = false;
     window.deprecationWorkflow.config = null;
     window.deprecationWorkflow.deprecationLog = { messages: {} };
-    Ember.Logger.log = originalLog;
+    Ember.Logger.warn = originalWarn;
   }
 });
 
@@ -94,8 +94,8 @@ test('deprecation logs with string matcher', (assert) => {
   assert.expect(1);
 
   let message = 'Interesting';
-  Ember.Logger.log = function(passedMessage) {
-    assert.equal(passedMessage, message, 'deprecation logs');
+  Ember.Logger.warn = function(passedMessage) {
+    assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
   };
   window.deprecationWorkflow.config = {
     workflow: [
@@ -131,8 +131,8 @@ test('deprecation logs with regex matcher', (assert) => {
   assert.expect(1);
 
   let message = 'Interesting';
-  Ember.Logger.log = function(passedMessage) {
-    assert.equal(passedMessage, message, 'deprecation logs');
+  Ember.Logger.warn = function(passedMessage) {
+    assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
   };
   window.deprecationWorkflow.config = {
     workflow: [
