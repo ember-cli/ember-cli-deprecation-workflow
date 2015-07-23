@@ -1,6 +1,9 @@
 /* global require, module */
 var EmberApp = require('ember-cli/lib/broccoli/ember-addon');
 
+// Ensures tests can find the dummy app config directory
+process.env.USE_DUMMY_CONFIG = true;
+
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
