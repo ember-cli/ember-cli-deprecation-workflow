@@ -4,11 +4,6 @@
     messages: { }
   };
 
-  Ember.Debug.registerDeprecationHandler(function deprecationCollector(message, options, next){
-    window.deprecationWorkflow.deprecationLog.messages[message] = '    { handler: "silence", matchMessage: ' + JSON.stringify(message) + ' }';
-    next(message, options);
-  });
-
   function detectWorkflow(config, message, options) {
     if (!config || !config.workflow) {
       return;
@@ -50,6 +45,11 @@
           break;
       }
     }
+  });
+
+  Ember.Debug.registerDeprecationHandler(function deprecationCollector(message, options, next){
+    window.deprecationWorkflow.deprecationLog.messages[message] = '    { handler: "silence", matchMessage: ' + JSON.stringify(message) + ' }';
+    next(message, options);
   });
 
   var preamble = [
