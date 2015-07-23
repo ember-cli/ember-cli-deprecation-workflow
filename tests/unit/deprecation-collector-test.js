@@ -155,6 +155,20 @@ test('deprecation thrown with regex matcher', (assert) => {
   }, 'deprecation throws');
 });
 
+test('deprecation thrown with string matcher', (assert) => {
+  let message = "Some string that includes ().  If treated like a regexp this will not match.";
+
+  window.deprecationWorkflow.config = {
+    workflow: [
+      { matchMessage: message, handler: 'throw' }
+    ]
+  };
+
+  assert.throws(function() {
+    Ember.deprecate(message);
+  }, 'deprecation throws');
+});
+
 test('deprecation logging happens even if `throwOnUnhandled` is true', function(assert) {
   assert.expect(2);
 
