@@ -10,7 +10,7 @@ module("deprecation collector", {
   afterEach() {
     Ember.ENV.RAISE_ON_DEPRECATION = false;
     window.deprecationWorkflow.config = null;
-    window.deprecationWorkflow.deprecationLog = [];
+    window.deprecationWorkflow.deprecationLog = { messages: {} };
     Ember.Logger.log = originalLog;
   }
 });
@@ -18,6 +18,24 @@ module("deprecation collector", {
 test('calling flushDeprecations returns string of deprecations', (assert) => {
   Ember.deprecate('First deprecation');
   Ember.deprecate('Second deprecation');
+  let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
+  assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
+window.deprecationWorkflow.config = {
+  workflow: [
+    { matchMessage: \"First deprecation\", handler: \"silence\" },
+    { matchMessage: \"Second deprecation\", handler: \"silence\" }
+  ]
+};`);
+});
+
+test('deprecations are not duplicated', function(assert) {
+  Ember.deprecate('First deprecation');
+  Ember.deprecate('Second deprecation');
+
+  // do it again
+  Ember.deprecate('First deprecation');
+  Ember.deprecate('Second deprecation');
+
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
