@@ -9,11 +9,14 @@
       return;
     }
 
-    var i, workflow, regex;
+    var i, workflow, regex, matcher;
     for (i=0; i<config.workflow.length; i++) {
       workflow = config.workflow[i];
-      regex = new RegExp(workflow.matchMessage);
-      if (regex.exec(message)) {
+      matcher = workflow.matchMessage;
+
+      if (typeof matcher === 'string' && matcher === message) {
+        return workflow;
+      } else if (matcher instanceof RegExp && matcher.exec(message)) {
         return workflow;
       }
     }
