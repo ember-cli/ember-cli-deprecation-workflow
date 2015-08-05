@@ -35,3 +35,14 @@ test('deprecation thrown with string matcher', (assert) => {
     Ember.deprecate('throw-me');
   }, 'deprecation throws');
 });
+
+test('deprecation logs with id matcher', (assert) => {
+  assert.expect(1);
+
+  let message = 'log-id',
+    options = { id: 'ember.workflow', until: '3.0.0' };
+  Ember.Logger.warn = function(passedMessage) {
+    assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
+  };
+  Ember.deprecate(message, false, options);
+});

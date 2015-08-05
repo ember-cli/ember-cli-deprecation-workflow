@@ -167,6 +167,46 @@ test('deprecation thrown with string matcher', (assert) => {
   }, 'deprecation throws');
 });
 
+test('deprecation silenced with id matcher', (assert) => {
+  Ember.ENV.RAISE_ON_DEPRECATION = true;
+  window.deprecationWorkflow.config = {
+    workflow: [
+      { matchId: 'ember.deprecation-workflow', handler: 'silence' }
+    ]
+  };
+  Ember.deprecate('Slightly interesting', false,
+                  { id: 'ember.deprecation-workflow', until: '3.0.0' });
+  assert.ok(true, 'Deprecation did not raise');
+});
+
+test('deprecation logs with id matcher', (assert) => {
+  assert.expect(1);
+
+  let message = 'Slightly interesting';
+  Ember.Logger.warn = function(passedMessage) {
+    assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
+  };
+  window.deprecationWorkflow.config = {
+    workflow: [
+      { matchId: 'ember.deprecation-workflow', handler: 'log' }
+    ]
+  };
+  Ember.deprecate('Slightly interesting', false,
+                  { id: 'ember.deprecation-workflow', until: '3.0.0' });
+});
+
+test('deprecation thrown with id matcher', (assert) => {
+  window.deprecationWorkflow.config = {
+    workflow: [
+      { matchId: 'ember.deprecation-workflow', handler: 'throw' }
+    ]
+  };
+  assert.throws(function() {
+    Ember.deprecate('Slightly interesting', false,
+                    { id: 'ember.deprecation-workflow', until: '3.0.0' });
+  }, 'deprecation throws');
+});
+
 test('deprecation logging happens even if `throwOnUnhandled` is true', function(assert) {
   assert.expect(2);
 

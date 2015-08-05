@@ -9,14 +9,17 @@
       return;
     }
 
-    var i, workflow, regex, matcher;
+    var i, workflow, regex, matcher, idMatcher;
     for (i=0; i<config.workflow.length; i++) {
       workflow = config.workflow[i];
       matcher = workflow.matchMessage;
+      idMatcher = workflow.matchId;
 
       if (typeof matcher === 'string' && matcher === message) {
         return workflow;
       } else if (matcher instanceof RegExp && matcher.exec(message)) {
+        return workflow;
+      } else if (typeof idMatcher === 'string' && options && idMatcher === options.id) {
         return workflow;
       }
     }
