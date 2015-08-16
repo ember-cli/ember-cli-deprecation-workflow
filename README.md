@@ -39,6 +39,16 @@ What does that individual deprecation workflow look like?
 4. Once the deprecation has been dealt with, remove its entry from `config/deprecation-workflow.js`.
 5. Lather and repeat.
 
+### Handlers
+
+There are 3 defined handlers that have different behaviors
+
+ Handler | Behavior
+ ------- | --------
+ `silence` | Keeps this deprecation from spewing all over the console
+ `log` | Normal deprecation behavior runs for this deprecation and messages are logged to the console
+ `throw` | The error is thrown instead of allowing the deprecated behavior to run. ***WARNING: APPLICATION MAY GO :boom:***
+
 ## Contributing
 
 Details on contributing to the addon itself (not required for normal usage).
