@@ -49,6 +49,10 @@ There are 3 defined handlers that have different behaviors
  `log` | Normal deprecation behavior runs for this deprecation and messages are logged to the console
  `throw` | The error is thrown instead of allowing the deprecated behavior to run. ***WARNING: APPLICATION MAY GO :boom:***
 
+### Matchers
+
+the output from running `deprecationWorkflow.flushDeprecations()` gives you a nice Json like JS object with all the deprecations in your app. The `matchMessage` property determines what to filter out of the console. You can pass a string that must match the console message exactly or a `RegExp` for `ember-cli-deprecation-workflow` filter the log by.
+
 ## Contributing
 
 Details on contributing to the addon itself (not required for normal usage).
