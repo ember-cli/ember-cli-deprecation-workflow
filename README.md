@@ -21,11 +21,13 @@ came up with a wild scheme to create a new way to handle deprecations (this addo
 The initial steps needed to get started:
 
 1. Install the  ember-cli-deprecation-workflow addon.
-2. Run your test suite.
+2. Run your test suite.*
 3. Run `deprecationWorkflow.flushDeprecations()` from your browsers console.
 4. Copy the string output into `config/deprecation-workflow.js` in your project.
 
 Once this initial setup is completed the "deprecation spew" should be largely "fixed".  Only unhandled deprecations will be displayed in your console.
+
+*Note: Unless your test coverage is amazing (>90%), it's likely that running the test suite alone will not reveal _every_ deprecation. It may be prudent to run through the app's workflows live and flush deprecations a second time, merging the resulting output list with that generated from your test suite.
 
 Now that the spew has settled down, you can process one deprecation at a time while ensuring that no new deprecations are introduced.
 
