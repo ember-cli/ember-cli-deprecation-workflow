@@ -10,6 +10,12 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+  // this is needed to prevent the building app to assume the root `vendor`
+  // directory (since it is used by the addon itself)
+  //
+  // this is likely a bug upstream in ember-cli that needs to be fixed
+  app.trees.vendor = null;
+
   /*
     This build file specifes the options for the dummy test app of this
     addon, located in `/tests/dummy`
