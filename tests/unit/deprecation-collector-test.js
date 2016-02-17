@@ -16,8 +16,8 @@ module("deprecation collector", {
 });
 
 test('calling flushDeprecations returns string of deprecations', (assert) => {
-  Ember.deprecate('First deprecation');
-  Ember.deprecate('Second deprecation');
+  Ember.deprecate('First deprecation', false, { id: 'first', until: 'forever' });
+  Ember.deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
@@ -29,12 +29,12 @@ window.deprecationWorkflow.config = {
 });
 
 test('deprecations are not duplicated', function(assert) {
-  Ember.deprecate('First deprecation');
-  Ember.deprecate('Second deprecation');
+  Ember.deprecate('First deprecation', false, { id: 'first', until: 'forever' });
+  Ember.deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
 
   // do it again
-  Ember.deprecate('First deprecation');
-  Ember.deprecate('Second deprecation');
+  Ember.deprecate('First deprecation', false, { id: 'first', until: 'forever' });
+  Ember.deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
 
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
@@ -59,10 +59,10 @@ test('specifying `throwOnUnhandled` as true raises', function(assert) {
   };
 
   assert.throws(function() {
-    Ember.deprecate('Foobarrrzzzz');
+    Ember.deprecate('Foobarrrzzzz', false, { until: 'forever', id: 'foobar' });
   }, /Foobarrrzzzz/, 'setting raiseOnUnhandled throws for unknown workflows');
 
-  Ember.deprecate('Sshhhhh!!');
+  Ember.deprecate('Sshhhhh!!', false, { id: 'quiet', until: 'forever' });
   assert.ok(true, 'did not throw when silenced');
 });
 
@@ -75,7 +75,7 @@ test('specifying `throwOnUnhandled` as false does nothing', function(assert) {
     throwOnUnhandled: false
   };
 
-  Ember.deprecate('Sshhhhh!!');
+  Ember.deprecate('Sshhhhh!!', false, { id: 'quiet', until: 'forever' });
   assert.ok(true, 'does not die when throwOnUnhandled is false');
 });
 
@@ -86,7 +86,7 @@ test('deprecation silenced with string matcher', (assert) => {
       { matchMessage: "Interesting", handler: 'silence' }
     ]
   };
-  Ember.deprecate('Interesting');
+  Ember.deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
   assert.ok(true, 'Deprecation did not raise');
 });
 
@@ -95,14 +95,14 @@ test('deprecation logs with string matcher', (assert) => {
 
   let message = 'Interesting';
   Ember.Logger.warn = function(passedMessage) {
-    assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
+    assert.ok(passedMessage.indexOf('DEPRECATION: ' + message) === 0, 'deprecation logs');
   };
   window.deprecationWorkflow.config = {
     workflow: [
       { matchMessage: message, handler: 'log' }
     ]
   };
-  Ember.deprecate(message);
+  Ember.deprecate(message, false, { until: 'forever', id: 'interesting' });
 });
 
 test('deprecation thrown with string matcher', (assert) => {
@@ -112,7 +112,7 @@ test('deprecation thrown with string matcher', (assert) => {
     ]
   };
   assert.throws(function() {
-    Ember.deprecate('Interesting');
+    Ember.deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
   }, 'deprecation throws');
 });
 
@@ -123,7 +123,7 @@ test('deprecation silenced with regex matcher', (assert) => {
       { matchMessage: /Inter/, handler: 'silence' }
     ]
   };
-  Ember.deprecate('Interesting');
+  Ember.deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
   assert.ok(true, 'Deprecation did not raise');
 });
 
@@ -139,7 +139,7 @@ test('deprecation logs with regex matcher', (assert) => {
       { matchMessage: /Inter/, handler: 'log' }
     ]
   };
-  Ember.deprecate(message);
+  Ember.deprecate(message, false, { id: 'interesting', until: 'forever' });
 });
 
 test('deprecation thrown with regex matcher', (assert) => {
@@ -149,7 +149,7 @@ test('deprecation thrown with regex matcher', (assert) => {
     ]
   };
   assert.throws(function() {
-    Ember.deprecate('Interesting');
+    Ember.deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
   }, 'deprecation throws');
 });
 
@@ -163,7 +163,7 @@ test('deprecation thrown with string matcher', (assert) => {
   };
 
   assert.throws(function() {
-    Ember.deprecate(message);
+    Ember.deprecate(message, false, { id: 'throws', until: 'forever' });
   }, 'deprecation throws');
 });
 
@@ -217,7 +217,7 @@ test('deprecation logging happens even if `throwOnUnhandled` is true', function(
   };
 
   assert.throws(function() {
-    Ember.deprecate('Foobarrrzzzz');
+    Ember.deprecate('Foobarrrzzzz', false, { id: 'foobar', until: 'forever' });
   }, /Foobarrrzzzz/, 'setting raiseOnUnhandled throws for unknown workflows');
 
   let result = window.deprecationWorkflow.flushDeprecations();

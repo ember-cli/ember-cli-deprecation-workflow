@@ -40,6 +40,8 @@
     "ember-addon"
   ],
   "dependencies": {
+    "broccoli-funnel": "^1.0.1",
+    "broccoli-merge-trees": "^1.1.1",
     "ember-cli-babel": "^5.0.0",
     "ember-debug-handlers-polyfill": "^1.0.2",
     "exists-sync": "0.0.3"

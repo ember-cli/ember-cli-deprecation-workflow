@@ -19,22 +19,23 @@ module.exports = {
 
     if (this._shouldInclude()) {
       app.import('vendor/ember-debug-handlers-polyfill/debug.js');
+      app.import('vendor/ember-cli-deprecation-workflow/deprecation-workflow.js');
       app.import('vendor/ember-cli-deprecation-workflow/main.js');
     } else {
       app.import('vendor/ember-debug-handlers-polyfill/prod.js');
     }
   },
-  contentFor: function(type) {
-    if (this._shouldInclude() && type === 'vendor-prefix') {
-      var fs = require('fs');
-      var path = require('path');
-      var existsSync = require('exists-sync');
-      var root = process.env._DUMMY_CONFIG_ROOT_PATH || this.project.root;
-      var configPath = path.join(root, 'config', 'deprecation-workflow.js');
 
-      if (existsSync(configPath)) {
-        return fs.readFileSync(configPath);
-      }
-    }
+  treeForVendor: function(tree) {
+    var root = process.env._DUMMY_CONFIG_ROOT_PATH || this.project.root;
+    var mergeTrees = require('broccoli-merge-trees');
+    var Funnel = require('broccoli-funnel');
+    var configTree = new Funnel(root + '/config', {
+      include: ['deprecation-workflow.js'],
+
+      destDir: 'ember-cli-deprecation-workflow'
+    });
+
+    return mergeTrees([tree, configTree], { overwrite: true });
   }
 };
