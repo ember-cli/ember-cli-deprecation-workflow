@@ -26,7 +26,7 @@ module.exports = {
     }
   },
 
-  treeForVendor(tree) {
+  treeForVendor: function(tree) {
     var root = process.env._DUMMY_CONFIG_ROOT_PATH || this.project.root;
     var mergeTrees = require('broccoli-merge-trees');
     var Funnel = require('broccoli-funnel');
