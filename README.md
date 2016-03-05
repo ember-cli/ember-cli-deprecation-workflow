@@ -55,6 +55,23 @@ There are 3 defined handlers that have different behaviors
 
 the output from running `deprecationWorkflow.flushDeprecations()` gives you a nice Json like JS object with all the deprecations in your app. The `matchMessage` property determines what to filter out of the console. You can pass a string that must match the console message exactly or a `RegExp` for `ember-cli-deprecation-workflow` filter the log by.
 
+### Template Deprecations
+
+By default, the console based deprecations that occur during template compilation
+are suppressed in favor of browser deprecations ran during the test suite. If you
+would prefer to still have the deprecations in the console, add the following to
+your `config/environment.js`:
+
+```javascript
+module.exports = function(env) {
+  var ENV = { };
+
+  // normal things here
+
+  ENV.logTemplateLintToConsole = true;
+}
+```
+
 ## Contributing
 
 Details on contributing to the addon itself (not required for normal usage).
