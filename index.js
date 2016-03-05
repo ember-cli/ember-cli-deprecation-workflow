@@ -52,6 +52,11 @@ module.exports = {
   },
 
   _monkeyPatch_EmberDeprecate: function(htmlbarsCompilerPreprocessor) {
+    if (!htmlbarsCompilerPreprocessor._addon) {
+      // not a new enough ember-cli-htmlbars to monkey patch
+      // we need 1.0.3
+      return;
+    }
     var addonContext = this;
     var originalHtmlbarsOptions = htmlbarsCompilerPreprocessor._addon.htmlbarsOptions;
     var logToNodeConsole = this.project.config(process.env.EMBER_ENV).logTemplateLintToConsole;
