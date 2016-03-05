@@ -4,6 +4,10 @@
 module.exports = {
   name: 'ember-cli-deprecation-workflow',
 
+  init: function() {
+    this._templateDeprecations = [];
+  },
+
   _shouldInclude: function() {
     // the presence of `this.app.tests` shows that we are in one of:
     //
@@ -37,5 +41,78 @@ module.exports = {
     });
 
     return mergeTrees([tree, configTree], { overwrite: true });
+  },
+
+  _findHtmlbarsPreprocessor: function(registry) {
+    var plugins = registry.load('template');
+
+    return plugins.filter(function(plugin) {
+      return plugin.name === 'ember-cli-htmlbars';
+    })[0];
+  },
+
+  _monkeyPatch_EmberDeprecate: function(htmlbarsCompilerPreprocessor) {
+    var addonContext = this;
+    var originalHtmlbarsOptions = htmlbarsCompilerPreprocessor._addon.htmlbarsOptions;
+    var logToNodeConsole = this.project.config(process.env.EMBER_ENV).logTemplateLintToConsole;
+
+    htmlbarsCompilerPreprocessor._addon.htmlbarsOptions = function() {
+      var options = originalHtmlbarsOptions.apply(this, arguments);
+      var Ember = options.templateCompiler._Ember;
+
+      if (Ember.Debug && Ember.Debug.registerDeprecationHandler) {
+        Ember.Debug.registerDeprecationHandler(function(message, options, next) {
+          addonContext._templateDeprecations.push({
+            message: JSON.stringify(message),
+            test: false,
+            options: JSON.stringify(options)
+          });
+
+          if (logToNodeConsole) {
+            next();
+          }
+        });
+      }
+
+      var originalDeprecate = options.templateCompiler._Ember.deprecate;
+      Ember.deprecate = function(message, test, options) {
+
+        var noDeprecation;
+
+        if (typeof test === "function") {
+          noDeprecation = test();
+        } else {
+          noDeprecation = test;
+        }
+
+        if (!noDeprecation) {
+          addonContext._templateDeprecations.push({
+            message: JSON.stringify(message),
+            test: !!test,
+            options: JSON.stringify(options)
+          });
+        }
+
+        if (logToNodeConsole) {
+          return originalDeprecate.apply(this, arguments);
+        }
+      };
+
+      return options;
+    };
+  },
+
+  setupPreprocessorRegistry: function(type, registry) {
+    if (type === 'parent') {
+      var htmlbarsCompilerPreprocessor = this._findHtmlbarsPreprocessor(registry);
+
+      this._monkeyPatch_EmberDeprecate(htmlbarsCompilerPreprocessor);
+    }
+  },
+
+  lintTree: function(type, tree) {
+    var TemplateLinter = require('./generate-deprecations-tree');
+
+    return new TemplateLinter(this);
   }
 };
