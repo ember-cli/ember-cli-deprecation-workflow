@@ -23,8 +23,8 @@ test('calling flushDeprecations returns string of deprecations', (assert) => {
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
   workflow: [
-    { handler: "silence", matchMessage: \"First deprecation\" },
-    { handler: "silence", matchMessage: \"Second deprecation\" }
+    { handler: "silence", matchId: \"first\" },
+    { handler: "silence", matchId: \"second\" }
   ]
 };`);
 });
@@ -41,10 +41,31 @@ test('deprecations are not duplicated', function(assert) {
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
   workflow: [
-    { handler: "silence", matchMessage: \"First deprecation\" },
-    { handler: "silence", matchMessage: \"Second deprecation\" }
+    { handler: "silence", matchId: \"first\" },
+    { handler: "silence", matchId: \"second\" }
   ]
 };`);
+});
+
+test('calling flushDeprecations without ID returns full message plus an additional deprecation for missing ID', (assert) => {
+  Ember.deprecate('First deprecation', false, { until: 'forever' });
+  Ember.deprecate('Second deprecation', false, { until: 'forever' });
+  let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
+  assert.ok(/{ handler: "silence", matchMessage: \"First deprecation\" }/.exec(deprecationsPayload), 'first deprecation message in log');
+  assert.ok(/{ handler: "silence", matchMessage: \"Second deprecation\" }/.exec(deprecationsPayload), 'second deprecation in log');
+});
+
+test('deprecations message without IDs are not duplicated', function(assert) {
+  Ember.deprecate('First deprecation', false, { until: 'forever' });
+  Ember.deprecate('Second deprecation', false, { until: 'forever' });
+
+  // do it again
+  Ember.deprecate('First deprecation', false, { until: 'forever' });
+  Ember.deprecate('Second deprecation', false, { until: 'forever' });
+
+  let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
+  assert.ok(/{ handler: "silence", matchMessage: \"First deprecation\" }/.exec(deprecationsPayload), 'first deprecation message in log');
+  assert.ok(/{ handler: "silence", matchMessage: \"Second deprecation\" }/.exec(deprecationsPayload), 'second deprecation in log');
 });
 
 test('specifying `throwOnUnhandled` as true raises', function(assert) {
@@ -223,5 +244,5 @@ test('deprecation logging happens even if `throwOnUnhandled` is true', function(
 
   let result = window.deprecationWorkflow.flushDeprecations();
 
-  assert.ok(/Foobarrrzzzz/.exec(result), 'unhandled deprecation was added to the deprecationLog');
+  assert.ok(/foobar/.exec(result), 'unhandled deprecation was added to the deprecationLog');
 });
