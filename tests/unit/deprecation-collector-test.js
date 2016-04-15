@@ -29,6 +29,11 @@ window.deprecationWorkflow.config = {
 };`);
 });
 
+test('deprecation does not choke when called with poorly formatted messages', (assert) => {
+  Ember.deprecate('silence-me', undefined, undefined);
+  assert.ok(true, 'Deprecation did not raise');
+});
+
 test('deprecations are not duplicated', function(assert) {
   Ember.deprecate('First deprecation', false, { id: 'first', until: 'forever' });
   Ember.deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
