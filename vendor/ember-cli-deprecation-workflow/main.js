@@ -54,7 +54,7 @@
   });
 
   Ember.Debug.registerDeprecationHandler(function deprecationCollector(message, options, next){
-    var key = options.id || message;
+    var key = options && options.id || message;
     var matchKey = key === options.id ? 'matchId' : 'matchMessage';
 
     window.deprecationWorkflow.deprecationLog.messages[key] = '    { handler: "silence", ' + matchKey + ': ' + JSON.stringify(key) + ' }';
