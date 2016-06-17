@@ -5,6 +5,8 @@ module.exports = {
   name: 'ember-cli-deprecation-workflow',
 
   init: function() {
+    this._super.init && this._super.init.apply(this, arguments);
+    
     this._templateDeprecations = [];
   },
 
