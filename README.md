@@ -63,7 +63,7 @@ By default, production ember-cli builds already remove deprecation warnings. Any
 
 ### Catch-all
 
-To force all deprecations to throw (can be useful in larger teams to prevent accidental introduction of deprecations)
+To force all deprecations to throw (can be useful in larger teams to prevent accidental introduction of deprecations), update your `config/deprecation-workflow.js`:
 ```javascript
 window.deprecationWorkflow.config = {
   throwOnUnhandled: true
