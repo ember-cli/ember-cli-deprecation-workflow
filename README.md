@@ -57,6 +57,19 @@ There are 3 defined handlers that have different behaviors
 
 the output from running `deprecationWorkflow.flushDeprecations()` gives you a nice Json like JS object with all the deprecations in your app. The `matchMessage` property determines what to filter out of the console. You can pass a string that must match the console message exactly or a `RegExp` for `ember-cli-deprecation-workflow` filter the log by.
 
+### Production builds
+
+By default, production ember-cli builds already remove deprecation warnings. Any deprecations configured to `throw` or `log` will only do so in non-production builds.
+
+### Catch-all
+
+To force all deprecations to throw (can be useful in larger teams to prevent accidental introduction of deprecations)
+```javascript
+window.deprecationWorkflow.config = {
+  throwOnUnhandled: true
+}
+```
+
 ### Template Deprecations
 
 By default, the console based deprecations that occur during template compilation
