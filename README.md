@@ -22,10 +22,11 @@ This addon can help manage both Ember 1.x and 2.x deprecations.
 
 The initial steps needed to get started:
 
-1. Install the  ember-cli-deprecation-workflow addon.
-2. Run your test suite.*
-3. Run `deprecationWorkflow.flushDeprecations()` from your browsers console.
-4. Copy the string output into `config/deprecation-workflow.js` in your project.
+1. Install the ember-cli-deprecation-workflow addon (`ember install ember-cli-deprecation-workflow`).
+2. Run your test suite* with `ember test --server`.
+3. Navigate to your tests (default: http://localhost:7357/)
+4. Run `deprecationWorkflow.flushDeprecations()` from your browsers console.
+5. Copy the string output into `config/deprecation-workflow.js` in your project.
 
 Once this initial setup is completed the "deprecation spew" should be largely "fixed".  Only unhandled deprecations will be displayed in your console.
 
