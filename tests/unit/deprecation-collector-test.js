@@ -6,13 +6,13 @@ let originalWarn;
 
 module("deprecation collector", {
   beforeEach() {
-    originalWarn = Ember.Logger.warn;
+    originalWarn = console.warn;
   },
   afterEach() {
     Ember.ENV.RAISE_ON_DEPRECATION = false;
     window.deprecationWorkflow.config = null;
     window.deprecationWorkflow.deprecationLog = { messages: {} };
-    Ember.Logger.warn = originalWarn;
+    console.warn = originalWarn;
   }
 });
 
@@ -121,7 +121,7 @@ test('deprecation logs with string matcher', (assert) => {
   assert.expect(1);
 
   let message = 'Interesting';
-  Ember.Logger.warn = function(passedMessage) {
+  console.warn = function(passedMessage) {
     assert.ok(passedMessage.indexOf('DEPRECATION: ' + message) === 0, 'deprecation logs');
   };
   window.deprecationWorkflow.config = {
@@ -158,7 +158,7 @@ test('deprecation logs with regex matcher', (assert) => {
   assert.expect(1);
 
   let message = 'Interesting';
-  Ember.Logger.warn = function(passedMessage) {
+  console.warn = function(passedMessage) {
     assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
   };
   window.deprecationWorkflow.config = {
@@ -210,7 +210,7 @@ test('deprecation logs with id matcher', (assert) => {
   assert.expect(1);
 
   let message = 'Slightly interesting';
-  Ember.Logger.warn = function(passedMessage) {
+  console.warn = function(passedMessage) {
     assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
   };
   window.deprecationWorkflow.config = {
