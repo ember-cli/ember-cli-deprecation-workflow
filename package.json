@@ -1,7 +1,7 @@
 {
-  "name": "ember-cli-deprecation-workflow",
-  "version": "0.2.5",
-  "description": "Provides a much needed workflow to managing deprecations.",
+  "name": "ember-cli-deprecation-workflow-plus",
+  "version": "0.3.0",
+  "description": "Provides a much needed workflow to managing deprecations. This is a fork of the existing ember-cli-deprecation-workflow addon",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,11 +11,11 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "https://github.com/mixonic/ember-cli-deprecation-workflow/",
+  "repository": "https://github.com/atsao/ember-cli-deprecation-workflow-plus/",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Andrew Tsao",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
