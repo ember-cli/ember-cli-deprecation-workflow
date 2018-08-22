@@ -33,9 +33,15 @@ module.exports = {
 
   treeForVendor: function(tree) {
     var root = process.env._DUMMY_CONFIG_ROOT_PATH || this.project.root;
+    var configDir = '/config';
+
+    if (this.project.pkg['ember-addon'] && this.project.pkg['ember-addon']['configPath']) {
+      configDir = '/' + this.project.pkg['ember-addon']['configPath'];
+    }
+
     var mergeTrees = require('broccoli-merge-trees');
     var Funnel = require('broccoli-funnel');
-    var configTree = new Funnel(root + '/config', {
+    var configTree = new Funnel(root + configDir, {
       include: ['deprecation-workflow.js'],
 
       destDir: 'ember-cli-deprecation-workflow'

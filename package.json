@@ -57,7 +57,7 @@
     "node": "6.* || 8.* || >= 10.*"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config",
+    "configPath": "config",
     "after": "ember-cli-htmlbars"
   }
 }
