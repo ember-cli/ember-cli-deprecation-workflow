@@ -7,12 +7,12 @@ let originalWarn;
 
 module("workflow config", {
   beforeEach() {
-    originalWarn = console.warn;
+    originalWarn = window.Testem.handleConsoleMessage;
   },
   afterEach() {
     Ember.ENV.RAISE_ON_DEPRECATION = false;
     window.deprecationWorkflow.deprecationLog = { messages: { } };
-    console.warn = originalWarn;
+    window.Testem.handleConsoleMessage = originalWarn;
   }
 });
 
@@ -25,7 +25,7 @@ test('deprecation logs with string matcher', (assert) => {
   assert.expect(1);
 
   let message = 'log-me';
-  console.warn = function(passedMessage) {
+  window.Testem.handleConsoleMessage = function(passedMessage) {
     assert.ok(passedMessage.indexOf('DEPRECATION: ' + message) === 0, 'deprecation logs');
   };
   deprecate(message, false, { until: 'forever', id: 'test' });
@@ -45,7 +45,7 @@ test('deprecation logs with id matcher', (assert) => {
   let id = 'ember.workflow';
   let options = { id, until: '3.0.0' };
   let expected = `DEPRECATION: ${message}`;
-  console.warn = = function(passedMessage) {
+  window.Testem.handleConsoleMessage = function(passedMessage) {
     assert.equal(passedMessage.substr(0, expected.length), expected, 'deprecation logs');
   };
   deprecate(message, false, options);

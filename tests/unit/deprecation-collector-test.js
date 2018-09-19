@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 import { deprecate } from '@ember/application/deprecations';
 import Ember from "ember";
 import { module } from "qunit";
