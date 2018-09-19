@@ -4,6 +4,7 @@ import { deprecate } from '@ember/application/deprecations';
 import Ember from "ember";
 import { module } from "qunit";
 import test from '../helpers/debug-test';
+import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
 let originalWarn;
 
@@ -32,10 +33,12 @@ window.deprecationWorkflow.config = {
 };`);
 });
 
-test('deprecation does not choke when called with poorly formatted messages', (assert) => {
-  deprecate('silence-me', undefined, undefined);
-  assert.ok(true, 'Deprecation did not raise');
-});
+if (!hasEmberVersion(3,0)) {
+  test('deprecation does not choke when called with poorly formatted messages', (assert) => {
+    deprecate('silence-me', undefined, undefined);
+    assert.ok(true, 'Deprecation did not raise');
+  });
+}
 
 test('deprecations are not duplicated', function(assert) {
   deprecate('First deprecation', false, { id: 'first', until: 'forever' });
@@ -55,28 +58,28 @@ window.deprecationWorkflow.config = {
 };`);
 });
 
-// Fails in Ember 3.5+
-test('calling flushDeprecations without ID returns full message plus an additional deprecation for missing ID', (assert) => {
-  deprecate('First deprecation', false, { until: 'forever' });
-  deprecate('Second deprecation', false, { until: 'forever' });
-  let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
-  assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
-  assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
-});
+if (!hasEmberVersion(3,0)) {
+  test('calling flushDeprecations without ID returns full message plus an additional deprecation for missing ID', (assert) => {
+    deprecate('First deprecation', false, { until: 'forever' });
+    deprecate('Second deprecation', false, { until: 'forever' });
+    let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
+    assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
+    assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
+  });
 
-// Fails in Ember 3.5+
-test('deprecations message without IDs are not duplicated', function(assert) {
-  deprecate('First deprecation', false, { until: 'forever' });
-  deprecate('Second deprecation', false, { until: 'forever' });
+  test('deprecations message without IDs are not duplicated', function(assert) {
+    deprecate('First deprecation', false, { until: 'forever' });
+    deprecate('Second deprecation', false, { until: 'forever' });
 
-  // do it again
-  deprecate('First deprecation', false, { until: 'forever' });
-  deprecate('Second deprecation', false, { until: 'forever' });
+    // do it again
+    deprecate('First deprecation', false, { until: 'forever' });
+    deprecate('Second deprecation', false, { until: 'forever' });
 
-  let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
-  assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
-  assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
-});
+    let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
+    assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
+    assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
+  });
+}
 
 test('specifying `throwOnUnhandled` as true raises', function(assert) {
   assert.expect(2);
