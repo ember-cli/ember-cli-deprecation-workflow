@@ -6,10 +6,10 @@ module.exports = {
       name: 'ember-release-1.13',
       bower: {
         dependencies: {
-          'ember': 'components/ember#release-1-13'
+          'ember': '1.13.13'
         },
         resolutions: {
-          'ember': 'release-1-13'
+          'ember': '1.13.13'
         }
       },
       npm: {

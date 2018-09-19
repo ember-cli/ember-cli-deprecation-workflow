@@ -17,7 +17,6 @@ module("workflow config", {
 });
 
 test('deprecation silenced with string matcher', (assert) => {
-  Ember.ENV.RAISE_ON_DEPRECATION = true;
   deprecate('silence-me', false, { until: 'forever', id: 'test' });
   assert.ok(true, 'Deprecation did not raise');
 });
@@ -33,6 +32,7 @@ test('deprecation logs with string matcher', (assert) => {
 });
 
 test('deprecation thrown with string matcher', (assert) => {
+  Ember.ENV.RAISE_ON_DEPRECATION = true;
   assert.throws(function() {
     deprecate('throw-me', false, { until: 'forever', id: 'test' });
   }, 'deprecation throws');
@@ -41,10 +41,12 @@ test('deprecation thrown with string matcher', (assert) => {
 test('deprecation logs with id matcher', (assert) => {
   assert.expect(1);
 
-  let message = 'log-id',
-    options = { id: 'ember.workflow', until: '3.0.0' };
-  console.warn = function(passedMessage) {
-    assert.equal(passedMessage, 'DEPRECATION: ' + message, 'deprecation logs');
+  let message = 'log-id';
+  let id = 'ember.workflow';
+  let options = { id, until: '3.0.0' };
+  let expected = `DEPRECATION: ${message}`;
+  console.warn = = function(passedMessage) {
+    assert.equal(passedMessage.substr(0, expected.length), expected, 'deprecation logs');
   };
   deprecate(message, false, options);
 });
