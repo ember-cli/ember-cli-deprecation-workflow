@@ -55,6 +55,7 @@ window.deprecationWorkflow.config = {
 };`);
 });
 
+// Fails in Ember 3.5+
 test('calling flushDeprecations without ID returns full message plus an additional deprecation for missing ID', (assert) => {
   deprecate('First deprecation', false, { until: 'forever' });
   deprecate('Second deprecation', false, { until: 'forever' });
@@ -63,6 +64,7 @@ test('calling flushDeprecations without ID returns full message plus an addition
   assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
 });
 
+// Fails in Ember 3.5+
 test('deprecations message without IDs are not duplicated', function(assert) {
   deprecate('First deprecation', false, { until: 'forever' });
   deprecate('Second deprecation', false, { until: 'forever' });
