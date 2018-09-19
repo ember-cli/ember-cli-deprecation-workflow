@@ -24,8 +24,8 @@ test('calling flushDeprecations returns string of deprecations', (assert) => {
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
   workflow: [
-    { handler: "silence", matchId: \"first\" },
-    { handler: "silence", matchId: \"second\" }
+    { handler: "silence", matchId: "first" },
+    { handler: "silence", matchId: "second" }
   ]
 };`);
 });
@@ -47,8 +47,8 @@ test('deprecations are not duplicated', function(assert) {
   assert.equal(deprecationsPayload, `window.deprecationWorkflow = window.deprecationWorkflow || {};
 window.deprecationWorkflow.config = {
   workflow: [
-    { handler: "silence", matchId: \"first\" },
-    { handler: "silence", matchId: \"second\" }
+    { handler: "silence", matchId: "first" },
+    { handler: "silence", matchId: "second" }
   ]
 };`);
 });
@@ -57,8 +57,8 @@ test('calling flushDeprecations without ID returns full message plus an addition
   deprecate('First deprecation', false, { until: 'forever' });
   deprecate('Second deprecation', false, { until: 'forever' });
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
-  assert.ok(/{ handler: "silence", matchMessage: \"First deprecation\" }/.exec(deprecationsPayload), 'first deprecation message in log');
-  assert.ok(/{ handler: "silence", matchMessage: \"Second deprecation\" }/.exec(deprecationsPayload), 'second deprecation in log');
+  assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
+  assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
 });
 
 test('deprecations message without IDs are not duplicated', function(assert) {
@@ -70,8 +70,8 @@ test('deprecations message without IDs are not duplicated', function(assert) {
   deprecate('Second deprecation', false, { until: 'forever' });
 
   let deprecationsPayload = window.deprecationWorkflow.flushDeprecations();
-  assert.ok(/{ handler: "silence", matchMessage: \"First deprecation\" }/.exec(deprecationsPayload), 'first deprecation message in log');
-  assert.ok(/{ handler: "silence", matchMessage: \"Second deprecation\" }/.exec(deprecationsPayload), 'second deprecation in log');
+  assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
+  assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
 });
 
 test('specifying `throwOnUnhandled` as true raises', function(assert) {
