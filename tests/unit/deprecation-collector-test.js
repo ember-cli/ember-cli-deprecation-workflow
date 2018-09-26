@@ -25,12 +25,12 @@ module("deprecation collector", function(hooks) {
     deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
     let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
     assert.equal(deprecationsPayload, `self.deprecationWorkflow = self.deprecationWorkflow || {};
-  self.deprecationWorkflow.config = {
-    workflow: [
-      { handler: "silence", matchId: "first" },
-      { handler: "silence", matchId: "second" }
-    ]
-  };`);
+self.deprecationWorkflow.config = {
+  workflow: [
+    { handler: "silence", matchId: "first" },
+    { handler: "silence", matchId: "second" }
+  ]
+};`);
   });
 
   if (!hasEmberVersion(3,0)) {
@@ -50,12 +50,12 @@ module("deprecation collector", function(hooks) {
 
     let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
     assert.equal(deprecationsPayload, `self.deprecationWorkflow = self.deprecationWorkflow || {};
-  self.deprecationWorkflow.config = {
-    workflow: [
-      { handler: "silence", matchId: "first" },
-      { handler: "silence", matchId: "second" }
-    ]
-  };`);
+self.deprecationWorkflow.config = {
+  workflow: [
+    { handler: "silence", matchId: "first" },
+    { handler: "silence", matchId: "second" }
+  ]
+};`);
   });
 
   if (!hasEmberVersion(3,0)) {
