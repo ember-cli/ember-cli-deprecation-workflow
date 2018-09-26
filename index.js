@@ -116,9 +116,11 @@ module.exports = {
     }
   },
 
-  lintTree: function() {
-    var TemplateLinter = require('./generate-deprecations-tree');
+  lintTree: function(type, tree) {
+    if (type === 'template') {
+      var TemplateLinter = require('./generate-deprecations-tree');
 
-    return new TemplateLinter(this);
+      return new TemplateLinter(this, tree);
+    }
   }
 };

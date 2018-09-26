@@ -1,48 +1,41 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var rimraf = require('rimraf');
-var quickTemp = require('quick-temp');
-var hashStrings = require('broccoli-kitchen-sink-helpers').hashStrings;
+const fs = require('fs');
+const path = require('path');
 
-function TemplateLinter(deprecationSource) {
-  this.description = 'TemplateLinter';
-  this.deprecationSource = deprecationSource;
-  this.lastHash = undefined;
-}
+const Plugin = require('broccoli-plugin');
 
-TemplateLinter.prototype.content = function() {
-  return this.deprecationSource._templateDeprecations
-    .map(function(item) {
-      return 'Ember.deprecate(\n' +
-        '  ' + item.message + ',\n' +
-        '  ' + item.test + ',\n' +
-        '  ' + item.options + '\n' +
-        ');';
-    })
-    .join('\n');
-};
+module.exports = class DeprecationWorkflowTemplateDeprecationProducer extends Plugin {
+  constructor(workflowAddonInstance, tree) {
+    super([tree], {
+      annotation: 'deprecation-workflow-template-deprecations',
+      persistentOutput: true,
+      needsCache: false,
+    });
 
-TemplateLinter.prototype.read = function() {
-  var dir = quickTemp.makeOrReuse(this, 'template-linter-cache');
-
-  var outputPath = path.join(dir, 'template-deprecations-test.js');
-
-  var content = this.content();
-  var hash = hashStrings([content]);
-
-  if (this.lastHash !== hash) {
-    this.lastHash = hash;
-    fs.writeFileSync(outputPath, content);
+    this.workflowAddonInstance = workflowAddonInstance;
+    this.lastContent = undefined;
   }
 
-  return dir;
-};
+  content() {
+    return this.workflowAddonInstance._templateDeprecations
+      .map(function(item) {
+        return 'Ember.deprecate(\n' +
+          '  ' + item.message + ',\n' +
+          '  ' + item.test + ',\n' +
+          '  ' + item.options + '\n' +
+          ');';
+      })
+      .join('\n');
+  }
 
-TemplateLinter.prototype.cleanup = function() {
-  return rimraf.sync(this['template-linter-cache']);
-};
+  build() {
+    let outputPath = path.join(this.outputPath, 'template-deprecations-test.js');
 
-
-module.exports = TemplateLinter;
+    let content = this.content();
+    if (this.lastContent !== content) {
+      this.lastContent = content;
+      fs.writeFileSync(outputPath, content);
+    }
+  }
+}
