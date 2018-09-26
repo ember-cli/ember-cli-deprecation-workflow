@@ -1,12 +1,11 @@
-/* global require, module */
+'use strict';
 var path = require('path');
-var EmberApp = require('ember-cli/lib/broccoli/ember-addon');
 
 // Ensures tests can find the dummy app config directory
-process.env._DUMMY_CONFIG_ROOT_PATH = path.join(__dirname, 'tests', 'dummy');
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
+  let app = new EmberAddon(defaults, {
     // Add options here
   });
 

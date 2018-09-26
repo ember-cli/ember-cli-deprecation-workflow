@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import { runInDebug } from '@ember/debug';
 import { test } from 'qunit';
 
 let canRunDebugFunctions = false;
 
-Ember.runInDebug(() => canRunDebugFunctions = true);
+runInDebug(() => canRunDebugFunctions = true);
 
 export default function debugTest(description, callback) {
   return test(description, function(assert) {
