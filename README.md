@@ -88,6 +88,20 @@ module.exports = function(env) {
 }
 ```
 
+### Configuration
+
+In some cases, it may be necessary to indicate a different `config` directory from the default one (`/config`). For example, you may want the flushed deprecations file to be referenced in a config directory like `my-config`.
+
+Adjust the `configPath` in your `package.json` file. The `/` will automatically be prefixed.
+
+```javascript
+{
+  'ember-addon': {
+    configPath: 'my-config'
+  }
+}
+```
+
 ## Contributing
 
 Details on contributing to the addon itself (not required for normal usage).
