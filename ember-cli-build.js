@@ -1,5 +1,4 @@
 'use strict';
-var path = require('path');
 
 // Ensures tests can find the dummy app config directory
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');

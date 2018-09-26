@@ -1,6 +1,8 @@
+/* globals self */
+
 (function(){
-  window.deprecationWorkflow = window.deprecationWorkflow || {};
-  window.deprecationWorkflow.deprecationLog = {
+  self.deprecationWorkflow = self.deprecationWorkflow || {};
+  self.deprecationWorkflow.deprecationLog = {
     messages: { }
   };
 
@@ -26,7 +28,7 @@
   }
 
   Ember.Debug.registerDeprecationHandler(function handleDeprecationWorkflow(message, options, next){
-    var config = window.deprecationWorkflow.config || {};
+    var config = self.deprecationWorkflow.config || {};
 
     var matchingWorkflow = detectWorkflow(config, message, options);
     if (!matchingWorkflow) {
@@ -57,21 +59,21 @@
     var key = options && options.id || message;
     var matchKey = options && key === options.id ? 'matchId' : 'matchMessage';
 
-    window.deprecationWorkflow.deprecationLog.messages[key] = '    { handler: "silence", ' + matchKey + ': ' + JSON.stringify(key) + ' }';
+    self.deprecationWorkflow.deprecationLog.messages[key] = '    { handler: "silence", ' + matchKey + ': ' + JSON.stringify(key) + ' }';
     next(message, options);
   });
 
   var preamble = [
-    'window.deprecationWorkflow = window.deprecationWorkflow || {};',
-    'window.deprecationWorkflow.config = {\n  workflow: [\n',
+    'self.deprecationWorkflow = self.deprecationWorkflow || {};',
+    'self.deprecationWorkflow.config = {\n  workflow: [\n',
   ].join('\n');
 
   var postamble = [
     '  ]\n};'
   ].join('\n');
 
-  window.deprecationWorkflow.flushDeprecations = function flushDeprecations() {
-    var messages = window.deprecationWorkflow.deprecationLog.messages;
+  self.deprecationWorkflow.flushDeprecations = function flushDeprecations() {
+    var messages = self.deprecationWorkflow.deprecationLog.messages;
     var logs = [];
 
     for (var message in messages) {

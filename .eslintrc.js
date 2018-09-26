@@ -22,6 +22,7 @@ module.exports = {
       files: [
         '.template-lintrc.js',
         'ember-cli-build.js',
+        'generate-deprecations-tree.js',
         'index.js',
         'testem.js',
         'blueprints/*/index.js',
@@ -44,7 +45,7 @@ module.exports = {
       },
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        // add your custom rules and overrides for node files here
+        'ember/new-module-imports': false,
       })
     }
   ]
