@@ -4,7 +4,7 @@ An addon geared towards making Ember upgrades easier by allowing you to work thr
 
 [![Build Status](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow.svg)](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow)
 
-This README outlines the details of collaborating on this Ember addon.
+[Short description of the addon.]
 
 ## History
 
@@ -99,8 +99,9 @@ Details on contributing to the addon itself (not required for normal usage).
 
 ### Running
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+* `npm run lint:hbs`
+* `npm run lint:js`
+* `npm run lint:js -- --fix`
 
 ### Running Tests
 
@@ -109,6 +110,12 @@ Details on contributing to the addon itself (not required for normal usage).
 
 ### Building
 
-* `ember build`
+* `ember serve`
+* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE.md).

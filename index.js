@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-cli-deprecation-workflow',
+  name: require('./package').name,
 
   init: function() {
     this._super.init && this._super.init.apply(this, arguments);
-    
+
     this._templateDeprecations = [];
   },
 
@@ -116,7 +116,7 @@ module.exports = {
     }
   },
 
-  lintTree: function(type, tree) {
+  lintTree: function() {
     var TemplateLinter = require('./generate-deprecations-tree');
 
     return new TemplateLinter(this);
