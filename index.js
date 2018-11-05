@@ -15,12 +15,13 @@ module.exports = {
     // * running non-production build
     // * running tests against production
     //
-    return this.app.tests;
+    var app = this.app || this._findHost();
+    return app.tests;
   },
 
   included: function() {
     // From https://github.com/rwjblue/ember-debug-handlers-polyfill/blob/master/index.js
-    var app = this.app;
+    var app = this.app || this._findHost();
 
     if (this._shouldInclude()) {
       app.import('vendor/ember-debug-handlers-polyfill/debug.js');
