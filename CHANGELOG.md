@@ -1,3 +1,11 @@
+## v1.0.1 (2018-11-05)
+
+#### :bug: Bug Fix
+* [#62](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/62) Avoid error when running on nested addons (`this.app` is not always present) ([@SparshithNR](https://github.com/SparshithNR))
+
+#### Committers: 1
+- SparshithNRai ([@SparshithNR](https://github.com/SparshithNR))
+
 ## v1.0.0 (2018-09-26)
 
 #### :boom: Breaking Change
