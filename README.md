@@ -14,7 +14,7 @@ introduced in those versions (to help us know what we need to do to stay up to d
 The "deprecation spew" issue became very obvious as we progressed into the later 1.13 beta releases. At that point, [@mixonic](https://twitter.com/mixonic) and [@rwjblue](https://twitter.com/rwjblue)
 came up with a wild scheme to create a new way to handle deprecations (this addon's process).
 
-This addon can help manage both Ember 1.x and 2.x deprecations.
+This addon can help manage deprecations from Ember 1.x to 3.x.
 
 ## Usage
 
