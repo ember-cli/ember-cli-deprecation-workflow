@@ -1,13 +1,9 @@
-import { runInDebug } from '@ember/debug';
+import { DEBUG } from '@glimmer/env'
 import { test } from 'qunit';
-
-let canRunDebugFunctions = false;
-
-runInDebug(() => (canRunDebugFunctions = true));
 
 export default function debugTest(description, callback) {
   return test(description, function (assert) {
-    if (!canRunDebugFunctions) {
+    if (!DEBUG) {
       assert.ok(true, 'debug functions are disabled');
       return;
     }
