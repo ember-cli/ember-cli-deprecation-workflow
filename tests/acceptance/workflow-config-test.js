@@ -43,7 +43,7 @@ module("workflow config", function(hooks) {
 
     let message = 'log-id';
     let id = 'ember.workflow';
-    let options = { id, until: '3.0.0' };
+    let options = { id, since: '2.0.0', until: '3.0.0', for: 'testing' };
     let expected = `DEPRECATION: ${message}`;
     window.Testem.handleConsoleMessage = function(passedMessage) {
       assert.equal(passedMessage.substr(0, expected.length), expected, 'deprecation logs');

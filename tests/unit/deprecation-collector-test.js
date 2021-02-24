@@ -4,7 +4,6 @@ import { deprecate } from '@ember/application/deprecations';
 import Ember from "ember";
 import { module } from "qunit";
 import test from '../helpers/debug-test';
-import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
 let originalWarn;
 
@@ -21,8 +20,8 @@ module("deprecation collector", function(hooks) {
   });
 
   test('calling flushDeprecations returns string of deprecations', (assert) => {
-    deprecate('First deprecation', false, { id: 'first', until: 'forever' });
-    deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
+    deprecate('First deprecation', false, { id: 'first', since: 'the beginning', until: 'forever', for: 'testing' });
+    deprecate('Second deprecation', false, { id: 'second', since: 'the beginning', until: 'forever', for: 'testing' });
     let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
     assert.equal(deprecationsPayload, `self.deprecationWorkflow = self.deprecationWorkflow || {};
 self.deprecationWorkflow.config = {
@@ -33,20 +32,18 @@ self.deprecationWorkflow.config = {
 };`);
   });
 
-  if (!hasEmberVersion(3,0)) {
-    test('deprecation does not choke when called with poorly formatted messages', (assert) => {
-      deprecate('silence-me', undefined, undefined);
-      assert.ok(true, 'Deprecation did not raise');
-    });
-  }
+  test('deprecation does not choke when called without soon-to-be-required options', (assert) => {
+    deprecate('silence-me', undefined, { id: 'silence-me', until: 'forever' });
+    assert.ok(true, 'Deprecation did not raise');
+  });
 
   test('deprecations are not duplicated', function(assert) {
-    deprecate('First deprecation', false, { id: 'first', until: 'forever' });
-    deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
+    deprecate('First deprecation', false, { id: 'first', since: 'the beginning', until: 'forever', for: 'testing' });
+    deprecate('Second deprecation', false, { id: 'second', since: 'the beginning', until: 'forever', for: 'testing' });
 
     // do it again
-    deprecate('First deprecation', false, { id: 'first', until: 'forever' });
-    deprecate('Second deprecation', false, { id: 'second', until: 'forever' });
+    deprecate('First deprecation', false, { id: 'first', since: 'the beginning', until: 'forever', for: 'testing' });
+    deprecate('Second deprecation', false, { id: 'second', since: 'the beginning', until: 'forever', for: 'testing' });
 
     let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
     assert.equal(deprecationsPayload, `self.deprecationWorkflow = self.deprecationWorkflow || {};
@@ -57,29 +54,6 @@ self.deprecationWorkflow.config = {
   ]
 };`);
   });
-
-  if (!hasEmberVersion(3,0)) {
-    test('calling flushDeprecations without ID returns full message plus an additional deprecation for missing ID', (assert) => {
-      deprecate('First deprecation', false, { until: 'forever' });
-      deprecate('Second deprecation', false, { until: 'forever' });
-      let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
-      assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
-      assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
-    });
-
-    test('deprecations message without IDs are not duplicated', function(assert) {
-      deprecate('First deprecation', false, { until: 'forever' });
-      deprecate('Second deprecation', false, { until: 'forever' });
-
-      // do it again
-      deprecate('First deprecation', false, { until: 'forever' });
-      deprecate('Second deprecation', false, { until: 'forever' });
-
-      let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
-      assert.ok(/{ handler: "silence", matchMessage: "First deprecation" }/.exec(deprecationsPayload), 'first deprecation message in log');
-      assert.ok(/{ handler: "silence", matchMessage: "Second deprecation" }/.exec(deprecationsPayload), 'second deprecation in log');
-    });
-  }
 
   test('specifying `throwOnUnhandled` as true raises', function(assert) {
     assert.expect(2);
@@ -94,10 +68,10 @@ self.deprecationWorkflow.config = {
     };
 
     assert.throws(function() {
-      deprecate('Foobarrrzzzz', false, { until: 'forever', id: 'foobar' });
+      deprecate('Foobarrrzzzz', false, { since: 'the beginning', until: 'forever', id: 'foobar', for: 'testing' });
     }, /Foobarrrzzzz/, 'setting raiseOnUnhandled throws for unknown workflows');
 
-    deprecate('Sshhhhh!!', false, { id: 'quiet', until: 'forever' });
+    deprecate('Sshhhhh!!', false, { id: 'quiet', since: 'the beginning', until: 'forever', for: 'testing' });
     assert.ok(true, 'did not throw when silenced');
   });
 
@@ -110,7 +84,7 @@ self.deprecationWorkflow.config = {
       throwOnUnhandled: false
     };
 
-    deprecate('Sshhhhh!!', false, { id: 'quiet', until: 'forever' });
+    deprecate('Sshhhhh!!', false, { id: 'quiet', until: 'forever', for: 'testing' });
     assert.ok(true, 'does not die when throwOnUnhandled is false');
   });
 
@@ -121,7 +95,7 @@ self.deprecationWorkflow.config = {
         { matchMessage: "Interesting", handler: 'silence' }
       ]
     };
-    deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
+    deprecate('Interesting', false, { id: 'interesting', since: 'the beginning', until: 'forever', for: 'testing' });
     assert.ok(true, 'Deprecation did not raise');
   });
 
@@ -137,7 +111,7 @@ self.deprecationWorkflow.config = {
         { matchMessage: message, handler: 'log' }
       ]
     };
-    deprecate(message, false, { until: 'forever', id: 'interesting' });
+    deprecate(message, false, { since: 'the beginning', until: 'forever', id: 'interesting', for: 'testing' });
   });
 
   test('deprecation thrown with string matcher', (assert) => {
@@ -147,7 +121,7 @@ self.deprecationWorkflow.config = {
       ]
     };
     assert.throws(function() {
-      deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
+      deprecate('Interesting', false, { id: 'interesting', since: 'the beginning', until: 'forever', for: 'testing' });
     }, 'deprecation throws');
   });
 
@@ -158,7 +132,7 @@ self.deprecationWorkflow.config = {
         { matchMessage: /Inter/, handler: 'silence' }
       ]
     };
-    deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
+    deprecate('Interesting', false, { id: 'interesting', since: 'the beginning', until: 'forever', for: 'testing' });
     assert.ok(true, 'Deprecation did not raise');
   });
 
@@ -174,7 +148,7 @@ self.deprecationWorkflow.config = {
         { matchMessage: /Inter/, handler: 'log' }
       ]
     };
-    deprecate(message, false, { id: 'interesting', until: 'forever' });
+    deprecate(message, false, { id: 'interesting', since: 'the beginning', until: 'forever', for: 'testing' });
   });
 
   test('deprecation thrown with regex matcher', (assert) => {
@@ -184,7 +158,7 @@ self.deprecationWorkflow.config = {
       ]
     };
     assert.throws(function() {
-      deprecate('Interesting', false, { id: 'interesting', until: 'forever' });
+      deprecate('Interesting', false, { id: 'interesting', since: 'the beginning', until: 'forever', for: 'testing' });
     }, 'deprecation throws');
   });
 
@@ -198,7 +172,7 @@ self.deprecationWorkflow.config = {
     };
 
     assert.throws(function() {
-      deprecate(message, false, { id: 'throws', until: 'forever' });
+      deprecate(message, false, { id: 'throws', since: 'the beginning', until: 'forever', for: 'testing' });
     }, 'deprecation throws');
   });
 
@@ -210,7 +184,7 @@ self.deprecationWorkflow.config = {
       ]
     };
     deprecate('Slightly interesting', false,
-                    { id: 'ember.deprecation-workflow', until: '3.0.0' });
+                    { id: 'ember.deprecation-workflow', since: 'the beginning', until: '3.0.0', for: 'testing' });
     assert.ok(true, 'Deprecation did not raise');
   });
 
@@ -227,7 +201,7 @@ self.deprecationWorkflow.config = {
       ]
     };
     deprecate('Slightly interesting', false,
-                    { id: 'ember.deprecation-workflow', until: '3.0.0' });
+                    { id: 'ember.deprecation-workflow', since: 'the beginning', until: '3.0.0', for: 'testing' });
   });
 
   test('deprecation thrown with id matcher', (assert) => {
@@ -238,7 +212,7 @@ self.deprecationWorkflow.config = {
     };
     assert.throws(function() {
       deprecate('Slightly interesting', false,
-                      { id: 'ember.deprecation-workflow', until: '3.0.0' });
+                      { id: 'ember.deprecation-workflow', since: 'the beginning', until: '3.0.0', for: 'testing' });
     }, 'deprecation throws');
   });
 
@@ -252,7 +226,7 @@ self.deprecationWorkflow.config = {
     };
 
     assert.throws(function() {
-      deprecate('Foobarrrzzzz', false, { id: 'foobar', until: 'forever' });
+      deprecate('Foobarrrzzzz', false, { id: 'foobar', since: 'the beginning', until: 'forever', for: 'testing' });
     }, /Foobarrrzzzz/, 'setting raiseOnUnhandled throws for unknown workflows');
 
     let result = self.deprecationWorkflow.flushDeprecations();
