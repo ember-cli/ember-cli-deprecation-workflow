@@ -1,10 +1,13 @@
 /* globals self */
 
+const LOG_LIMIT = 100;
+
 (function(){
   self.deprecationWorkflow = self.deprecationWorkflow || {};
   self.deprecationWorkflow.deprecationLog = {
     messages: { }
   };
+  self.deprecationWorkflow.logCounts = {};
 
   function detectWorkflow(config, message, options) {
     if (!config || !config.workflow) {
@@ -43,7 +46,17 @@
           // no-op
           break;
         case 'log':
-          console.warn('DEPRECATION: ' + message);
+          var key = options && options.id || message;
+          let count = self.deprecationWorkflow.logCounts[key] || 0;
+          self.deprecationWorkflow.logCounts[key] = count + 1;
+
+          if (count <= LOG_LIMIT) {
+            console.warn('DEPRECATION: ' + message);
+            if (count === LOG_LIMIT) {
+              console.warn('To avoid console overflow, this deprecation will not be logged any more in this run.');
+            }
+          }
+
           break;
         case 'throw':
           throw new Error(message);

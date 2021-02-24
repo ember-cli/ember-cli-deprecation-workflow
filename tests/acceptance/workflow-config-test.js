@@ -57,4 +57,63 @@ module('workflow config', function (hooks) {
     };
     deprecate(message, false, options);
   });
+
+  test('deprecation limits each id to 100 console.logs', (assert) => {
+    let limit = 100;
+
+    let message = 'log-id';
+    let id = 'ember.workflow';
+    let options = { id, since: '2.0.0', until: '3.0.0', for: 'testing' };
+    let expected = `DEPRECATION: ${message}`;
+
+    let count = 0;
+    window.Testem.handleConsoleMessage = function (passedMessage) {
+      count++;
+      if (count <= limit) {
+        assert.equal(
+          passedMessage.substr(0, expected.length),
+          expected,
+          'deprecation logs'
+        );
+      } else if (count === limit + 1) {
+        assert.equal(
+          passedMessage,
+          'To avoid console overflow, this deprecation will not be logged any more in this run.'
+        );
+      } else {
+        assert.ok(false, 'No further logging expected');
+      }
+    };
+
+    // Run one more time than the limit
+    for (let i = 0; i <= limit; i++) {
+      deprecate(message, false, options);
+    }
+
+    assert.equal(count, limit + 1, 'logged 101 times, including final notice');
+
+    let secondMessage = 'log-id2';
+    let secondId = 'ember.workflow2';
+    let secondOptions = {
+      id: secondId,
+      since: '2.0.0',
+      until: '3.0.0',
+      for: 'testing',
+    };
+    let secondExpected = `DEPRECATION: ${secondMessage}`;
+
+    let secondCount = 0;
+    window.Testem.handleConsoleMessage = function (passedMessage) {
+      secondCount++;
+      assert.equal(
+        passedMessage.substr(0, secondExpected.length),
+        secondExpected,
+        'second deprecation logs'
+      );
+    };
+
+    deprecate(secondMessage, false, secondOptions);
+
+    assert.equal(secondCount, 1, 'logged deprecation with different id');
+  });
 });
