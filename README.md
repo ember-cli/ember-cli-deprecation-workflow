@@ -4,8 +4,6 @@ An addon geared towards making Ember upgrades easier by allowing you to work thr
 
 [![Build Status](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow.svg)](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow)
 
-[Short description of the addon.]
-
 ## History
 
 Upgrading Ember versions (especially from 1.12 to 1.13) can be very daunting. One of the largest factors is the massive `console.log` noise that the deprecations
@@ -17,6 +15,12 @@ came up with a wild scheme to create a new way to handle deprecations (this addo
 This addon can help manage deprecations from Ember 1.x to 3.x.
 
 ## Usage
+
+### Compatibility
+
+* Ember.js v3.16 or above
+* Ember CLI v3.16 or above
+* Node.js v10 or above
 
 ### Getting started
 
@@ -106,28 +110,9 @@ Adjust the `configPath` in your `package.json` file. The `/` will automatically 
 
 Details on contributing to the addon itself (not required for normal usage).
 
-### Installation
 
-* `git clone` this repository
-* `npm install`
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
-### Running
-
-* `npm run lint:hbs`
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember serve`
-* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
 License
 ------------------------------------------------------------------------------
