@@ -3,13 +3,13 @@
 module.exports = {
   name: require('./package').name,
 
-  init: function () {
+  init() {
     this._super.init && this._super.init.apply(this, arguments);
 
     this._templateDeprecations = [];
   },
 
-  _shouldInclude: function () {
+  _shouldInclude() {
     // the presence of `this.app.tests` shows that we are in one of:
     //
     // * running non-production build
@@ -19,7 +19,7 @@ module.exports = {
     return app.tests;
   },
 
-  included: function () {
+  included() {
     // From https://github.com/rwjblue/ember-debug-handlers-polyfill/blob/master/index.js
     var app = this.app || this._findHost();
 
@@ -34,7 +34,7 @@ module.exports = {
     }
   },
 
-  treeForVendor: function (tree) {
+  treeForVendor(tree) {
     var root = process.env._DUMMY_CONFIG_ROOT_PATH || this.project.root;
     var configDir = '/config';
 
@@ -56,7 +56,7 @@ module.exports = {
     return mergeTrees([tree, configTree], { overwrite: true });
   },
 
-  _findHtmlbarsPreprocessor: function (registry) {
+  _findHtmlbarsPreprocessor(registry) {
     var plugins = registry.load('template');
 
     return plugins.filter(function (plugin) {
@@ -64,7 +64,7 @@ module.exports = {
     })[0];
   },
 
-  _monkeyPatch_EmberDeprecate: function (htmlbarsCompilerPreprocessor) {
+  _monkeyPatch_EmberDeprecate(htmlbarsCompilerPreprocessor) {
     if (!htmlbarsCompilerPreprocessor._addon) {
       // not a new enough ember-cli-htmlbars to monkey patch
       // we need 1.0.3
@@ -125,7 +125,7 @@ module.exports = {
     };
   },
 
-  setupPreprocessorRegistry: function (type, registry) {
+  setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
       var htmlbarsCompilerPreprocessor = this._findHtmlbarsPreprocessor(
         registry
@@ -135,7 +135,7 @@ module.exports = {
     }
   },
 
-  lintTree: function (type, tree) {
+  lintTree(type, tree) {
     if (type === 'template') {
       var TemplateLinter = require('./generate-deprecations-tree');
 
