@@ -1,4 +1,4 @@
-import { DEBUG } from '@glimmer/env'
+import { DEBUG } from '@glimmer/env';
 import { test } from 'qunit';
 
 export default function debugTest(description, callback) {
