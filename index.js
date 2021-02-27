@@ -3,13 +3,13 @@
 module.exports = {
   name: require('./package').name,
 
-  init: function() {
+  init() {
     this._super.init && this._super.init.apply(this, arguments);
 
     this._templateDeprecations = [];
   },
 
-  _shouldInclude: function() {
+  _shouldInclude() {
     // the presence of `this.app.tests` shows that we are in one of:
     //
     // * running non-production build
@@ -19,24 +19,29 @@ module.exports = {
     return app.tests;
   },
 
-  included: function() {
+  included() {
     // From https://github.com/rwjblue/ember-debug-handlers-polyfill/blob/master/index.js
     var app = this.app || this._findHost();
 
     if (this._shouldInclude()) {
       app.import('vendor/ember-debug-handlers-polyfill/debug.js');
-      app.import('vendor/ember-cli-deprecation-workflow/deprecation-workflow.js');
+      app.import(
+        'vendor/ember-cli-deprecation-workflow/deprecation-workflow.js'
+      );
       app.import('vendor/ember-cli-deprecation-workflow/main.js');
     } else {
       app.import('vendor/ember-debug-handlers-polyfill/prod.js');
     }
   },
 
-  treeForVendor: function(tree) {
+  treeForVendor(tree) {
     var root = process.env._DUMMY_CONFIG_ROOT_PATH || this.project.root;
     var configDir = '/config';
 
-    if (this.project.pkg['ember-addon'] && this.project.pkg['ember-addon']['configPath']) {
+    if (
+      this.project.pkg['ember-addon'] &&
+      this.project.pkg['ember-addon']['configPath']
+    ) {
       configDir = '/' + this.project.pkg['ember-addon']['configPath'];
     }
 
@@ -45,40 +50,46 @@ module.exports = {
     var configTree = new Funnel(root + configDir, {
       include: ['deprecation-workflow.js'],
 
-      destDir: 'ember-cli-deprecation-workflow'
+      destDir: 'ember-cli-deprecation-workflow',
     });
 
     return mergeTrees([tree, configTree], { overwrite: true });
   },
 
-  _findHtmlbarsPreprocessor: function(registry) {
+  _findHtmlbarsPreprocessor(registry) {
     var plugins = registry.load('template');
 
-    return plugins.filter(function(plugin) {
+    return plugins.filter(function (plugin) {
       return plugin.name === 'ember-cli-htmlbars';
     })[0];
   },
 
-  _monkeyPatch_EmberDeprecate: function(htmlbarsCompilerPreprocessor) {
+  _monkeyPatch_EmberDeprecate(htmlbarsCompilerPreprocessor) {
     if (!htmlbarsCompilerPreprocessor._addon) {
       // not a new enough ember-cli-htmlbars to monkey patch
       // we need 1.0.3
       return;
     }
     var addonContext = this;
-    var originalHtmlbarsOptions = htmlbarsCompilerPreprocessor._addon.htmlbarsOptions;
-    var logToNodeConsole = this.project.config(process.env.EMBER_ENV).logTemplateLintToConsole;
+    var originalHtmlbarsOptions =
+      htmlbarsCompilerPreprocessor._addon.htmlbarsOptions;
+    var logToNodeConsole = this.project.config(process.env.EMBER_ENV)
+      .logTemplateLintToConsole;
 
-    htmlbarsCompilerPreprocessor._addon.htmlbarsOptions = function() {
+    htmlbarsCompilerPreprocessor._addon.htmlbarsOptions = function () {
       var options = originalHtmlbarsOptions.apply(this, arguments);
       var Ember = options.templateCompiler._Ember;
 
       if (Ember.Debug && Ember.Debug.registerDeprecationHandler) {
-        Ember.Debug.registerDeprecationHandler(function(message, options, next) {
+        Ember.Debug.registerDeprecationHandler(function (
+          message,
+          options,
+          next
+        ) {
           addonContext._templateDeprecations.push({
             message: JSON.stringify(message),
             test: false,
-            options: JSON.stringify(options)
+            options: JSON.stringify(options),
           });
 
           if (logToNodeConsole) {
@@ -88,11 +99,10 @@ module.exports = {
       }
 
       var originalDeprecate = options.templateCompiler._Ember.deprecate;
-      Ember.deprecate = function(message, test, options) {
-
+      Ember.deprecate = function (message, test, options) {
         var noDeprecation;
 
-        if (typeof test === "function") {
+        if (typeof test === 'function') {
           noDeprecation = test();
         } else {
           noDeprecation = test;
@@ -102,7 +112,7 @@ module.exports = {
           addonContext._templateDeprecations.push({
             message: JSON.stringify(message),
             test: !!test,
-            options: JSON.stringify(options)
+            options: JSON.stringify(options),
           });
         }
 
@@ -115,19 +125,21 @@ module.exports = {
     };
   },
 
-  setupPreprocessorRegistry: function(type, registry) {
+  setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
-      var htmlbarsCompilerPreprocessor = this._findHtmlbarsPreprocessor(registry);
+      var htmlbarsCompilerPreprocessor = this._findHtmlbarsPreprocessor(
+        registry
+      );
 
       this._monkeyPatch_EmberDeprecate(htmlbarsCompilerPreprocessor);
     }
   },
 
-  lintTree: function(type, tree) {
+  lintTree(type, tree) {
     if (type === 'template') {
       var TemplateLinter = require('./generate-deprecations-tree');
 
       return new TemplateLinter(this, tree);
     }
-  }
+  },
 };

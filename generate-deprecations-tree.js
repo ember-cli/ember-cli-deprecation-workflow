@@ -5,7 +5,9 @@ const path = require('path');
 
 const Plugin = require('broccoli-plugin');
 
-module.exports = class DeprecationWorkflowTemplateDeprecationProducer extends Plugin {
+module.exports = class DeprecationWorkflowTemplateDeprecationProducer extends (
+  Plugin
+) {
   constructor(workflowAddonInstance, tree) {
     super([tree], {
       annotation: 'deprecation-workflow-template-deprecations',
@@ -19,18 +21,29 @@ module.exports = class DeprecationWorkflowTemplateDeprecationProducer extends Pl
 
   content() {
     return this.workflowAddonInstance._templateDeprecations
-      .map(function(item) {
-        return 'Ember.deprecate(\n' +
-          '  ' + item.message + ',\n' +
-          '  ' + item.test + ',\n' +
-          '  ' + item.options + '\n' +
-          ');';
+      .map(function (item) {
+        return (
+          'Ember.deprecate(\n' +
+          '  ' +
+          item.message +
+          ',\n' +
+          '  ' +
+          item.test +
+          ',\n' +
+          '  ' +
+          item.options +
+          '\n' +
+          ');'
+        );
       })
       .join('\n');
   }
 
   build() {
-    let outputPath = path.join(this.outputPath, 'template-deprecations-test.js');
+    let outputPath = path.join(
+      this.outputPath,
+      'template-deprecations-test.js'
+    );
 
     let content = this.content();
     if (this.lastContent !== content) {
@@ -38,4 +51,4 @@ module.exports = class DeprecationWorkflowTemplateDeprecationProducer extends Pl
       fs.writeFileSync(outputPath, content);
     }
   }
-}
+};
