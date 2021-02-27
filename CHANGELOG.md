@@ -1,3 +1,18 @@
+## v2.0.0-beta.2 (2021-02-27)
+
+#### :boom: Breaking Change
+* [#92](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/92) Modernize ([@wagenet](https://github.com/wagenet))
+
+#### :house: Internal
+* [#98](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/98) Add release automation ([@rwjblue](https://github.com/rwjblue))
+* [#97](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/97) Migrate to GH Actions. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 3
+- Igor Terzic ([@igorT](https://github.com/igorT))
+- Peter Wagenet ([@wagenet](https://github.com/wagenet))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
+
 ## v1.0.1 (2018-11-05)
 
 #### :bug: Bug Fix
