@@ -1,23 +1,28 @@
 import { deprecate } from '@ember/application/deprecations';
 import Ember from 'ember';
-import { module } from 'qunit';
-import test from '../helpers/debug-test';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
-let originalWarn;
+module('Acceptance | workflow config', function (hooks) {
+  setupApplicationTest(hooks);
 
-module('workflow config', function (hooks) {
   hooks.beforeEach(function () {
-    originalWarn = window.Testem.handleConsoleMessage;
+    this.originalWarn = console.warn;
   });
 
   hooks.afterEach(function () {
     Ember.ENV.RAISE_ON_DEPRECATION = false;
     window.deprecationWorkflow.deprecationLog = { messages: {} };
-    window.Testem.handleConsoleMessage = originalWarn;
+    console.warn = this.originalWarn;
   });
 
   test('deprecation silenced with string matcher', (assert) => {
-    deprecate('silence-me', false, { until: 'forever', id: 'test' });
+    deprecate('silence-me', false, {
+      until: 'forever',
+      since: '0.0.0',
+      id: 'test',
+      for: 'testing',
+    });
     assert.ok(true, 'Deprecation did not raise');
   });
 
@@ -25,19 +30,29 @@ module('workflow config', function (hooks) {
     assert.expect(1);
 
     let message = 'log-me';
-    window.Testem.handleConsoleMessage = function (passedMessage) {
+    console.warn = function (passedMessage) {
       assert.ok(
         passedMessage.indexOf('DEPRECATION: ' + message) === 0,
         'deprecation logs'
       );
     };
-    deprecate(message, false, { until: 'forever', id: 'test' });
+    deprecate(message, false, {
+      until: 'forever',
+      since: '0.0.0',
+      id: 'test',
+      for: 'testing',
+    });
   });
 
   test('deprecation thrown with string matcher', (assert) => {
     Ember.ENV.RAISE_ON_DEPRECATION = true;
     assert.throws(function () {
-      deprecate('throw-me', false, { until: 'forever', id: 'test' });
+      deprecate('throw-me', false, {
+        until: 'forever',
+        since: '0.0.0',
+        id: 'test',
+        for: 'testing',
+      });
     }, 'deprecation throws');
   });
 
@@ -48,7 +63,7 @@ module('workflow config', function (hooks) {
     let id = 'ember.workflow';
     let options = { id, since: '2.0.0', until: '3.0.0', for: 'testing' };
     let expected = `DEPRECATION: ${message}`;
-    window.Testem.handleConsoleMessage = function (passedMessage) {
+    console.warn = function (passedMessage) {
       assert.equal(
         passedMessage.substr(0, expected.length),
         expected,
