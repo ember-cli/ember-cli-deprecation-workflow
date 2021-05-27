@@ -2,9 +2,7 @@
   "name": "ember-cli-deprecation-workflow",
   "version": "2.0.0-beta.3",
   "description": "Provides a much needed workflow to managing deprecations.",
-  "keywords": [
-    "ember-addon"
-  ],
+  "keywords": ["ember-addon"],
   "repository": "https://github.com/mixonic/ember-cli-deprecation-workflow/",
   "license": "MIT",
   "author": "",
@@ -71,7 +69,7 @@
     "release-it-lerna-changelog": "^3.1.0"
   },
   "engines": {
-    "node": "10.* || >= 12"
+    "node": "12.* || >= 14"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
