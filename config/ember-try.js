@@ -3,9 +3,26 @@
 const getChannelURL = require('ember-source-channel-url');
 
 module.exports = async function () {
+  let emberReleaseVersion = await getChannelURL('release');
   return {
     useYarn: true,
     scenarios: [
+      {
+        name: 'ember-lts-2.12',
+        npm: {
+          devDependencies: {
+            'ember-source': '~2.12.0',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-2.18',
+        npm: {
+          devDependencies: {
+            'ember-source': '~2.18.0',
+          },
+        },
+      },
       {
         name: 'ember-lts-3.16',
         npm: {
@@ -23,10 +40,18 @@ module.exports = async function () {
         },
       },
       {
+        name: 'ember-lts-3.24',
+        npm: {
+          devDependencies: {
+            'ember-source': '~3.24.0',
+          },
+        },
+      },
+      {
         name: 'ember-release',
         npm: {
           devDependencies: {
-            'ember-source': await getChannelURL('release'),
+            'ember-source': emberReleaseVersion,
           },
         },
       },
@@ -47,7 +72,7 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-default-with-jquery',
+        name: 'ember-release-with-jquery',
         env: {
           EMBER_OPTIONAL_FEATURES: JSON.stringify({
             'jquery-integration': true,
@@ -55,12 +80,13 @@ module.exports = async function () {
         },
         npm: {
           devDependencies: {
+            'ember-source': emberReleaseVersion,
             '@ember/jquery': '^1.1.0',
           },
         },
       },
       {
-        name: 'ember-classic',
+        name: 'ember-release-classic',
         env: {
           EMBER_OPTIONAL_FEATURES: JSON.stringify({
             'application-template-wrapper': true,
@@ -69,6 +95,9 @@ module.exports = async function () {
           }),
         },
         npm: {
+          devDependencies: {
+            'ember-source': emberReleaseVersion,
+          },
           ember: {
             edition: 'classic',
           },
