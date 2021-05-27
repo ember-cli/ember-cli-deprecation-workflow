@@ -1,3 +1,15 @@
+## v2.0.0-beta.3 (2021-05-27)
+
+#### :boom: Breaking Change
+* Upgrade verious dependencies across major versions
+
+#### :bug: Bug Fix
+* [#111](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/111) Address a deprecated import path for deprecate in tests
+* [#114](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/114) Drop debug handler polyfill, fixes [#113](https://github.com/mixonic/ember-cli-deprecation-workflow/issues/113).
+
+#### :rocket: Enhancement
+* [#93](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/93) Limit logging when a high-repetition deprecation is firing.
+
 ## v2.0.0-beta.2 (2021-02-27)
 
 #### :boom: Breaking Change
