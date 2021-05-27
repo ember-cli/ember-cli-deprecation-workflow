@@ -70,8 +70,9 @@ module.exports = {
     var addonContext = this;
     var originalHtmlbarsOptions =
       htmlbarsCompilerPreprocessor._addon.htmlbarsOptions;
-    var logToNodeConsole = this.project.config(process.env.EMBER_ENV)
-      .logTemplateLintToConsole;
+    var logToNodeConsole = this.project.config(
+      process.env.EMBER_ENV
+    ).logTemplateLintToConsole;
 
     htmlbarsCompilerPreprocessor._addon.htmlbarsOptions = function () {
       var options = originalHtmlbarsOptions.apply(this, arguments);
@@ -124,9 +125,8 @@ module.exports = {
 
   setupPreprocessorRegistry(type, registry) {
     if (type === 'parent') {
-      var htmlbarsCompilerPreprocessor = this._findHtmlbarsPreprocessor(
-        registry
-      );
+      var htmlbarsCompilerPreprocessor =
+        this._findHtmlbarsPreprocessor(registry);
 
       this._monkeyPatch_EmberDeprecate(htmlbarsCompilerPreprocessor);
     }
