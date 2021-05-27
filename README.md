@@ -1,40 +1,57 @@
 # ember-cli-deprecation-workflow
 
-An addon geared towards making Ember upgrades easier by allowing you to work through deprecations without massive console noise.
-
-[![Build Status](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow.svg)](https://travis-ci.org/mixonic/ember-cli-deprecation-workflow)
+An addon geared towards making Ember upgrades easier by allowing you to work
+through deprecations without massive console noise.
 
 ## History
 
-Upgrading Ember versions (especially from 1.12 to 1.13) can be very daunting. One of the largest factors is the massive `console.log` noise that the deprecations
-introduced in those versions (to help us know what we need to do to stay up to date) is so overwhelming that we quite literally have no idea what to do.
+Upgrading Ember versions can be very daunting. One of the largest factors is the
+massive `console.log` noise that the deprecations introduced in those versions
+(to help us know what we need to do to stay up to date) is so overwhelming that
+we quite literally have no idea what to do.
 
-The "deprecation spew" issue became very obvious as we progressed into the later 1.13 beta releases. At that point, [@mixonic](https://twitter.com/mixonic) and [@rwjblue](https://twitter.com/rwjblue)
-came up with a wild scheme to create a new way to handle deprecations (this addon's process).
+The "deprecation spew" issue became very obvious as we progressed into the later
+1.13 beta releases. At that point, [@mixonic](https://twitter.com/mixonic) and
+[@rwjblue](https://twitter.com/rwjblue) came up with a wild scheme.
 
-This addon can help manage deprecations from Ember 1.x to 3.x.
+The scheme was to build tooling which made dealing with deprecations an
+incremental process. ember-cli-deprecation-workflow allows you to focus on
+addressing a single deprecation at a time, and prevents backsliding
+(re-introduction of a deprecated API use) in a codebase.
 
 ## Usage
 
 ### Compatibility
 
-* Ember.js v3.16 or above
-* Ember CLI v3.16 or above
-* Node.js v10 or above
+2.x (in beta)
+
+- Ember.js 2.12 or above
+- Ember CLI 3.16 or above
+- Node.js 10 or above
+
+1.x
+
+- Ember.js 1.13 until at least 3.4
+- Ember CLI 3.4 as well as many versions before and after
+- Node.js 6, 8, and 10 until at least 14
 
 ### Getting started
 
 The initial steps needed to get started:
 
 1. Install the ember-cli-deprecation-workflow addon (`ember install ember-cli-deprecation-workflow`).
-2. Run your test suite* with `ember test --server`.
+2. Run your test suite\* with `ember test --server`.
 3. Navigate to your tests (default: http://localhost:7357/)
 4. Run `deprecationWorkflow.flushDeprecations()` from your browsers console.
 5. Copy the string output into `config/deprecation-workflow.js` in your project.
 
-Once this initial setup is completed the "deprecation spew" should be largely "fixed".  Only unhandled deprecations will be displayed in your console.
+Once this initial setup is completed the "deprecation spew" should be largely
+"fixed". Only unhandled deprecations will be displayed in your console.
 
-*Note: Unless your test coverage is amazing (>90%), it's likely that running the test suite alone will not reveal _every_ deprecation. It may be prudent to run through the app's workflows live and flush deprecations a second time, merging the resulting output list with that generated from your test suite.
+\*Note: Unless your test coverage is amazing (>90%), it's likely that running
+the test suite alone will not reveal _every_ deprecation. It may be prudent to
+run through the app's workflows live and flush deprecations a second time,
+merging the resulting output list with that generated from your test suite.
 
 Now that the spew has settled down, you can process one deprecation at a time while ensuring that no new deprecations are introduced.
 
@@ -52,51 +69,63 @@ What does that individual deprecation workflow look like?
 
 There are 3 defined handlers that have different behaviors
 
- Handler | Behavior
- ------- | --------
- `silence` | Keeps this deprecation from spewing all over the console
- `log` | Normal deprecation behavior runs for this deprecation and messages are logged to the console
- `throw` | The error is thrown instead of allowing the deprecated behavior to run. ***WARNING: APPLICATION MAY GO :boom:***
+| Handler   | Behavior                                                                                                         |
+| --------- | ---------------------------------------------------------------------------------------------------------------- |
+| `silence` | Keeps this deprecation from spewing all over the console                                                         |
+| `log`     | Normal deprecation behavior runs for this deprecation and messages are logged to the console                     |
+| `throw`   | The error is thrown instead of allowing the deprecated behavior to run. **_WARNING: APPLICATION MAY GO :boom:_** |
 
 ### Matchers
 
-the output from running `deprecationWorkflow.flushDeprecations()` gives you a nice Json like JS object with all the deprecations in your app. The `matchMessage` property determines what to filter out of the console. You can pass a string that must match the console message exactly or a `RegExp` for `ember-cli-deprecation-workflow` filter the log by.
+the output from running `deprecationWorkflow.flushDeprecations()` gives you a
+nice Json like JS object with all the deprecations in your app. The
+`matchMessage` property determines what to filter out of the console. You can
+pass a string that must match the console message exactly or a `RegExp` for
+`ember-cli-deprecation-workflow` filter the log by.
 
 ### Production builds
 
-By default, production ember-cli builds already remove deprecation warnings. Any deprecations configured to `throw` or `log` will only do so in non-production builds.
+By default, production ember-cli builds already remove deprecation warnings. Any
+deprecations configured to `throw` or `log` will only do so in non-production
+builds.
 
 ### Catch-all
 
-To force all deprecations to throw (can be useful in larger teams to prevent accidental introduction of deprecations), update your `config/deprecation-workflow.js`:
+To force all deprecations to throw (can be useful in larger teams to prevent
+accidental introduction of deprecations), update your
+`config/deprecation-workflow.js`:
+
 ```javascript
 window.deprecationWorkflow.config = {
-  throwOnUnhandled: true
-}
+  throwOnUnhandled: true,
+};
 ```
 
 ### Template Deprecations
 
-By default, the console based deprecations that occur during template compilation
-are suppressed in favor of browser deprecations ran during the test suite. If you
-would prefer to still have the deprecations in the console, add the following to
-your `config/environment.js`:
+By default, the console based deprecations that occur during template
+compilation are suppressed in favor of browser deprecations ran during the test
+suite. If you would prefer to still have the deprecations in the console, add
+the following to your `config/environment.js`:
 
 ```javascript
-module.exports = function(env) {
-  var ENV = { };
+module.exports = function (env) {
+  var ENV = {};
 
   // normal things here
 
   ENV.logTemplateLintToConsole = true;
-}
+};
 ```
 
 ### Configuration
 
-In some cases, it may be necessary to indicate a different `config` directory from the default one (`/config`). For example, you may want the flushed deprecations file to be referenced in a config directory like `my-config`.
+In some cases, it may be necessary to indicate a different `config` directory
+from the default one (`/config`). For example, you may want the flushed
+deprecations file to be referenced in a config directory like `my-config`.
 
-Adjust the `configPath` in your `package.json` file. The `/` will automatically be prefixed.
+Adjust the `configPath` in your `package.json` file. The `/` will automatically
+be prefixed.
 
 ```javascript
 {
@@ -110,11 +139,8 @@ Adjust the `configPath` in your `package.json` file. The `/` will automatically 
 
 Details on contributing to the addon itself (not required for normal usage).
 
-
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
-
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).
