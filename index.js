@@ -24,13 +24,10 @@ module.exports = {
     var app = this.app || this._findHost();
 
     if (this._shouldInclude()) {
-      app.import('vendor/ember-debug-handlers-polyfill/debug.js');
       app.import(
         'vendor/ember-cli-deprecation-workflow/deprecation-workflow.js'
       );
       app.import('vendor/ember-cli-deprecation-workflow/main.js');
-    } else {
-      app.import('vendor/ember-debug-handlers-polyfill/prod.js');
     }
   },
 
