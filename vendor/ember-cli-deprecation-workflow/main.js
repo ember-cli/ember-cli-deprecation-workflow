@@ -14,7 +14,7 @@ const LOG_LIMIT = 100;
       return;
     }
 
-    var i, workflow, regex, matcher, idMatcher;
+    let i, workflow, matcher, idMatcher;
     for (i=0; i<config.workflow.length; i++) {
       workflow = config.workflow[i];
       matcher = workflow.matchMessage;
@@ -31,9 +31,9 @@ const LOG_LIMIT = 100;
   }
 
   Ember.Debug.registerDeprecationHandler(function handleDeprecationWorkflow(message, options, next){
-    var config = self.deprecationWorkflow.config || {};
+    let config = self.deprecationWorkflow.config || {};
 
-    var matchingWorkflow = detectWorkflow(config, message, options);
+    let matchingWorkflow = detectWorkflow(config, message, options);
     if (!matchingWorkflow) {
       if (config && config.throwOnUnhandled) {
         throw new Error(message);
@@ -45,8 +45,8 @@ const LOG_LIMIT = 100;
         case 'silence':
           // no-op
           break;
-        case 'log':
-          var key = options && options.id || message;
+        case 'log': {
+          let key = options && options.id || message;
           let count = self.deprecationWorkflow.logCounts[key] || 0;
           self.deprecationWorkflow.logCounts[key] = count + 1;
 
@@ -58,9 +58,9 @@ const LOG_LIMIT = 100;
           }
 
           break;
+        }
         case 'throw':
           throw new Error(message);
-          break;
         default:
           next(message, options);
           break;
@@ -69,31 +69,31 @@ const LOG_LIMIT = 100;
   });
 
   Ember.Debug.registerDeprecationHandler(function deprecationCollector(message, options, next){
-    var key = options && options.id || message;
-    var matchKey = options && key === options.id ? 'matchId' : 'matchMessage';
+    let key = options && options.id || message;
+    let matchKey = options && key === options.id ? 'matchId' : 'matchMessage';
 
     self.deprecationWorkflow.deprecationLog.messages[key] = '    { handler: "silence", ' + matchKey + ': ' + JSON.stringify(key) + ' }';
     next(message, options);
   });
 
-  var preamble = [
+  let preamble = [
     'self.deprecationWorkflow = self.deprecationWorkflow || {};',
     'self.deprecationWorkflow.config = {\n  workflow: [\n',
   ].join('\n');
 
-  var postamble = [
+  let postamble = [
     '  ]\n};'
   ].join('\n');
 
   self.deprecationWorkflow.flushDeprecations = function flushDeprecations() {
-    var messages = self.deprecationWorkflow.deprecationLog.messages;
-    var logs = [];
+    let messages = self.deprecationWorkflow.deprecationLog.messages;
+    let logs = [];
 
-    for (var message in messages) {
+    for (let message in messages) {
       logs.push(messages[message]);
     }
 
-    var deprecations = logs.join(',\n') + '\n';
+    let deprecations = logs.join(',\n') + '\n';
 
     return preamble + deprecations + postamble;
   };
