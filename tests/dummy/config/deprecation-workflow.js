@@ -5,6 +5,6 @@ self.deprecationWorkflow.config = {
     { matchMessage: 'silence-me', handler: 'silence' },
     { matchMessage: 'log-me', handler: 'log' },
     { matchMessage: 'throw-me', handler: 'throw' },
-    { matchId: 'ember.workflow', handler: 'log' },
+    { matchId: 'log-me', handler: 'log' },
   ],
 };

@@ -59,8 +59,8 @@ module('workflow config', function (hooks) {
   test('deprecation logs with id matcher', (assert) => {
     assert.expect(1);
 
-    let message = 'log-id';
-    let id = 'ember.workflow';
+    let message = 'arbitrary-unmatched-message';
+    let id = 'log-me';
     let options = {
       id,
       since: '2.0.0',
@@ -79,10 +79,11 @@ module('workflow config', function (hooks) {
   });
 
   test('deprecation limits each id to 100 console.logs', (assert) => {
+    assert.expect(104);
     let limit = 100;
 
-    let message = 'log-id';
-    let id = 'ember.workflow';
+    let message = 'log-me';
+    let id = 'first-and-unique-to-limit-test';
     let options = {
       id,
       since: '2.0.0',
@@ -100,13 +101,14 @@ module('workflow config', function (hooks) {
           expected,
           'deprecation logs'
         );
-      } else if (count === limit + 1) {
-        assert.equal(
-          passedMessage,
-          'To avoid console overflow, this deprecation will not be logged any more in this run.'
-        );
-      } else {
-        assert.ok(false, 'No further logging expected');
+      }
+      if (count === limit) {
+        window.Testem.handleConsoleMessage = function (passedMessage) {
+          assert.equal(
+            passedMessage,
+            'To avoid console overflow, this deprecation will not be logged any more in this run.'
+          );
+        };
       }
     };
 
@@ -115,10 +117,10 @@ module('workflow config', function (hooks) {
       deprecate(message, false, options);
     }
 
-    assert.equal(count, limit + 1, 'logged 101 times, including final notice');
+    assert.equal(count, limit, 'logged 100 times, including final notice');
 
-    let secondMessage = 'log-id2';
-    let secondId = 'ember.workflow2';
+    let secondMessage = 'log-me';
+    let secondId = 'second-and-unique-to-limit-test';
     let secondOptions = {
       id: secondId,
       since: '2.0.0',
@@ -135,6 +137,9 @@ module('workflow config', function (hooks) {
         secondExpected,
         'second deprecation logs'
       );
+      window.Testem.handleConsoleMessage = function () {
+        assert.ok(false, 'No further logging expected');
+      };
     };
 
     deprecate(secondMessage, false, secondOptions);
