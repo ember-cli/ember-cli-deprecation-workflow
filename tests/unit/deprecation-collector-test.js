@@ -46,7 +46,12 @@ self.deprecationWorkflow.config = {
   });
 
   test('deprecation does not choke when called without soon-to-be-required options', (assert) => {
-    deprecate('silence-me', undefined, { id: 'silence-me', until: 'forever' });
+    deprecate('silence-me', undefined, {
+      id: 'silence-me',
+      since: 'the beginning',
+      until: 'forever',
+      for: 'testing',
+    });
     assert.ok(true, 'Deprecation did not raise');
   });
 
@@ -134,6 +139,7 @@ self.deprecationWorkflow.config = {
 
     deprecate('Sshhhhh!!', false, {
       id: 'quiet',
+      since: 'the beginning',
       until: 'forever',
       for: 'testing',
     });
