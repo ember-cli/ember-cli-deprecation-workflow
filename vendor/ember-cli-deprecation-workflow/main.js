@@ -30,7 +30,9 @@ const LOG_LIMIT = 100;
     }
   }
 
-  Ember.Debug.registerDeprecationHandler(function handleDeprecationWorkflow(message, options, next){
+  let registerDeprecationHandler = require.has('@ember/debug') ? require('@ember/debug').registerDeprecationHandler : Ember.Debug.registerDeprecationHandler;
+
+  registerDeprecationHandler(function handleDeprecationWorkflow(message, options, next){
     let config = self.deprecationWorkflow.config || {};
 
     let matchingWorkflow = detectWorkflow(config, message, options);
@@ -68,7 +70,7 @@ const LOG_LIMIT = 100;
     }
   });
 
-  Ember.Debug.registerDeprecationHandler(function deprecationCollector(message, options, next){
+  registerDeprecationHandler(function deprecationCollector(message, options, next){
     let key = options && options.id || message;
     let matchKey = options && key === options.id ? 'matchId' : 'matchMessage';
 
