@@ -28,6 +28,7 @@
     "broccoli-funnel": "^3.0.3",
     "broccoli-merge-trees": "^4.2.0",
     "broccoli-plugin": "^4.0.5",
+    "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.3.2"
   },
   "devDependencies": {
@@ -39,7 +40,6 @@
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^1.10.1",
     "ember-cli": "~3.25.0",
-    "ember-cli-babel": "^7.23.1",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-inject-live-reload": "^2.0.2",
     "ember-cli-sri": "^2.1.1",
