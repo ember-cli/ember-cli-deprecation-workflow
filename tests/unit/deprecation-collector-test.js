@@ -1,20 +1,24 @@
 /* eslint no-console: 0 */
 
 import { deprecate } from '@ember/debug';
-import Ember from 'ember';
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
 
-let originalWarn;
+let originalWarn, originalConfig;
 
 module('deprecation collector', function (hooks) {
   hooks.beforeEach(function () {
     originalWarn = console.warn;
+
+    /*
+     * Clear config for these tests
+     */
+    originalConfig = self.deprecationWorkflow.config;
+    self.deprecationWorkflow.config = null;
   });
 
   hooks.afterEach(function () {
-    Ember.ENV.RAISE_ON_DEPRECATION = false;
-    self.deprecationWorkflow.config = null;
+    self.deprecationWorkflow.config = originalConfig;
     self.deprecationWorkflow.deprecationLog = { messages: {} };
     console.warn = originalWarn;
   });
@@ -43,16 +47,6 @@ self.deprecationWorkflow.config = {
   ]
 };`
     );
-  });
-
-  test('deprecation does not choke when called without soon-to-be-required options', (assert) => {
-    deprecate('silence-me', undefined, {
-      id: 'silence-me',
-      since: 'the beginning',
-      until: 'forever',
-      for: 'testing',
-    });
-    assert.ok(true, 'Deprecation did not raise');
   });
 
   test('deprecations are not duplicated', function (assert) {
@@ -99,8 +93,6 @@ self.deprecationWorkflow.config = {
   test('specifying `throwOnUnhandled` as true raises', function (assert) {
     assert.expect(2);
 
-    Ember.ENV.RAISE_ON_DEPRECATION = false;
-
     self.deprecationWorkflow.config = {
       throwOnUnhandled: true,
       workflow: [{ handler: 'silence', matchMessage: 'Sshhhhh!!' }],
@@ -131,8 +123,6 @@ self.deprecationWorkflow.config = {
   test('specifying `throwOnUnhandled` as false does nothing', function (assert) {
     assert.expect(1);
 
-    Ember.ENV.RAISE_ON_DEPRECATION = false;
-
     self.deprecationWorkflow.config = {
       throwOnUnhandled: false,
     };
@@ -147,7 +137,6 @@ self.deprecationWorkflow.config = {
   });
 
   test('deprecation silenced with string matcher', (assert) => {
-    Ember.ENV.RAISE_ON_DEPRECATION = true;
     self.deprecationWorkflow.config = {
       workflow: [{ matchMessage: 'Interesting', handler: 'silence' }],
     };
@@ -196,7 +185,6 @@ self.deprecationWorkflow.config = {
   });
 
   test('deprecation silenced with regex matcher', (assert) => {
-    Ember.ENV.RAISE_ON_DEPRECATION = true;
     self.deprecationWorkflow.config = {
       workflow: [{ matchMessage: /Inter/, handler: 'silence' }],
     };
@@ -264,7 +252,6 @@ self.deprecationWorkflow.config = {
   });
 
   test('deprecation silenced with id matcher', (assert) => {
-    Ember.ENV.RAISE_ON_DEPRECATION = true;
     self.deprecationWorkflow.config = {
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'silence' }],
     };
@@ -315,8 +302,6 @@ self.deprecationWorkflow.config = {
 
   test('deprecation logging happens even if `throwOnUnhandled` is true', function (assert) {
     assert.expect(2);
-
-    Ember.ENV.RAISE_ON_DEPRECATION = false;
 
     self.deprecationWorkflow.config = {
       throwOnUnhandled: true,
