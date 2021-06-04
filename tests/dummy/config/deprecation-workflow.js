@@ -7,7 +7,6 @@ self.deprecationWorkflow.config = {
      * Actual controlled deprecations
      */
     { matchId: 'ember-global', handler: 'log' },
-    { matchId: 'ember.component.reopen', handler: 'log' },
 
     /*
      * Deprecation setup for tests
