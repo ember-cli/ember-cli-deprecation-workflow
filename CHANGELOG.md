@@ -1,3 +1,23 @@
+## v2.0.0-beta.4 (2021-06-04)
+
+#### :boom: Breaking Change
+* [#116](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/116) [BREAKING] Drop Node 10 ([@mixonic](https://github.com/mixonic))
+
+#### :bug: Bug Fix
+* [#123](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/123) [BUGFIX] Check the incremented count for limit ([@mixonic](https://github.com/mixonic))
+
+#### :house: Internal
+* [#125](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/125) Drop ember.component.reopen log ([@mixonic](https://github.com/mixonic))
+* [#124](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/124) Clean up test config for clarity ([@mixonic](https://github.com/mixonic))
+* [#121](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/121) Remove deprecation-without-for and deprecation-without-since warnings in test ([@SergeAstapov](https://github.com/SergeAstapov))
+* [#120](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/120) Update main.js code style ([@mixonic](https://github.com/mixonic))
+* [#119](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/119) Bump deps to remove some deprecated use of Ember global ([@mixonic](https://github.com/mixonic))
+
+#### Committers: 2
+- Matthew Beale ([@mixonic](https://github.com/mixonic))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
+
 ## v2.0.0-beta.3 (2021-05-27)
 
 #### :boom: Breaking Change
