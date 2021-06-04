@@ -46,9 +46,9 @@ const LOG_LIMIT = 100;
           // no-op
           break;
         case 'log': {
-          let key = options && options.id || message;
+          let key = (options && options.id) || message;
           let count = self.deprecationWorkflow.logCounts[key] || 0;
-          self.deprecationWorkflow.logCounts[key] = count + 1;
+          self.deprecationWorkflow.logCounts[key] = ++count;
 
           if (count <= LOG_LIMIT) {
             console.warn('DEPRECATION: ' + message);
