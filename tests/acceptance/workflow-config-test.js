@@ -1,5 +1,4 @@
 import { deprecate } from '@ember/debug';
-import Ember from 'ember';
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
 
@@ -11,13 +10,12 @@ module('workflow config', function (hooks) {
   });
 
   hooks.afterEach(function () {
-    Ember.ENV.RAISE_ON_DEPRECATION = false;
     window.deprecationWorkflow.deprecationLog = { messages: {} };
     window.Testem.handleConsoleMessage = originalWarn;
   });
 
   test('deprecation silenced with string matcher', (assert) => {
-    deprecate('silence-me', false, {
+    deprecate('silence-strict', false, {
       since: '2.0.0',
       until: 'forever',
       id: 'test',
@@ -26,10 +24,10 @@ module('workflow config', function (hooks) {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  test('deprecation logs with string matcher', (assert) => {
+  test('deprecation logs with message matcher', (assert) => {
     assert.expect(1);
 
-    let message = 'log-me';
+    let message = 'log-strict';
     window.Testem.handleConsoleMessage = function (passedMessage) {
       assert.ok(
         passedMessage.indexOf('DEPRECATION: ' + message) === 0,
@@ -44,10 +42,45 @@ module('workflow config', function (hooks) {
     });
   });
 
+  test('deprecation logs with message matcher by regex', (assert) => {
+    assert.expect(1);
+
+    let message = ' foo log-match foo';
+    window.Testem.handleConsoleMessage = function (passedMessage) {
+      assert.ok(
+        passedMessage.indexOf('DEPRECATION: ' + message) === 0,
+        'deprecation logs'
+      );
+    };
+    deprecate(message, false, {
+      since: 'now',
+      until: 'forever',
+      id: 'test',
+      for: 'testing',
+    });
+  });
+
+  test('deprecation logs with id matcher', (assert) => {
+    assert.expect(1);
+
+    let message = ' foo foo';
+    window.Testem.handleConsoleMessage = function (passedMessage) {
+      assert.ok(
+        passedMessage.indexOf('DEPRECATION: ' + message) === 0,
+        'deprecation logs'
+      );
+    };
+    deprecate(message, false, {
+      since: 'now',
+      until: 'forever',
+      id: 'log-strict',
+      for: 'testing',
+    });
+  });
+
   test('deprecation thrown with string matcher', (assert) => {
-    Ember.ENV.RAISE_ON_DEPRECATION = true;
     assert.throws(function () {
-      deprecate('throw-me', false, {
+      deprecate('throw-strict', false, {
         since: '2.0.0',
         until: 'forever',
         id: 'test',
@@ -60,7 +93,7 @@ module('workflow config', function (hooks) {
     assert.expect(1);
 
     let message = 'arbitrary-unmatched-message';
-    let id = 'log-me';
+    let id = 'log-strict';
     let options = {
       id,
       since: '2.0.0',
@@ -82,7 +115,7 @@ module('workflow config', function (hooks) {
     assert.expect(104);
     let limit = 100;
 
-    let message = 'log-me';
+    let message = 'log-match';
     let id = 'first-and-unique-to-limit-test';
     let options = {
       id,
@@ -119,7 +152,7 @@ module('workflow config', function (hooks) {
 
     assert.equal(count, limit, 'logged 100 times, including final notice');
 
-    let secondMessage = 'log-me';
+    let secondMessage = 'log-strict';
     let secondId = 'second-and-unique-to-limit-test';
     let secondOptions = {
       id: secondId,
