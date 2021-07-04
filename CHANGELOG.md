@@ -1,3 +1,12 @@
+## v2.0.0-beta.5 (2021-07-04)
+
+#### :bug: Bug Fix
+* [#118](https://github.com/mixonic/ember-cli-deprecation-workflow/pull/118) Avoid the Ember global deprecation ([@mixonic](https://github.com/mixonic))
+
+#### Committers: 1
+- Matthew Beale ([@mixonic](https://github.com/mixonic))
+
+
 ## v2.0.0-beta.4 (2021-06-04)
 
 #### :boom: Breaking Change
