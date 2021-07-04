@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-deprecation-workflow",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0",
   "description": "Provides a much needed workflow to managing deprecations.",
   "keywords": [
     "ember-addon"
