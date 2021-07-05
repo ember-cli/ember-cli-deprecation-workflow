@@ -23,7 +23,7 @@ addressing a single deprecation at a time, and prevents backsliding
 
 ### Compatibility
 
-2.x (in beta)
+2.x
 
 - Ember.js 2.12 or above
 - Ember CLI 3.16 or above
