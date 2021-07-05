@@ -89,6 +89,15 @@ By default, production ember-cli builds already remove deprecation warnings. Any
 deprecations configured to `throw` or `log` will only do so in non-production
 builds.
 
+### Enable / Disable through configuration
+
+If your app has disabled test files in development environment you can force enabling this addon through configuration in `ember-cli-build.js` instead:
+```javascript
+'ember-cli-deprecation-workflow': {
+  enabled: true,
+},
+```
+
 ### Catch-all
 
 To force all deprecations to throw (can be useful in larger teams to prevent
