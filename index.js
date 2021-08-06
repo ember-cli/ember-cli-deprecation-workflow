@@ -1,5 +1,9 @@
 'use strict';
 
+const {
+  setupMiddlewareHooks,
+} = require('@scalvert/ember-setup-middleware-reporter');
+
 module.exports = {
   name: require('./package').name,
 
@@ -52,4 +56,10 @@ module.exports = {
 
     return mergeTrees([tree, configTree], { overwrite: true });
   },
+
+  ...setupMiddlewareHooks({
+    name: 'ember-cli-deprecation-workflow',
+    urlPath: 'report-deprecations',
+    reportDir: 'deprecation-reports',
+  }),
 };

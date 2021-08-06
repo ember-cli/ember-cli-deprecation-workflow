@@ -27,6 +27,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@scalvert/ember-setup-middleware-reporter": "^0.1.1",
     "broccoli-funnel": "^3.0.3",
     "broccoli-merge-trees": "^4.2.0",
     "broccoli-plugin": "^4.0.5",
