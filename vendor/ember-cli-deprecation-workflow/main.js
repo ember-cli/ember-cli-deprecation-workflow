@@ -8,6 +8,7 @@ const LOG_LIMIT = 100;
     messages: { }
   };
   self.deprecationWorkflow.logCounts = {};
+  self.deprecationWorkflow._fullDeprecationLog = [];
 
   function detectWorkflow(config, message, options) {
     if (!config || !config.workflow) {
@@ -32,6 +33,14 @@ const LOG_LIMIT = 100;
 
   let registerDeprecationHandler = require.has('@ember/debug') ? require('@ember/debug').registerDeprecationHandler : Ember.Debug.registerDeprecationHandler;
 
+  if (self.deprecationWorkflow.config.disableMiddleware !== true) {
+    registerDeprecationHandler(function gatherAllDeprecations(message, options, next) {
+      self.deprecationWorkflow._fullDeprecationLog.push({ message, options });
+      
+      next(message, option);
+    });
+  }
+  
   registerDeprecationHandler(function handleDeprecationWorkflow(message, options, next){
     let config = self.deprecationWorkflow.config || {};
 
