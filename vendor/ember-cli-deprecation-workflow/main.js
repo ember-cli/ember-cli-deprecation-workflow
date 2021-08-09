@@ -39,6 +39,18 @@ const LOG_LIMIT = 100;
       
       next(message, option);
     });
+    
+    if (typeof QUnit !== 'undefined') {
+      QUnit.done(function() {
+        return fetch('/report-deprecations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(self.deprecationWorkflow._fullDeprecationLog),
+        });
+      });
+    }
   }
   
   registerDeprecationHandler(function handleDeprecationWorkflow(message, options, next){
