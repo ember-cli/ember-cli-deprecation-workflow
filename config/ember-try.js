@@ -11,7 +11,10 @@ module.exports = async function () {
         name: 'ember-lts-2.12',
         npm: {
           devDependencies: {
+            '@ember/test-helpers': '^1.7.3',
+            'ember-qunit': '^4.6.0',
             'ember-source': '~2.12.0',
+            qunit: null,
           },
         },
       },
@@ -19,7 +22,10 @@ module.exports = async function () {
         name: 'ember-lts-2.18',
         npm: {
           devDependencies: {
+            '@ember/test-helpers': '^1.7.3',
+            'ember-qunit': '^4.6.0',
             'ember-source': '~2.18.0',
+            qunit: null,
           },
         },
       },
@@ -72,7 +78,7 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-release-with-jquery',
+        name: 'ember-3.28-with-jquery',
         env: {
           EMBER_OPTIONAL_FEATURES: JSON.stringify({
             'jquery-integration': true,
@@ -80,13 +86,13 @@ module.exports = async function () {
         },
         npm: {
           devDependencies: {
-            'ember-source': emberReleaseVersion,
+            'ember-source': '~3.28.0',
             '@ember/jquery': '^2.0.0',
           },
         },
       },
       {
-        name: 'ember-release-classic',
+        name: 'ember-3.28-classic',
         env: {
           EMBER_OPTIONAL_FEATURES: JSON.stringify({
             'application-template-wrapper': true,
@@ -96,7 +102,7 @@ module.exports = async function () {
         },
         npm: {
           devDependencies: {
-            'ember-source': emberReleaseVersion,
+            'ember-source': '~3.28.0',
           },
           ember: {
             edition: 'classic',

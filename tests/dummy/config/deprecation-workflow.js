@@ -7,10 +7,11 @@ self.deprecationWorkflow.config = {
      * Actual controlled deprecations
      *
      * The ember-global log configuration is only required for
-     * ember-release-with-jquery. All other ember-try scenarios pass with that
+     * ember-3.28-with-jquery. All other ember-try scenarios pass with that
      * handler removed (and defaulting to a throw).
      */
     { matchId: 'ember-global', handler: 'log' },
+    { matchMessage: /ember-test-waiters/, handler: 'log' },
 
     /*
      * Deprecation setup for tests
