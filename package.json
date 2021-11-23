@@ -2,7 +2,9 @@
   "name": "ember-cli-deprecation-workflow",
   "version": "2.1.0",
   "description": "Provides a much needed workflow to managing deprecations.",
-  "keywords": ["ember-addon"],
+  "keywords": [
+    "ember-addon"
+  ],
   "repository": "https://github.com/mixonic/ember-cli-deprecation-workflow/",
   "license": "MIT",
   "author": "",
