@@ -42,7 +42,7 @@ The initial steps needed to get started:
 1. Install the ember-cli-deprecation-workflow addon (`ember install ember-cli-deprecation-workflow`).
 2. Run your test suite\* with `ember test --server`.
 3. Navigate to your tests (default: http://localhost:7357/)
-4. Run `deprecationWorkflow.flushDeprecations()` from your browsers console.
+4. Run `console.log(deprecationWorkflow.flushDeprecations())` from your browsers console.
 5. Copy the string output into `config/deprecation-workflow.js` in your project.
 
 Once this initial setup is completed the "deprecation spew" should be largely
