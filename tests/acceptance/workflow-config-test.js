@@ -14,7 +14,7 @@ module('workflow config', function (hooks) {
     window.Testem.handleConsoleMessage = originalWarn;
   });
 
-  test('deprecation silenced with string matcher', (assert) => {
+  test('deprecation silenced with string matcher', function (assert) {
     deprecate('silence-strict', false, {
       since: '2.0.0',
       until: 'forever',
@@ -24,13 +24,14 @@ module('workflow config', function (hooks) {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  test('deprecation logs with message matcher', (assert) => {
+  test('deprecation logs with message matcher', function (assert) {
     assert.expect(1);
 
     let message = 'log-strict';
     window.Testem.handleConsoleMessage = function (passedMessage) {
-      assert.ok(
-        passedMessage.indexOf('DEPRECATION: ' + message) === 0,
+      assert.strictEqual(
+        passedMessage.indexOf('DEPRECATION: ' + message),
+        0,
         'deprecation logs'
       );
     };
@@ -42,13 +43,14 @@ module('workflow config', function (hooks) {
     });
   });
 
-  test('deprecation logs with message matcher by regex', (assert) => {
+  test('deprecation logs with message matcher by regex', function (assert) {
     assert.expect(1);
 
     let message = ' foo log-match foo';
     window.Testem.handleConsoleMessage = function (passedMessage) {
-      assert.ok(
-        passedMessage.indexOf('DEPRECATION: ' + message) === 0,
+      assert.strictEqual(
+        passedMessage.indexOf('DEPRECATION: ' + message),
+        0,
         'deprecation logs'
       );
     };
@@ -60,13 +62,14 @@ module('workflow config', function (hooks) {
     });
   });
 
-  test('deprecation logs with id matcher', (assert) => {
+  test('deprecation logs with id matcher', function (assert) {
     assert.expect(1);
 
     let message = ' foo foo';
     window.Testem.handleConsoleMessage = function (passedMessage) {
-      assert.ok(
-        passedMessage.indexOf('DEPRECATION: ' + message) === 0,
+      assert.strictEqual(
+        passedMessage.indexOf('DEPRECATION: ' + message),
+        0,
         'deprecation logs'
       );
     };
@@ -78,7 +81,7 @@ module('workflow config', function (hooks) {
     });
   });
 
-  test('deprecation thrown with string matcher', (assert) => {
+  test('deprecation thrown with string matcher', function (assert) {
     assert.throws(function () {
       deprecate('throw-strict', false, {
         since: '2.0.0',
@@ -89,7 +92,7 @@ module('workflow config', function (hooks) {
     }, 'deprecation throws');
   });
 
-  test('deprecation logs with id matcher', (assert) => {
+  test('deprecation logs with id matcher and options', function (assert) {
     assert.expect(1);
 
     let message = 'arbitrary-unmatched-message';
@@ -111,7 +114,7 @@ module('workflow config', function (hooks) {
     deprecate(message, false, options);
   });
 
-  test('deprecation limits each id to 100 console.logs', (assert) => {
+  test('deprecation limits each id to 100 console.logs', function (assert) {
     assert.expect(104);
     let limit = 100;
 
@@ -129,6 +132,7 @@ module('workflow config', function (hooks) {
     window.Testem.handleConsoleMessage = function (passedMessage) {
       count++;
       if (count <= limit) {
+        // eslint-disable-next-line qunit/no-conditional-assertions
         assert.equal(
           passedMessage.substr(0, expected.length),
           expected,
