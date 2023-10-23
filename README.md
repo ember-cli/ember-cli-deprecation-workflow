@@ -40,10 +40,14 @@ addressing a single deprecation at a time, and prevents backsliding
 The initial steps needed to get started:
 
 1. Install the ember-cli-deprecation-workflow addon (`ember install ember-cli-deprecation-workflow`).
-2. Run your test suite\* with `ember test --server`.
-3. Navigate to your tests (default: http://localhost:7357/)
-4. Run `deprecationWorkflow.flushDeprecations()` from your browsers console.
-5. Copy the string output into `config/deprecation-workflow.js` in your project.
+3. Run your test suite\* with `ember test --server`.
+4. Navigate to your tests (default: http://localhost:7357/)
+5. Run `deprecationWorkflow.flushDeprecations()` from your browsers console.
+6. Copy the string output into `app/deprecation-workflow.js` in your project.
+7. In your `app/app.js`, do: 
+    ```js
+    import './deprecation-workflow';
+    ```
 
 Once this initial setup is completed the "deprecation spew" should be largely
 "fixed". Only unhandled deprecations will be displayed in your console.

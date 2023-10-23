@@ -1,6 +1,6 @@
-/* globals self */
-self.deprecationWorkflow = self.deprecationWorkflow || {};
-self.deprecationWorkflow.config = {
+import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
+
+setupDeprecationWorkflow({
   throwOnUnhandled: true,
   workflow: [
     /*
@@ -26,4 +26,4 @@ self.deprecationWorkflow.config = {
 
     { matchMessage: 'throw-strict', handler: 'throw' },
   ],
-};
+});
