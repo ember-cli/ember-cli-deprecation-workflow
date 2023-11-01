@@ -1,3 +1,10 @@
+## v2.2.0 (2023-11-01)
+
+* Introduce a dependency on ember-string to improve out of the box
+  compatibiliy with Ember 4.12
+* Refactor to adopt newer versions of dev dependencies.
+
+
 ## v2.0.0 (2021-07-04)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-deprecation-workflow",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Provides a much needed workflow to managing deprecations.",
   "keywords": [
     "ember-addon"
@@ -27,7 +27,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
-    "@ember/string":"^3.0.0",
+    "@ember/string": "^3.0.0",
     "broccoli-funnel": "^3.0.3",
     "broccoli-merge-trees": "^4.2.0",
     "broccoli-plugin": "^4.0.5"
