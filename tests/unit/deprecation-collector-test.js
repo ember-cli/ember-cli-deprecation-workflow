@@ -23,7 +23,7 @@ module('deprecation collector', function (hooks) {
     console.warn = originalWarn;
   });
 
-  test('calling flushDeprecations returns string of deprecations', (assert) => {
+  test('calling flushDeprecations returns string of deprecations', function (assert) {
     deprecate('First deprecation', false, {
       id: 'first',
       since: 'the beginning',
@@ -136,7 +136,7 @@ self.deprecationWorkflow.config = {
     assert.ok(true, 'does not die when throwOnUnhandled is false');
   });
 
-  test('deprecation silenced with string matcher', (assert) => {
+  test('deprecation silenced with string matcher', function (assert) {
     self.deprecationWorkflow.config = {
       workflow: [{ matchMessage: 'Interesting', handler: 'silence' }],
     };
@@ -149,13 +149,14 @@ self.deprecationWorkflow.config = {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  test('deprecation logs with string matcher', (assert) => {
+  test('deprecation logs with string matcher', function (assert) {
     assert.expect(1);
 
     let message = 'Interesting';
     console.warn = function (passedMessage) {
-      assert.ok(
-        passedMessage.indexOf('DEPRECATION: ' + message) === 0,
+      assert.strictEqual(
+        passedMessage.indexOf('DEPRECATION: ' + message),
+        0,
         'deprecation logs'
       );
     };
@@ -170,7 +171,7 @@ self.deprecationWorkflow.config = {
     });
   });
 
-  test('deprecation thrown with string matcher', (assert) => {
+  test('deprecation thrown with string matcher', function (assert) {
     self.deprecationWorkflow.config = {
       workflow: [{ matchMessage: 'Interesting', handler: 'throw' }],
     };
@@ -184,7 +185,7 @@ self.deprecationWorkflow.config = {
     }, 'deprecation throws');
   });
 
-  test('deprecation silenced with regex matcher', (assert) => {
+  test('deprecation silenced with regex matcher', function (assert) {
     self.deprecationWorkflow.config = {
       workflow: [{ matchMessage: /Inter/, handler: 'silence' }],
     };
@@ -197,7 +198,7 @@ self.deprecationWorkflow.config = {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  test('deprecation logs with regex matcher', (assert) => {
+  test('deprecation logs with regex matcher', function (assert) {
     assert.expect(1);
 
     let message = 'Interesting';
@@ -219,7 +220,7 @@ self.deprecationWorkflow.config = {
     });
   });
 
-  test('deprecation thrown with regex matcher', (assert) => {
+  test('deprecation thrown with regex matcher', function (assert) {
     self.deprecationWorkflow.config = {
       workflow: [{ matchMessage: /Inter/, handler: 'throw' }],
     };
@@ -233,7 +234,7 @@ self.deprecationWorkflow.config = {
     }, 'deprecation throws');
   });
 
-  test('deprecation thrown with string matcher', (assert) => {
+  test('deprecation thrown with string matcher with parens', function (assert) {
     let message =
       'Some string that includes ().  If treated like a regexp this will not match.';
 
@@ -251,7 +252,7 @@ self.deprecationWorkflow.config = {
     }, 'deprecation throws');
   });
 
-  test('deprecation silenced with id matcher', (assert) => {
+  test('deprecation silenced with id matcher', function (assert) {
     self.deprecationWorkflow.config = {
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'silence' }],
     };
@@ -264,7 +265,7 @@ self.deprecationWorkflow.config = {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  test('deprecation logs with id matcher', (assert) => {
+  test('deprecation logs with id matcher', function (assert) {
     assert.expect(1);
 
     let message = 'Slightly interesting';
@@ -286,7 +287,7 @@ self.deprecationWorkflow.config = {
     });
   });
 
-  test('deprecation thrown with id matcher', (assert) => {
+  test('deprecation thrown with id matcher', function (assert) {
     self.deprecationWorkflow.config = {
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'throw' }],
     };
