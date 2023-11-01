@@ -27,6 +27,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@ember/string":"^3.0.0",
     "broccoli-funnel": "^3.0.3",
     "broccoli-merge-trees": "^4.2.0",
     "broccoli-plugin": "^4.0.5"

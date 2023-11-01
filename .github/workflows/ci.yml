@@ -150,13 +150,11 @@ jobs:
             ember-lts-3.28,
             ember-lts-4.4,
             ember-lts-4.8,
+            ember-lts-4.12,
             ember-3.28-with-jquery,
             ember-3.28-classic,
           ]
         allow-failure: [false]
-        include:
-          - ember-try-scenario: ember-canary
-            allow-failure: true
 
     steps:
       - uses: actions/checkout@v2
