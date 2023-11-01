@@ -25,7 +25,7 @@ addressing a single deprecation at a time, and prevents backsliding
 
 2.x
 
-- Ember.js 2.12 or above
+- Ember.js 2.12 until at least 4.8
 - Ember CLI 3.16 or above
 - Node.js 12 and 14 or above
 
