@@ -3,144 +3,64 @@ name: CI
 on:
   push:
     branches:
+      - main
       - master
-  pull_request:
+  pull_request: {}
 
-env:
-  NODE_VERSION: '14.x'
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '${{ env.NODE_VERSION }}'
-
-      - name: Get package manager's global cache path
-        id: global-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache package manager's global cache and node_modules
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ${{ steps.global-cache-dir-path.outputs.dir }}
-            node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-${{
-            hashFiles('**/yarn.lock'
-            ) }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-        if: |
-          steps.cache-dependencies.outputs.cache-hit != 'true'
-
-      - name: Lint
-        run: yarn lint
-
   test:
-    name: Tests
-    runs-on: ${{ matrix.os }}
-    needs: lint
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        browser: [chrome]
+    name: "Tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '${{ env.NODE_VERSION }}'
-
-      - name: Get package manager's global cache path
-        id: global-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache package manager's global cache and node_modules
-        id: cache-dependencies
-        uses: actions/cache@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Volta
+        uses: volta-cli/action@v4
+      - name: Node Modules Cache
+        id: cache-npm
+        uses: actions/cache@v3
         with:
           path: |
-            ${{ steps.global-cache-dir-path.outputs.dir }}
-            node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-${{
-            hashFiles('**/yarn.lock'
-            ) }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-
-
+            .npm
+            node_modules/
+          key: ci-npm-${{ hashFiles('package-lock.json') }}
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-        if: |
-          steps.cache-dependencies.outputs.cache-hit != 'true'
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm ci --cache .npm
+      - name: Lint
+        run: npm run lint
+      - name: Run Tests
+        run: . bin/restore-env.sh && node_modules/.bin/ember test
 
-      - name: Test
-        run: yarn test:ember --launch ${{ matrix.browser }}
-
-  floating-dependencies:
-    name: Floating Dependencies
-    runs-on: ${{ matrix.os }}
-    needs: lint
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        browser: [chrome]
+  floating:
+    name: "Floating Dependencies"
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '${{ env.NODE_VERSION }}'
-
-      - name: Get package manager's global cache path
-        id: global-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache package manager's global cache and node_modules
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ${{ steps.global-cache-dir-path.outputs.dir }}
-            node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-floating-deps
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-
-
+      - uses: actions/checkout@v3
+      - name: Use Volta
+        uses: volta-cli/action@v4
       - name: Install Dependencies
-        run: yarn install --no-lockfile --non-interactive
-
-      - name: Test
-        run: yarn test:ember --launch ${{ matrix.browser }}
+        run: npm i --cache .npm
+      - name: Run Tests
+        run: CI=true node_modules/.bin/ember test
 
   try-scenarios:
-    name: Tests - ${{ matrix.ember-try-scenario }}
+    name: ${{ matrix.try-scenario }}
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.allow-failure }}
-    needs: test
+    timeout-minutes: 8
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        ember-try-scenario:
+        try-scenario:
           [
             ember-lts-2.12,
             ember-lts-2.18,
@@ -154,40 +74,32 @@ jobs:
             ember-3.28-with-jquery,
             ember-3.28-classic,
           ]
-        allow-failure: [false]
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '${{ env.NODE_VERSION }}'
-
-      - name: Get package manager's global cache path
-        id: global-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache package manager's global cache and node_modules
-        id: cache-dependencies
-        uses: actions/cache@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Volta
+        uses: volta-cli/action@v4
+      - name: Stash package-lock.json for cache key
+        run: cp package-lock.json __cache-key
+      - name: Node Modules Cache
+        id: cache-npm
+        uses: actions/cache@v3
         with:
           path: |
-            ${{ steps.global-cache-dir-path.outputs.dir }}
-            node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-${{
-            hashFiles('**/yarn.lock'
-            ) }}
+            .npm
+            node_modules/
+            package.json
+            package-lock.json
+            __env
+          key: ci-npm-v3-${{ matrix.try-scenario }}-${{ hashFiles('config/ember-try.js', '__cache-key') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-
-
+            ci-npm-${{ hashFiles('package-lock.json') }}
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-        if: |
-          steps.cache-dependencies.outputs.cache-hit != 'true'
-
-      - name: Test
-        env:
-          EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
-        run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm ci --cache .npm
+      - name: Ember-Try Setup
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: node_modules/.bin/ember try:one ${{ matrix.try-scenario }} --skip-cleanup --- bin/stash-env.sh
+      - name: Run Tests
+        run: . bin/restore-env.sh && CI=true node_modules/.bin/ember test

@@ -6,7 +6,6 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 module.exports = async function () {
   let emberReleaseVersion = await getChannelURL('release');
   return {
-    useYarn: true,
     scenarios: [
       {
         name: 'ember-lts-2.12',

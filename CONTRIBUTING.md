@@ -4,12 +4,12 @@
 
 * `git clone https://github.com/mixonic/ember-cli-deprecation-workflow.git`
 * `cd ember-cli-deprecation-workflow`
-* `yarn install`
+* `npm install`
 
 ## Linting
 
-* `yarn lint`
-* `yarn lint:fix`
+* `npm run lint`
+* `npm run lint:fix`
 
 ## Running tests
 
