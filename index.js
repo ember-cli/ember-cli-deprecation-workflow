@@ -25,7 +25,7 @@ module.exports = {
 
     if (this._shouldInclude()) {
       app.import(
-        'vendor/ember-cli-deprecation-workflow/deprecation-workflow.js'
+        'vendor/ember-cli-deprecation-workflow/deprecation-workflow.js',
       );
       app.import('vendor/ember-cli-deprecation-workflow/main.js');
     }
