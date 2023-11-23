@@ -1,4 +1,5 @@
-/* globals self */
+/* eslint-disable ember/new-module-imports, prettier/prettier */
+/* global require Ember */
 
 const LOG_LIMIT = 100;
 
