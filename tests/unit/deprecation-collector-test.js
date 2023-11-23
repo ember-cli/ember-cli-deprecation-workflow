@@ -37,7 +37,7 @@ module('deprecationCollector', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
     deprecationCollector(
       'Second deprecation',
@@ -47,7 +47,7 @@ module('deprecationCollector', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
 
     assert.deepEqual(self.deprecationWorkflow.deprecationLog.messages, {
@@ -71,7 +71,7 @@ module('deprecationCollector', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      next
+      next,
     );
   });
 
@@ -84,7 +84,7 @@ module('deprecationCollector', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
     deprecationCollector(
       'Second deprecation',
@@ -94,7 +94,7 @@ module('deprecationCollector', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
 
     // do it again
@@ -106,7 +106,7 @@ module('deprecationCollector', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
     deprecationCollector(
       'Second deprecation',
@@ -116,7 +116,7 @@ module('deprecationCollector', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
 
     assert.deepEqual(self.deprecationWorkflow.deprecationLog.messages, {

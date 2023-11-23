@@ -61,7 +61,7 @@ setupDeprecationWorkflow({
     { handler: "silence", matchId: "test" },
     { handler: "silence", matchId: "log-strict" }
   ]
-});`
+});`,
     );
   });
 });

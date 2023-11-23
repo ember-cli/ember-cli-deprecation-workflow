@@ -43,7 +43,7 @@ setupDeprecationWorkflow({
     { handler: "silence", matchId: "first" },
     { handler: "silence", matchId: "second" }
   ]
-});`
+});`,
     );
   });
 });

@@ -28,8 +28,6 @@ module('handleDeprecationWorkflow', function (hooks) {
   });
 
   test('specifying `throwOnUnhandled` as true raises', function (assert) {
-    assert.expect(2);
-
     const config = {
       throwOnUnhandled: true,
       workflow: [{ handler: 'silence', matchMessage: 'Sshhhhh!!' }],
@@ -46,11 +44,11 @@ module('handleDeprecationWorkflow', function (hooks) {
             id: 'foobar',
             for: 'testing',
           },
-          () => {}
+          () => {},
         );
       },
       /Foobarrrzzzz/,
-      'setting raiseOnUnhandled throws for unknown workflows'
+      'setting raiseOnUnhandled throws for unknown workflows',
     );
 
     handleDeprecationWorkflow(
@@ -62,14 +60,12 @@ module('handleDeprecationWorkflow', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
     assert.ok(true, 'did not throw when silenced');
   });
 
   test('specifying `throwOnUnhandled` as false does nothing', function (assert) {
-    assert.expect(1);
-
     const config = {
       throwOnUnhandled: false,
     };
@@ -83,7 +79,7 @@ module('handleDeprecationWorkflow', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
 
     assert.ok(true, 'does not die when throwOnUnhandled is false');
@@ -103,6 +99,7 @@ module('handleDeprecationWorkflow', function (hooks) {
     assert.ok(true, 'Deprecation did not raise');
   });
 
+  // eslint-disable-next-line qunit/require-expect
   test('deprecation logs with string matcher', function (assert) {
     assert.expect(1);
 
@@ -111,7 +108,7 @@ module('handleDeprecationWorkflow', function (hooks) {
       assert.strictEqual(
         passedMessage.indexOf('DEPRECATION: ' + message),
         0,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
 
@@ -128,7 +125,7 @@ module('handleDeprecationWorkflow', function (hooks) {
         id: 'interesting',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
   });
 
@@ -147,7 +144,7 @@ module('handleDeprecationWorkflow', function (hooks) {
           until: 'forever',
           for: 'testing',
         },
-        () => {}
+        () => {},
       );
     }, 'deprecation throws');
   });
@@ -166,22 +163,23 @@ module('handleDeprecationWorkflow', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
 
     assert.ok(true, 'Deprecation did not raise');
   });
 
+  // eslint-disable-next-line qunit/require-expect
   test('deprecation logs with regex matcher', function (assert) {
     assert.expect(1);
 
     let message = 'Interesting';
 
     console.warn = function (passedMessage) {
-      assert.equal(
+      assert.strictEqual(
         passedMessage,
         'DEPRECATION: ' + message,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
 
@@ -198,7 +196,7 @@ module('handleDeprecationWorkflow', function (hooks) {
         until: 'forever',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
   });
 
@@ -217,7 +215,7 @@ module('handleDeprecationWorkflow', function (hooks) {
           until: 'forever',
           for: 'testing',
         },
-        () => {}
+        () => {},
       );
     }, 'deprecation throws');
   });
@@ -240,7 +238,7 @@ module('handleDeprecationWorkflow', function (hooks) {
           until: 'forever',
           for: 'testing',
         },
-        () => {}
+        () => {},
       );
     }, 'deprecation throws');
   });
@@ -259,22 +257,23 @@ module('handleDeprecationWorkflow', function (hooks) {
         until: '3.0.0',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
 
     assert.ok(true, 'Deprecation did not raise');
   });
 
+  // eslint-disable-next-line qunit/require-expect
   test('deprecation logs with id matcher', function (assert) {
     assert.expect(1);
 
     let message = 'Slightly interesting';
 
     console.warn = function (passedMessage) {
-      assert.equal(
+      assert.strictEqual(
         passedMessage,
         'DEPRECATION: ' + message,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
 
@@ -291,7 +290,7 @@ module('handleDeprecationWorkflow', function (hooks) {
         until: '3.0.0',
         for: 'testing',
       },
-      () => {}
+      () => {},
     );
   });
 
@@ -309,7 +308,7 @@ module('handleDeprecationWorkflow', function (hooks) {
           until: '3.0.0',
           for: 'testing',
         },
-        () => {}
+        () => {},
       );
     }, 'deprecation throws');
   });

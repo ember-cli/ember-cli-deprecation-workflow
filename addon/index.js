@@ -9,7 +9,7 @@ export default function setupDeprecationWorkflow(config) {
   };
 
   registerDeprecationHandler((message, options, next) =>
-    handleDeprecationWorkflow(config, message, options, next)
+    handleDeprecationWorkflow(config, message, options, next),
   );
 
   registerDeprecationHandler(deprecationCollector);
@@ -87,7 +87,7 @@ export function handleDeprecationWorkflow(config, message, options, next) {
           console.warn('DEPRECATION: ' + message);
           if (count === LOG_LIMIT) {
             console.warn(
-              'To avoid console overflow, this deprecation will not be logged any more in this run.'
+              'To avoid console overflow, this deprecation will not be logged any more in this run.',
             );
           }
         }
