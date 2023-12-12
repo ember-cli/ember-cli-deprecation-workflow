@@ -1,3 +1,5 @@
+/* eslint-disable qunit/require-expect */
+
 import { deprecate } from '@ember/debug';
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
@@ -32,7 +34,7 @@ module('workflow config', function (hooks) {
       assert.strictEqual(
         passedMessage.indexOf('DEPRECATION: ' + message),
         0,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
     deprecate(message, false, {
@@ -51,7 +53,7 @@ module('workflow config', function (hooks) {
       assert.strictEqual(
         passedMessage.indexOf('DEPRECATION: ' + message),
         0,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
     deprecate(message, false, {
@@ -70,7 +72,7 @@ module('workflow config', function (hooks) {
       assert.strictEqual(
         passedMessage.indexOf('DEPRECATION: ' + message),
         0,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
     deprecate(message, false, {
@@ -105,10 +107,10 @@ module('workflow config', function (hooks) {
     };
     let expected = `DEPRECATION: ${message}`;
     window.Testem.handleConsoleMessage = function (passedMessage) {
-      assert.equal(
+      assert.strictEqual(
         passedMessage.substr(0, expected.length),
         expected,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
     deprecate(message, false, options);
@@ -133,17 +135,17 @@ module('workflow config', function (hooks) {
       count++;
       if (count <= limit) {
         // eslint-disable-next-line qunit/no-conditional-assertions
-        assert.equal(
+        assert.strictEqual(
           passedMessage.substr(0, expected.length),
           expected,
-          'deprecation logs'
+          'deprecation logs',
         );
       }
       if (count === limit) {
         window.Testem.handleConsoleMessage = function (passedMessage) {
-          assert.equal(
+          assert.strictEqual(
             passedMessage,
-            'To avoid console overflow, this deprecation will not be logged any more in this run.'
+            'To avoid console overflow, this deprecation will not be logged any more in this run.',
           );
         };
       }
@@ -154,7 +156,11 @@ module('workflow config', function (hooks) {
       deprecate(message, false, options);
     }
 
-    assert.equal(count, limit, 'logged 100 times, including final notice');
+    assert.strictEqual(
+      count,
+      limit,
+      'logged 100 times, including final notice',
+    );
 
     let secondMessage = 'log-strict';
     let secondId = 'second-and-unique-to-limit-test';
@@ -169,10 +175,10 @@ module('workflow config', function (hooks) {
     let secondCount = 0;
     window.Testem.handleConsoleMessage = function (passedMessage) {
       secondCount++;
-      assert.equal(
+      assert.strictEqual(
         passedMessage.substr(0, secondExpected.length),
         secondExpected,
-        'second deprecation logs'
+        'second deprecation logs',
       );
       window.Testem.handleConsoleMessage = function () {
         assert.ok(false, 'No further logging expected');
@@ -181,6 +187,6 @@ module('workflow config', function (hooks) {
 
     deprecate(secondMessage, false, secondOptions);
 
-    assert.equal(secondCount, 1, 'logged deprecation with different id');
+    assert.strictEqual(secondCount, 1, 'logged deprecation with different id');
   });
 });

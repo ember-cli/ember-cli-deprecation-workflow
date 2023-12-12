@@ -71,6 +71,9 @@ jobs:
             ember-lts-4.4,
             ember-lts-4.8,
             ember-lts-4.12,
+            ember-release,
+            ember-beta,
+            ember-canary,
             ember-3.28-with-jquery,
             ember-3.28-classic,
           ]

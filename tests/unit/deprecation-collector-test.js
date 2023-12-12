@@ -1,3 +1,4 @@
+/* eslint-disable qunit/require-expect */
 /* eslint no-console: 0 */
 
 import { deprecate } from '@ember/debug';
@@ -37,7 +38,7 @@ module('deprecation collector', function (hooks) {
       for: 'testing',
     });
     let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
-    assert.equal(
+    assert.strictEqual(
       deprecationsPayload,
       `self.deprecationWorkflow = self.deprecationWorkflow || {};
 self.deprecationWorkflow.config = {
@@ -45,7 +46,7 @@ self.deprecationWorkflow.config = {
     { handler: "silence", matchId: "first" },
     { handler: "silence", matchId: "second" }
   ]
-};`
+};`,
     );
   });
 
@@ -78,7 +79,7 @@ self.deprecationWorkflow.config = {
     });
 
     let deprecationsPayload = self.deprecationWorkflow.flushDeprecations();
-    assert.equal(
+    assert.strictEqual(
       deprecationsPayload,
       `self.deprecationWorkflow = self.deprecationWorkflow || {};
 self.deprecationWorkflow.config = {
@@ -86,7 +87,7 @@ self.deprecationWorkflow.config = {
     { handler: "silence", matchId: "first" },
     { handler: "silence", matchId: "second" }
   ]
-};`
+};`,
     );
   });
 
@@ -108,7 +109,7 @@ self.deprecationWorkflow.config = {
         });
       },
       /Foobarrrzzzz/,
-      'setting raiseOnUnhandled throws for unknown workflows'
+      'setting raiseOnUnhandled throws for unknown workflows',
     );
 
     deprecate('Sshhhhh!!', false, {
@@ -157,7 +158,7 @@ self.deprecationWorkflow.config = {
       assert.strictEqual(
         passedMessage.indexOf('DEPRECATION: ' + message),
         0,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
     self.deprecationWorkflow.config = {
@@ -203,10 +204,10 @@ self.deprecationWorkflow.config = {
 
     let message = 'Interesting';
     console.warn = function (passedMessage) {
-      assert.equal(
+      assert.strictEqual(
         passedMessage,
         'DEPRECATION: ' + message,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
     self.deprecationWorkflow.config = {
@@ -270,10 +271,10 @@ self.deprecationWorkflow.config = {
 
     let message = 'Slightly interesting';
     console.warn = function (passedMessage) {
-      assert.equal(
+      assert.strictEqual(
         passedMessage,
         'DEPRECATION: ' + message,
-        'deprecation logs'
+        'deprecation logs',
       );
     };
     self.deprecationWorkflow.config = {
@@ -318,14 +319,14 @@ self.deprecationWorkflow.config = {
         });
       },
       /Foobarrrzzzz/,
-      'setting raiseOnUnhandled throws for unknown workflows'
+      'setting raiseOnUnhandled throws for unknown workflows',
     );
 
     let result = self.deprecationWorkflow.flushDeprecations();
 
     assert.ok(
       /foobar/.exec(result),
-      'unhandled deprecation was added to the deprecationLog'
+      'unhandled deprecation was added to the deprecationLog',
     );
   });
 });
