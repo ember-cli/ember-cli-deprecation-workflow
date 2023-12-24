@@ -23,6 +23,12 @@ addressing a single deprecation at a time, and prevents backsliding
 
 ### Compatibility
 
+3.x
+
+- Ember.js 3.28 until at least 5.4
+- Ember CLI 4.12 or above
+- Node.js 16 or above
+
 2.x
 
 - Ember.js 2.12 until at least 4.12
