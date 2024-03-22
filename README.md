@@ -79,10 +79,10 @@ Now that the spew has settled down, you can process one deprecation at a time wh
 
 What does that individual deprecation workflow look like?
 
-1. Change one entry in `config/deprecation-workflow.js` from `silence` to `throw`.
+1. Change one entry in `app/deprecation-workflow.js` from `silence` to `throw`.
 2. Run your tests or use your application.
 3. Errors will be thrown for just that one deprecation, and you can track down the fixes needed in relative isolation of the rest of the deprecations.
-4. Once the deprecation has been dealt with, remove its entry from `config/deprecation-workflow.js`.
+4. Once the deprecation has been dealt with, remove its entry from `app/deprecation-workflow.js`.
 5. Lather and repeat.
 
 ### Handlers
@@ -122,7 +122,7 @@ If your app has disabled test files in development environment you can force ena
 
 To force all deprecations to throw (can be useful in larger teams to prevent
 accidental introduction of deprecations), update your
-`config/deprecation-workflow.js`:
+`app/deprecation-workflow.js`:
 
 ```javascript
 window.deprecationWorkflow.config = {
@@ -135,7 +135,7 @@ window.deprecationWorkflow.config = {
 By default, the console based deprecations that occur during template
 compilation are suppressed in favor of browser deprecations ran during the test
 suite. If you would prefer to still have the deprecations in the console, add
-the following to your `config/environment.js`:
+the following to your `app/environment.js`:
 
 ```javascript
 module.exports = function (env) {
