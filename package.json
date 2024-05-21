@@ -31,9 +31,6 @@
   "dependencies": {
     "@babel/core": "^7.23.2",
     "@ember/string": "^3.0.0",
-    "broccoli-funnel": "^3.0.3",
-    "broccoli-merge-trees": "^4.2.0",
-    "broccoli-plugin": "^4.0.5",
     "ember-cli-babel": "^8.2.0"
   },
   "devDependencies": {
