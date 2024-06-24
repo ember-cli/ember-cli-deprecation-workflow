@@ -117,9 +117,5 @@
       "release": true,
       "tokenRef": "GITHUB_AUTH"
     }
-  },
-  "volta": {
-    "node": "16.20.2",
-    "npm": "9.9.0"
   }
 }
