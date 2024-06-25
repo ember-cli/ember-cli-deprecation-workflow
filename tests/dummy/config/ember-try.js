@@ -6,15 +6,13 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 module.exports = async function () {
   let emberReleaseVersion = await getChannelURL('release');
   return {
+    usePnpm: true,
     scenarios: [
       {
         name: 'ember-lts-3.28',
         npm: {
           devDependencies: {
             'ember-source': '~3.28.0',
-            'ember-resolver': '8.1.0',
-            '@ember/test-helpers': '2.2.9',
-            'ember-qunit': '~5.0.0',
             'ember-cli': '^4.12.0',
           },
         },
@@ -24,10 +22,6 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': '~4.4.0',
-            'ember-resolver': '8.1.0',
-            '@ember/test-helpers': '2.2.9',
-            'ember-qunit': '~5.0.0',
-            'ember-cli': '^4.12.0',
           },
         },
       },
@@ -90,9 +84,6 @@ module.exports = async function () {
           devDependencies: {
             'ember-source': '~3.28.0',
             '@ember/jquery': '^2.0.0',
-            'ember-resolver': '8.1.0',
-            '@ember/test-helpers': '2.2.9',
-            'ember-qunit': '~5.0.0',
             'ember-cli': '^4.12.0',
           },
         },
@@ -109,9 +100,6 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': '~3.28.0',
-            'ember-resolver': '8.1.0',
-            '@ember/test-helpers': '2.2.9',
-            'ember-qunit': '~5.0.0',
             'ember-cli': '^4.12.0',
           },
           ember: {
