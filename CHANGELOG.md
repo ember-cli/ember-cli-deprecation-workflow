@@ -1,3 +1,5 @@
+# Changelog
+
 ## v2.2.0 (2023-11-01)
 
 * Introduce a dependency on ember-string to improve out of the box
