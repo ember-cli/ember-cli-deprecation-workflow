@@ -1,5 +1,36 @@
 # Changelog
 
+## Release (2024-06-25)
+
+ember-cli-deprecation-workflow 3.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-cli-deprecation-workflow`
+  * [#159](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/159) [BREAKING] Convert to a module. Drops support for Ember < 3.28, requires manual initialization ([@lolmaus](https://github.com/lolmaus))
+  * [#175](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/175) Node 16 is the minimum supported version ([@mixonic](https://github.com/mixonic))
+
+#### :bug: Bug Fix
+* `ember-cli-deprecation-workflow`
+  * [#181](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/181) Remove unused broccoli magic ([@simonihmig](https://github.com/simonihmig))
+
+#### :memo: Documentation
+* `ember-cli-deprecation-workflow`
+  * [#184](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/184) Update configuration paths in documentation ([@backspace](https://github.com/backspace))
+
+#### :house: Internal
+* `ember-cli-deprecation-workflow`
+  * [#189](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/189) start using release-plan ([@mansona](https://github.com/mansona))
+  * [#188](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/188) start using pnpm ([@mansona](https://github.com/mansona))
+  * [#178](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/178) Upgrade Ember CLI to 5.4 ([@lolmaus](https://github.com/lolmaus))
+  * [#170](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/170) Bump Node, swap to npm, update CI pipeline ([@mixonic](https://github.com/mixonic))
+
+#### Committers: 5
+- Andrey Mikhaylov (lolmaus) ([@lolmaus](https://github.com/lolmaus))
+- Buck Doyle ([@backspace](https://github.com/backspace))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Matthew Beale ([@mixonic](https://github.com/mixonic))
+- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))
+
 ## v2.2.0 (2023-11-01)
 
 * Introduce a dependency on ember-string to improve out of the box
