@@ -1,22 +1,10 @@
 {
   "solution": {
     "ember-cli-deprecation-workflow": {
-      "impact": "major",
-      "oldVersion": "2.2.0",
-      "newVersion": "3.0.0",
+      "impact": "patch",
+      "oldVersion": "3.0.0",
+      "newVersion": "3.0.1",
       "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :house: Internal"
@@ -25,5 +13,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-06-25)\n\nember-cli-deprecation-workflow 3.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-cli-deprecation-workflow`\n  * [#159](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/159) [BREAKING] Convert to a module. Drops support for Ember < 3.28, requires manual initialization ([@lolmaus](https://github.com/lolmaus))\n  * [#175](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/175) Node 16 is the minimum supported version ([@mixonic](https://github.com/mixonic))\n\n#### :bug: Bug Fix\n* `ember-cli-deprecation-workflow`\n  * [#181](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/181) Remove unused broccoli magic ([@simonihmig](https://github.com/simonihmig))\n\n#### :memo: Documentation\n* `ember-cli-deprecation-workflow`\n  * [#184](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/184) Update configuration paths in documentation ([@backspace](https://github.com/backspace))\n\n#### :house: Internal\n* `ember-cli-deprecation-workflow`\n  * [#189](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/189) start using release-plan ([@mansona](https://github.com/mansona))\n  * [#188](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/188) start using pnpm ([@mansona](https://github.com/mansona))\n  * [#178](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/178) Upgrade Ember CLI to 5.4 ([@lolmaus](https://github.com/lolmaus))\n  * [#170](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/170) Bump Node, swap to npm, update CI pipeline ([@mixonic](https://github.com/mixonic))\n\n#### Committers: 5\n- Andrey Mikhaylov (lolmaus) ([@lolmaus](https://github.com/lolmaus))\n- Buck Doyle ([@backspace](https://github.com/backspace))\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Matthew Beale ([@mixonic](https://github.com/mixonic))\n- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))\n"
+  "description": "## Release (2024-07-11)\n\nember-cli-deprecation-workflow 3.0.1 (patch)\n\n#### :house: Internal\n* `ember-cli-deprecation-workflow`\n  * [#192](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/192) fix repository link in package.json ([@mansona](https://github.com/mansona))\n  * [#191](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/191) update release plan workflow ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
