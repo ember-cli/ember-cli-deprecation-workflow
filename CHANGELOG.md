@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2024-07-11)
+
+ember-cli-deprecation-workflow 3.0.1 (patch)
+
+#### :house: Internal
+* `ember-cli-deprecation-workflow`
+  * [#192](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/192) fix repository link in package.json ([@mansona](https://github.com/mansona))
+  * [#191](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/191) update release plan workflow ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2024-06-25)
 
 ember-cli-deprecation-workflow 3.0.0 (major)
