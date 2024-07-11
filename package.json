@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.23.2",
-    "@ember/string": "^3.0.0",
+    "@ember/string": "^4.0.0",
     "ember-cli-babel": "^8.2.0"
   },
   "devDependencies": {
