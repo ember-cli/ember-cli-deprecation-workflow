@@ -5,7 +5,7 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "https://github.com/mixonic/ember-cli-deprecation-workflow/",
+  "repository": "https://github.com/ember-cli/ember-cli-deprecation-workflow/",
   "license": "MIT",
   "author": "",
   "directories": {
