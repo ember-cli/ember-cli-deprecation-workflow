@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2024-08-21)
+
+ember-cli-deprecation-workflow 3.0.2 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli-deprecation-workflow`
+  * [#197](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/197) Remove @ember/string (it's unused) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-07-11)
 
 ember-cli-deprecation-workflow 3.0.1 (patch)
