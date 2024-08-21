@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.23.2",
-    "@ember/string": "^3.0.0",
     "ember-cli-babel": "^8.2.0"
   },
   "devDependencies": {
@@ -101,5 +100,10 @@
   "ember-addon": {
     "configPath": "tests/dummy/config",
     "after": "ember-cli-htmlbars"
+  },
+  "packageManager": "pnpm@8.15.9",
+  "volta": {
+    "node": "16.20.2",
+    "pnpm": "8.15.9"
   }
 }
