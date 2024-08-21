@@ -2,16 +2,16 @@
   "solution": {
     "ember-cli-deprecation-workflow": {
       "impact": "patch",
-      "oldVersion": "3.0.0",
-      "newVersion": "3.0.1",
+      "oldVersion": "3.0.1",
+      "newVersion": "3.0.2",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-07-11)\n\nember-cli-deprecation-workflow 3.0.1 (patch)\n\n#### :house: Internal\n* `ember-cli-deprecation-workflow`\n  * [#192](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/192) fix repository link in package.json ([@mansona](https://github.com/mansona))\n  * [#191](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/191) update release plan workflow ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-08-21)\n\nember-cli-deprecation-workflow 3.0.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli-deprecation-workflow`\n  * [#197](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/197) Remove @ember/string (it's unused) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
