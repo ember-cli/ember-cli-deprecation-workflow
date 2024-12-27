@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2024-12-27)
+
+ember-cli-deprecation-workflow 3.1.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli-deprecation-workflow`
+  * [#200](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/200) Add TypeScript declaration file ([@bertdeblock](https://github.com/bertdeblock))
+
+#### Committers: 1
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+
 ## Release (2024-08-21)
 
 ember-cli-deprecation-workflow 3.0.2 (patch)
