@@ -1,17 +1,17 @@
 {
   "solution": {
     "ember-cli-deprecation-workflow": {
-      "impact": "patch",
-      "oldVersion": "3.0.1",
-      "newVersion": "3.0.2",
+      "impact": "minor",
+      "oldVersion": "3.0.2",
+      "newVersion": "3.1.0",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-08-21)\n\nember-cli-deprecation-workflow 3.0.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli-deprecation-workflow`\n  * [#197](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/197) Remove @ember/string (it's unused) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-12-27)\n\nember-cli-deprecation-workflow 3.1.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli-deprecation-workflow`\n  * [#200](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/200) Add TypeScript declaration file ([@bertdeblock](https://github.com/bertdeblock))\n\n#### Committers: 1\n- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))\n"
 }
