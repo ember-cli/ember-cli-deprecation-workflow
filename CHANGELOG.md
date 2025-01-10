@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2024-12-27)
 
 ember-cli-deprecation-workflow 3.1.0 (minor)
