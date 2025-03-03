@@ -87,6 +87,7 @@ module('handleDeprecationWorkflow', function (hooks) {
 
   test('deprecation silenced with string matcher', function (assert) {
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: 'Interesting', handler: 'silence' }],
     };
 
@@ -113,6 +114,7 @@ module('handleDeprecationWorkflow', function (hooks) {
     };
 
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: message, handler: 'log' }],
     };
 
@@ -151,6 +153,7 @@ module('handleDeprecationWorkflow', function (hooks) {
 
   test('deprecation silenced with regex matcher', function (assert) {
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: /Inter/, handler: 'silence' }],
     };
 
@@ -184,6 +187,7 @@ module('handleDeprecationWorkflow', function (hooks) {
     };
 
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: /Inter/, handler: 'log' }],
     };
 
@@ -245,6 +249,7 @@ module('handleDeprecationWorkflow', function (hooks) {
 
   test('deprecation silenced with id matcher', function (assert) {
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'silence' }],
     };
 
@@ -278,6 +283,7 @@ module('handleDeprecationWorkflow', function (hooks) {
     };
 
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'log' }],
     };
 
