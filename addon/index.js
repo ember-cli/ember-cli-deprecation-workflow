@@ -37,11 +37,12 @@ export function detectWorkflow(config, message, options) {
     matcher = workflow.matchMessage;
     idMatcher = workflow.matchId;
 
-    if (typeof idMatcher === 'string' && options && idMatcher === options.id) {
-      return workflow;
-    } else if (typeof matcher === 'string' && matcher === message) {
-      return workflow;
-    } else if (matcher instanceof RegExp && matcher.exec(message)) {
+    if (
+      (typeof idMatcher === 'string' && options && idMatcher === options.id) ||
+      (idMatcher instanceof RegExp && idMatcher.exec(options.id)) ||
+      (typeof matcher === 'string' && matcher === message) ||
+      (matcher instanceof RegExp && matcher.exec(message))
+    ) {
       return workflow;
     }
   }

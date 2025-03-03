@@ -318,4 +318,76 @@ module('handleDeprecationWorkflow', function (hooks) {
       );
     }, 'deprecation throws');
   });
+
+  test('deprecation silenced with id regex', function (assert) {
+    const config = {
+      throwOnUnhandled: true,
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Slightly interesting',
+      {
+        id: 'ember.deprecation-workflow',
+        since: 'the beginning',
+        until: '3.0.0',
+        for: 'testing',
+      },
+      () => {},
+    );
+
+    assert.ok(true, 'Deprecation did not raise');
+  });
+
+  // eslint-disable-next-line qunit/require-expect
+  test('deprecation logs with id regex', function (assert) {
+    assert.expect(1);
+
+    let message = 'Slightly interesting';
+
+    console.warn = function (passedMessage) {
+      assert.strictEqual(
+        passedMessage,
+        'DEPRECATION: ' + message,
+        'deprecation logs',
+      );
+    };
+
+    const config = {
+      throwOnUnhandled: true,
+      workflow: [{ matchId: /^ember\..*/, handler: 'log' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Slightly interesting',
+      {
+        id: 'ember.deprecation-workflow',
+        since: 'the beginning',
+        until: '3.0.0',
+        for: 'testing',
+      },
+      () => {},
+    );
+  });
+
+  test('deprecation thrown with id regex', function (assert) {
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'throw' }],
+    };
+    assert.throws(function () {
+      handleDeprecationWorkflow(
+        config,
+        'Slightly interesting',
+        {
+          id: 'ember.deprecation-workflow',
+          since: 'the beginning',
+          until: '3.0.0',
+          for: 'testing',
+        },
+        () => {},
+      );
+    }, 'deprecation throws');
+  });
 });
