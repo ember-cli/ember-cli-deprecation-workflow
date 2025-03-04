@@ -51,8 +51,10 @@ export function flushDeprecations() {
   let messages = self.deprecationWorkflow.deprecationLog.messages;
   let logs = [];
 
-  for (let message in messages) {
-    logs.push(messages[message]);
+  for (let [deprecation, matcher] of Object.entries(messages)) {
+    logs.push(
+      `    { handler: "silence", ${matcher}: ${JSON.stringify(deprecation)} }`,
+    );
   }
 
   let deprecations = logs.join(',\n') + '\n';
@@ -107,8 +109,7 @@ export function deprecationCollector(message, options, next) {
   let key = (options && options.id) || message;
   let matchKey = options && key === options.id ? 'matchId' : 'matchMessage';
 
-  self.deprecationWorkflow.deprecationLog.messages[key] =
-    '    { handler: "silence", ' + matchKey + ': ' + JSON.stringify(key) + ' }';
+  self.deprecationWorkflow.deprecationLog.messages[key] = matchKey;
 
   next(message, options);
 }

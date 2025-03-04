@@ -51,8 +51,8 @@ module('deprecationCollector', function (hooks) {
     );
 
     assert.deepEqual(self.deprecationWorkflow.deprecationLog.messages, {
-      first: '    { handler: "silence", matchId: "first" }',
-      second: '    { handler: "silence", matchId: "second" }',
+      first: 'matchId',
+      second: 'matchId',
     });
   });
 
@@ -120,8 +120,8 @@ module('deprecationCollector', function (hooks) {
     );
 
     assert.deepEqual(self.deprecationWorkflow.deprecationLog.messages, {
-      first: '    { handler: "silence", matchId: "first" }',
-      second: '    { handler: "silence", matchId: "second" }',
+      first: 'matchId',
+      second: 'matchId',
     });
   });
 });

@@ -29,8 +29,8 @@ module('flushDeprecations', function (hooks) {
 
   test('calling flushDeprecations returns string of deprecations', function (assert) {
     self.deprecationWorkflow.deprecationLog.messages = {
-      first: '    { handler: "silence", matchId: "first" }',
-      second: '    { handler: "silence", matchId: "second" }',
+      first: 'matchId',
+      second: 'matchId',
     };
 
     let deprecationsPayload = flushDeprecations();
