@@ -60,7 +60,7 @@ addressing a single deprecation at a time, and prevents backsliding
 
 4. Run your test suite\* with `ember test --server`.
 5. Navigate to your tests (default: http://localhost:7357/)
-6. Run `deprecationWorkflow.flushDeprecations()` in your browsers console.
+6. Run `deprecationWorkflow.flushDeprecations()` in your browsers console. Or `flushDeprecations({ handler: 'log' })` if you want a different [handler](#handlers) than the default of `silence`.
 7. Copy the string output and overwrite the content of `app/deprecation-workflow.js`.
 
     In Chrome, use right click → "Copy string contents" to avoid escape characters.
