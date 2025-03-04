@@ -47,13 +47,15 @@ export function detectWorkflow(config, message, options) {
   }
 }
 
-export function flushDeprecations() {
+export function flushDeprecations({ handler = 'silence' } = {}) {
   let messages = self.deprecationWorkflow.deprecationLog.messages;
   let logs = [];
 
   for (let [deprecation, matcher] of Object.entries(messages)) {
     logs.push(
-      `    { handler: "silence", ${matcher}: ${JSON.stringify(deprecation)} }`,
+      `    { handler: ${JSON.stringify(handler)}, ${matcher}: ${JSON.stringify(
+        deprecation,
+      )} }`,
     );
   }
 

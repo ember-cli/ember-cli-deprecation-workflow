@@ -27,7 +27,7 @@ module('flushDeprecations', function (hooks) {
     console.warn = originalWarn;
   });
 
-  test('calling flushDeprecations returns string of deprecations', function (assert) {
+  test('calling flushDeprecations returns workflow config', function (assert) {
     self.deprecationWorkflow.deprecationLog.messages = {
       first: 'matchId',
       second: 'matchId',
@@ -42,6 +42,26 @@ setupDeprecationWorkflow({
   workflow: [
     { handler: "silence", matchId: "first" },
     { handler: "silence", matchId: "second" }
+  ]
+});`,
+    );
+  });
+
+  test('calling flushDeprecations with custom handler returns workflow config', function (assert) {
+    self.deprecationWorkflow.deprecationLog.messages = {
+      first: 'matchId',
+      second: 'matchId',
+    };
+
+    let deprecationsPayload = flushDeprecations({ handler: 'log' });
+    assert.strictEqual(
+      deprecationsPayload,
+      `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
+
+setupDeprecationWorkflow({
+  workflow: [
+    { handler: "log", matchId: "first" },
+    { handler: "log", matchId: "second" }
   ]
 });`,
     );
