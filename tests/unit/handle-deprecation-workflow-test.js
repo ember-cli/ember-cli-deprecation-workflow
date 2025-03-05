@@ -87,6 +87,7 @@ module('handleDeprecationWorkflow', function (hooks) {
 
   test('deprecation silenced with string matcher', function (assert) {
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: 'Interesting', handler: 'silence' }],
     };
 
@@ -113,6 +114,7 @@ module('handleDeprecationWorkflow', function (hooks) {
     };
 
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: message, handler: 'log' }],
     };
 
@@ -151,6 +153,7 @@ module('handleDeprecationWorkflow', function (hooks) {
 
   test('deprecation silenced with regex matcher', function (assert) {
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: /Inter/, handler: 'silence' }],
     };
 
@@ -184,6 +187,7 @@ module('handleDeprecationWorkflow', function (hooks) {
     };
 
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchMessage: /Inter/, handler: 'log' }],
     };
 
@@ -245,6 +249,7 @@ module('handleDeprecationWorkflow', function (hooks) {
 
   test('deprecation silenced with id matcher', function (assert) {
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'silence' }],
     };
 
@@ -278,6 +283,7 @@ module('handleDeprecationWorkflow', function (hooks) {
     };
 
     const config = {
+      throwOnUnhandled: true,
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'log' }],
     };
 
@@ -297,6 +303,78 @@ module('handleDeprecationWorkflow', function (hooks) {
   test('deprecation thrown with id matcher', function (assert) {
     const config = {
       workflow: [{ matchId: 'ember.deprecation-workflow', handler: 'throw' }],
+    };
+    assert.throws(function () {
+      handleDeprecationWorkflow(
+        config,
+        'Slightly interesting',
+        {
+          id: 'ember.deprecation-workflow',
+          since: 'the beginning',
+          until: '3.0.0',
+          for: 'testing',
+        },
+        () => {},
+      );
+    }, 'deprecation throws');
+  });
+
+  test('deprecation silenced with id regex', function (assert) {
+    const config = {
+      throwOnUnhandled: true,
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Slightly interesting',
+      {
+        id: 'ember.deprecation-workflow',
+        since: 'the beginning',
+        until: '3.0.0',
+        for: 'testing',
+      },
+      () => {},
+    );
+
+    assert.ok(true, 'Deprecation did not raise');
+  });
+
+  // eslint-disable-next-line qunit/require-expect
+  test('deprecation logs with id regex', function (assert) {
+    assert.expect(1);
+
+    let message = 'Slightly interesting';
+
+    console.warn = function (passedMessage) {
+      assert.strictEqual(
+        passedMessage,
+        'DEPRECATION: ' + message,
+        'deprecation logs',
+      );
+    };
+
+    const config = {
+      throwOnUnhandled: true,
+      workflow: [{ matchId: /^ember\..*/, handler: 'log' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Slightly interesting',
+      {
+        id: 'ember.deprecation-workflow',
+        since: 'the beginning',
+        until: '3.0.0',
+        for: 'testing',
+      },
+      () => {},
+    );
+  });
+
+  test('deprecation thrown with id regex', function (assert) {
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'throw' }],
     };
     assert.throws(function () {
       handleDeprecationWorkflow(

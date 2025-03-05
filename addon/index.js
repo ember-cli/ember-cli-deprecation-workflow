@@ -26,6 +26,13 @@ setupDeprecationWorkflow({
 let postamble = `  ]
 });`;
 
+function matchesWorkflow(matcher, value) {
+  return (
+    (typeof matcher === 'string' && matcher === value) ||
+    (matcher instanceof RegExp && matcher.exec(value))
+  );
+}
+
 export function detectWorkflow(config, message, options) {
   if (!config || !config.workflow) {
     return;
@@ -37,11 +44,10 @@ export function detectWorkflow(config, message, options) {
     matcher = workflow.matchMessage;
     idMatcher = workflow.matchId;
 
-    if (typeof idMatcher === 'string' && options && idMatcher === options.id) {
-      return workflow;
-    } else if (typeof matcher === 'string' && matcher === message) {
-      return workflow;
-    } else if (matcher instanceof RegExp && matcher.exec(message)) {
+    if (
+      matchesWorkflow(idMatcher, options?.id) ||
+      matchesWorkflow(matcher, message)
+    ) {
       return workflow;
     }
   }
