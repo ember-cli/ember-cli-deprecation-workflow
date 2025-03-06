@@ -5,7 +5,7 @@ const LOG_LIMIT = 100;
 export default function setupDeprecationWorkflow(config) {
   self.deprecationWorkflow = self.deprecationWorkflow || {};
   self.deprecationWorkflow.deprecationLog = {
-    messages: {},
+    messages: new Set(),
   };
 
   registerDeprecationHandler((message, options, next) =>
@@ -53,12 +53,16 @@ export function detectWorkflow(config, message, options) {
   }
 }
 
-export function flushDeprecations() {
+export function flushDeprecations({ handler = 'silence' } = {}) {
   let messages = self.deprecationWorkflow.deprecationLog.messages;
   let logs = [];
 
-  for (let message in messages) {
-    logs.push(messages[message]);
+  for (let id of messages.values()) {
+    logs.push(
+      `    { handler: ${JSON.stringify(handler)}, matchId: ${JSON.stringify(
+        id,
+      )} }`,
+    );
   }
 
   let deprecations = logs.join(',\n') + '\n';
@@ -110,11 +114,7 @@ export function handleDeprecationWorkflow(config, message, options, next) {
 }
 
 export function deprecationCollector(message, options, next) {
-  let key = (options && options.id) || message;
-  let matchKey = options && key === options.id ? 'matchId' : 'matchMessage';
-
-  self.deprecationWorkflow.deprecationLog.messages[key] =
-    '    { handler: "silence", ' + matchKey + ': ' + JSON.stringify(key) + ' }';
+  self.deprecationWorkflow.deprecationLog.messages.add(options.id);
 
   next(message, options);
 }

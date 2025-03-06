@@ -17,7 +17,7 @@ module('deprecationCollector', function (hooks) {
     originalConfig = self.deprecationWorkflow = {
       config: null,
       deprecationLog: {
-        messages: {},
+        messages: new Set(),
       },
     };
   });
@@ -50,10 +50,10 @@ module('deprecationCollector', function (hooks) {
       () => {},
     );
 
-    assert.deepEqual(self.deprecationWorkflow.deprecationLog.messages, {
-      first: '    { handler: "silence", matchId: "first" }',
-      second: '    { handler: "silence", matchId: "second" }',
-    });
+    assert.deepEqual(
+      self.deprecationWorkflow.deprecationLog.messages,
+      new Set(['first', 'second']),
+    );
   });
 
   test('should call next', function (assert) {
@@ -119,9 +119,9 @@ module('deprecationCollector', function (hooks) {
       () => {},
     );
 
-    assert.deepEqual(self.deprecationWorkflow.deprecationLog.messages, {
-      first: '    { handler: "silence", matchId: "first" }',
-      second: '    { handler: "silence", matchId: "second" }',
-    });
+    assert.deepEqual(
+      self.deprecationWorkflow.deprecationLog.messages,
+      new Set(['first', 'second']),
+    );
   });
 });

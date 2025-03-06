@@ -12,7 +12,7 @@ module('workflow config', function (hooks) {
   });
 
   hooks.afterEach(function () {
-    window.deprecationWorkflow.deprecationLog = { messages: {} };
+    window.deprecationWorkflow.deprecationLog = { messages: new Set() };
     window.Testem.handleConsoleMessage = originalWarn;
   });
 
