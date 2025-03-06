@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2025-03-06)
+
+ember-cli-deprecation-workflow 3.2.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli-deprecation-workflow`
+  * [#207](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/207) Allow passing a custom handler to flushDeprecations ([@simonihmig](https://github.com/simonihmig))
+  * [#206](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/206) Support RegExp for matchId ([@simonihmig](https://github.com/simonihmig))
+
+#### Committers: 1
+- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))
+
 ## Release (2024-12-27)
 
 ember-cli-deprecation-workflow 3.1.0 (minor)
