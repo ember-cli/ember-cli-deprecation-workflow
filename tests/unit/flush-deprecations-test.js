@@ -16,22 +16,22 @@ module('flushDeprecations', function (hooks) {
     originalConfig = self.deprecationWorkflow = {
       config: null,
       deprecationLog: {
-        messages: [],
+        messages: new Set(),
       },
     };
   });
 
   hooks.afterEach(function () {
     self.deprecationWorkflow.config = originalConfig;
-    self.deprecationWorkflow.deprecationLog = { messages: {} };
+    self.deprecationWorkflow.deprecationLog = { messages: new Set() };
     console.warn = originalWarn;
   });
 
   test('calling flushDeprecations returns workflow config', function (assert) {
-    self.deprecationWorkflow.deprecationLog.messages = {
-      first: 'matchId',
-      second: 'matchId',
-    };
+    self.deprecationWorkflow.deprecationLog.messages = new Set([
+      'first',
+      'second',
+    ]);
 
     let deprecationsPayload = flushDeprecations();
     assert.strictEqual(
@@ -48,10 +48,10 @@ setupDeprecationWorkflow({
   });
 
   test('calling flushDeprecations with custom handler returns workflow config', function (assert) {
-    self.deprecationWorkflow.deprecationLog.messages = {
-      first: 'matchId',
-      second: 'matchId',
-    };
+    self.deprecationWorkflow.deprecationLog.messages = new Set([
+      'first',
+      'second',
+    ]);
 
     let deprecationsPayload = flushDeprecations({ handler: 'log' });
     assert.strictEqual(
