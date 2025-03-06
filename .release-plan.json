@@ -2,8 +2,8 @@
   "solution": {
     "ember-cli-deprecation-workflow": {
       "impact": "minor",
-      "oldVersion": "3.0.2",
-      "newVersion": "3.1.0",
+      "oldVersion": "3.1.0",
+      "newVersion": "3.2.0",
       "constraints": [
         {
           "impact": "minor",
@@ -13,5 +13,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-12-27)\n\nember-cli-deprecation-workflow 3.1.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli-deprecation-workflow`\n  * [#200](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/200) Add TypeScript declaration file ([@bertdeblock](https://github.com/bertdeblock))\n\n#### Committers: 1\n- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))\n"
+  "description": "## Release (2025-03-06)\n\nember-cli-deprecation-workflow 3.2.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli-deprecation-workflow`\n  * [#207](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/207) Allow passing a custom handler to flushDeprecations ([@simonihmig](https://github.com/simonihmig))\n  * [#206](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/206) Support RegExp for matchId ([@simonihmig](https://github.com/simonihmig))\n\n#### Committers: 1\n- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))\n"
 }
