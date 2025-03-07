@@ -1,6 +1,7 @@
 import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
 
-setupDeprecationWorkflow({
+// We export this here to be able to import from our own tests
+export const config = {
   throwOnUnhandled: true,
   workflow: [
     /*
@@ -26,4 +27,6 @@ setupDeprecationWorkflow({
 
     { matchMessage: 'throw-strict', handler: 'throw' },
   ],
-});
+};
+
+setupDeprecationWorkflow(config);

@@ -1,6 +1,7 @@
 import { deprecate } from '@ember/debug';
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
+import { config } from 'dummy/deprecation-workflow';
 
 let originalWarn;
 
@@ -56,12 +57,19 @@ module('flushDeprecations', function (hooks) {
       deprecationsPayload,
       `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
 
-setupDeprecationWorkflow({
-  workflow: [
-    { handler: "silence", matchId: "test" },
-    { handler: "silence", matchId: "log-strict" }
-  ]
-});`,
+setupDeprecationWorkflow(${JSON.stringify(
+        {
+          ...config,
+          workflow: [
+            ...config.workflow,
+            { handler: 'silence', matchId: 'test' },
+            // this one is already present in the existing config, so don't expect another entry, as we deduplicate
+            // { handler: 'silence', matchId: 'log-strict' },
+          ],
+        },
+        undefined,
+        2,
+      )});`,
     );
   });
 });
