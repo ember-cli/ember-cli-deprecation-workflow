@@ -2,6 +2,17 @@
 
 ## Release (2025-03-21)
 
+ember-cli-deprecation-workflow 3.3.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli-deprecation-workflow`
+  * [#209](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/209) flushDeprecations merges detected deprecations with existing config ([@simonihmig](https://github.com/simonihmig))
+
+#### Committers: 1
+- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))
+
+## Release (2025-03-21)
+
 ember-cli-deprecation-workflow 3.2.1 (patch)
 
 #### :bug: Bug Fix
