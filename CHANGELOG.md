@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2025-03-21)
+
+ember-cli-deprecation-workflow 3.2.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli-deprecation-workflow`
+  * [#212](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/212) Fix type declarations ([@simonihmig](https://github.com/simonihmig))
+  * [#210](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/210) Options are optional ([@ef4](https://github.com/ef4))
+
+#### Committers: 2
+- Edward Faulkner ([@ef4](https://github.com/ef4))
+- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))
+
 ## Release (2025-03-06)
 
 ember-cli-deprecation-workflow 3.2.0 (minor)
