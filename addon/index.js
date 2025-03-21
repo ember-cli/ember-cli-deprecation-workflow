@@ -14,17 +14,9 @@ export default function setupDeprecationWorkflow(config) {
 
   registerDeprecationHandler(deprecationCollector);
 
-  self.deprecationWorkflow.flushDeprecations = flushDeprecations;
+  self.deprecationWorkflow.flushDeprecations = (options) =>
+    flushDeprecations({ config, ...options });
 }
-
-let preamble = `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
-
-setupDeprecationWorkflow({
-  workflow: [
-`;
-
-let postamble = `  ]
-});`;
 
 function matchesWorkflow(matcher, value) {
   return (
@@ -53,21 +45,25 @@ export function detectWorkflow(config, message, options) {
   }
 }
 
-export function flushDeprecations({ handler = 'silence' } = {}) {
+export function flushDeprecations({ handler = 'silence', config = {} } = {}) {
   let messages = self.deprecationWorkflow.deprecationLog.messages;
-  let logs = [];
+  let existing = config.workflow ?? [];
+  let collected = messages
+    .values()
+    .filter((matchId) => !existing.some((entry) => entry.matchId === matchId))
+    .map((matchId) => ({
+      handler,
+      matchId,
+    }));
 
-  for (let id of messages.values()) {
-    logs.push(
-      `    { handler: ${JSON.stringify(handler)}, matchId: ${JSON.stringify(
-        id,
-      )} }`,
-    );
-  }
+  let mergedConfig = {
+    ...config,
+    workflow: [...existing, ...collected],
+  };
 
-  let deprecations = logs.join(',\n') + '\n';
+  return `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
 
-  return preamble + deprecations + postamble;
+setupDeprecationWorkflow(${JSON.stringify(mergedConfig, undefined, 2)});`;
 }
 
 export function handleDeprecationWorkflow(config, message, options, next) {

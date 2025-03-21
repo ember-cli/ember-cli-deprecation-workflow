@@ -34,16 +34,18 @@ module('flushDeprecations', function (hooks) {
     ]);
 
     let deprecationsPayload = flushDeprecations();
+    let expectedConfig = {
+      workflow: [
+        { handler: 'silence', matchId: 'first' },
+        { handler: 'silence', matchId: 'second' },
+      ],
+    };
+
     assert.strictEqual(
       deprecationsPayload,
       `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
 
-setupDeprecationWorkflow({
-  workflow: [
-    { handler: "silence", matchId: "first" },
-    { handler: "silence", matchId: "second" }
-  ]
-});`,
+setupDeprecationWorkflow(${JSON.stringify(expectedConfig, undefined, 2)});`,
     );
   });
 
@@ -54,16 +56,89 @@ setupDeprecationWorkflow({
     ]);
 
     let deprecationsPayload = flushDeprecations({ handler: 'log' });
+    let expectedConfig = {
+      workflow: [
+        { handler: 'log', matchId: 'first' },
+        { handler: 'log', matchId: 'second' },
+      ],
+    };
+
     assert.strictEqual(
       deprecationsPayload,
       `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
 
-setupDeprecationWorkflow({
-  workflow: [
-    { handler: "log", matchId: "first" },
-    { handler: "log", matchId: "second" }
-  ]
-});`,
+setupDeprecationWorkflow(${JSON.stringify(expectedConfig, undefined, 2)});`,
+    );
+  });
+
+  test('calling flushDeprecations with existing config and no deprecations returns original config', function (assert) {
+    let config = {
+      throwOnUnhandled: true,
+      workflow: [{ handler: 'log', matchId: 'existing' }],
+    };
+    self.deprecationWorkflow.deprecationLog.messages = new Set([]);
+
+    let deprecationsPayload = flushDeprecations({ config });
+    assert.strictEqual(
+      deprecationsPayload,
+      `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
+
+setupDeprecationWorkflow(${JSON.stringify(config, undefined, 2)});`,
+    );
+  });
+
+  test('calling flushDeprecations with existing config returns augmented config', function (assert) {
+    let config = {
+      throwOnUnhandled: true,
+      workflow: [{ handler: 'log', matchId: 'existing' }],
+    };
+    self.deprecationWorkflow.deprecationLog.messages = new Set([
+      'first',
+      'second',
+    ]);
+
+    let deprecationsPayload = flushDeprecations({ config });
+    let expectedConfig = {
+      throwOnUnhandled: true,
+      workflow: [
+        { handler: 'log', matchId: 'existing' },
+        { handler: 'silence', matchId: 'first' },
+        { handler: 'silence', matchId: 'second' },
+      ],
+    };
+    assert.strictEqual(
+      deprecationsPayload,
+      `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
+
+setupDeprecationWorkflow(${JSON.stringify(expectedConfig, undefined, 2)});`,
+    );
+  });
+
+  test('calling flushDeprecations with existing config does not override existing deprecations', function (assert) {
+    let config = {
+      throwOnUnhandled: true,
+      workflow: [{ handler: 'log', matchId: 'existing' }],
+    };
+    self.deprecationWorkflow.deprecationLog.messages = new Set([
+      'first',
+      'second',
+      'existing',
+    ]);
+
+    let deprecationsPayload = flushDeprecations({ config });
+    let expectedConfig = {
+      throwOnUnhandled: true,
+      workflow: [
+        { handler: 'log', matchId: 'existing' },
+        { handler: 'silence', matchId: 'first' },
+        { handler: 'silence', matchId: 'second' },
+      ],
+    };
+    assert.strictEqual(
+      deprecationsPayload,
+      `import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
+
+setupDeprecationWorkflow(${JSON.stringify(expectedConfig, undefined, 2)});`,
     );
   });
 });
