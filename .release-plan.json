@@ -1,17 +1,17 @@
 {
   "solution": {
     "ember-cli-deprecation-workflow": {
-      "impact": "minor",
-      "oldVersion": "3.1.0",
-      "newVersion": "3.2.0",
+      "impact": "patch",
+      "oldVersion": "3.2.0",
+      "newVersion": "3.2.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-03-06)\n\nember-cli-deprecation-workflow 3.2.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli-deprecation-workflow`\n  * [#207](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/207) Allow passing a custom handler to flushDeprecations ([@simonihmig](https://github.com/simonihmig))\n  * [#206](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/206) Support RegExp for matchId ([@simonihmig](https://github.com/simonihmig))\n\n#### Committers: 1\n- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))\n"
+  "description": "## Release (2025-03-21)\n\nember-cli-deprecation-workflow 3.2.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli-deprecation-workflow`\n  * [#212](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/212) Fix type declarations ([@simonihmig](https://github.com/simonihmig))\n  * [#210](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/210) Options are optional ([@ef4](https://github.com/ef4))\n\n#### Committers: 2\n- Edward Faulkner ([@ef4](https://github.com/ef4))\n- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))\n"
 }
