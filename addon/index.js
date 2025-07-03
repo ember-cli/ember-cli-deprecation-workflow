@@ -101,7 +101,7 @@ export function handleDeprecationWorkflow(config, message, options, next) {
         break;
       }
       case 'throw':
-        throw new Error(message);
+        throw new Error(message + ` (id: ${options?.id || 'unknown'})`);
       default:
         next(message, options);
         break;
