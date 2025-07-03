@@ -2,16 +2,24 @@
   "solution": {
     "ember-cli-deprecation-workflow": {
       "impact": "minor",
-      "oldVersion": "3.2.1",
-      "newVersion": "3.3.0",
+      "oldVersion": "3.3.0",
+      "newVersion": "3.4.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-03-21)\n\nember-cli-deprecation-workflow 3.3.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli-deprecation-workflow`\n  * [#209](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/209) flushDeprecations merges detected deprecations with existing config ([@simonihmig](https://github.com/simonihmig))\n\n#### Committers: 1\n- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))\n"
+  "description": "## Release (2025-07-03)\n\nember-cli-deprecation-workflow 3.4.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli-deprecation-workflow`\n  * [#217](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/217) Throw Deprecation ID ([@jrjohnson](https://github.com/jrjohnson))\n\n#### :bug: Bug Fix\n* `ember-cli-deprecation-workflow`\n  * [#215](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/215) Relax ember-source peerDependency for 3.28 support ([@apellerano-pw](https://github.com/apellerano-pw))\n\n#### :house: Internal\n* `ember-cli-deprecation-workflow`\n  * [#219](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/219) fix CI for Ember 6.x ([@mansona](https://github.com/mansona))\n\n#### Committers: 3\n- Andrew Pellerano ([@apellerano-pw](https://github.com/apellerano-pw))\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Jon Johnson ([@jrjohnson](https://github.com/jrjohnson))\n"
 }

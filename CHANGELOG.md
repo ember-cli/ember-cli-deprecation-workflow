@@ -1,5 +1,26 @@
 # Changelog
 
+## Release (2025-07-03)
+
+ember-cli-deprecation-workflow 3.4.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli-deprecation-workflow`
+  * [#217](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/217) Throw Deprecation ID ([@jrjohnson](https://github.com/jrjohnson))
+
+#### :bug: Bug Fix
+* `ember-cli-deprecation-workflow`
+  * [#215](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/215) Relax ember-source peerDependency for 3.28 support ([@apellerano-pw](https://github.com/apellerano-pw))
+
+#### :house: Internal
+* `ember-cli-deprecation-workflow`
+  * [#219](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/219) fix CI for Ember 6.x ([@mansona](https://github.com/mansona))
+
+#### Committers: 3
+- Andrew Pellerano ([@apellerano-pw](https://github.com/apellerano-pw))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Jon Johnson ([@jrjohnson](https://github.com/jrjohnson))
+
 ## Release (2025-03-21)
 
 ember-cli-deprecation-workflow 3.3.0 (minor)
