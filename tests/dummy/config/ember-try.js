@@ -11,17 +11,31 @@ module.exports = async function () {
       {
         name: 'ember-lts-3.28',
         npm: {
+          // this needs to be in dependencies because @embroider/macros dependencySatisfies
+          // can only look at dependencies and not dev dependencies
+          dependencies: {
+            'ember-qunit': '~8.0.0',
+          },
           devDependencies: {
             'ember-source': '~3.28.0',
             'ember-cli': '^4.12.0',
+            '@ember/test-helpers': '^3.0.0',
+            '@ember/test-waiters': '^3.0.0',
           },
         },
       },
       {
         name: 'ember-lts-4.4',
         npm: {
+          // this needs to be in dependencies because @embroider/macros dependencySatisfies
+          // can only look at dependencies and not dev dependencies
+          dependencies: {
+            'ember-qunit': '~8.0.0',
+          },
           devDependencies: {
             'ember-source': '~4.4.0',
+            '@ember/test-helpers': '^3.0.0',
+            '@ember/test-waiters': '^3.0.0',
           },
         },
       },
@@ -81,10 +95,17 @@ module.exports = async function () {
           }),
         },
         npm: {
+          // this needs to be in dependencies because @embroider/macros dependencySatisfies
+          // can only look at dependencies and not dev dependencies
+          dependencies: {
+            'ember-qunit': '~8.0.0',
+          },
           devDependencies: {
             'ember-source': '~3.28.0',
             '@ember/jquery': '^2.0.0',
             'ember-cli': '^4.12.0',
+            '@ember/test-helpers': '^3.0.0',
+            '@ember/test-waiters': '^3.0.0',
           },
         },
       },
@@ -98,9 +119,16 @@ module.exports = async function () {
           }),
         },
         npm: {
+          // this needs to be in dependencies because @embroider/macros dependencySatisfies
+          // can only look at dependencies and not dev dependencies
+          dependencies: {
+            'ember-qunit': '~8.0.0',
+          },
           devDependencies: {
             'ember-source': '~3.28.0',
             'ember-cli': '^4.12.0',
+            '@ember/test-helpers': '^3.0.0',
+            '@ember/test-waiters': '^3.0.0',
           },
           ember: {
             edition: 'classic',
