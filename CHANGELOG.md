@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-07-11)
+
+ember-cli-deprecation-workflow 3.4.1 (patch)
+
+#### :house: Internal
+* `ember-cli-deprecation-workflow`
+  * [#220](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/220) chore: Test latest LTS versions ([@TSenter](https://github.com/TSenter))
+
+#### Committers: 1
+- Tyler Senter ([@TSenter](https://github.com/TSenter))
+
 ## Release (2025-07-03)
 
 ember-cli-deprecation-workflow 3.4.0 (minor)
