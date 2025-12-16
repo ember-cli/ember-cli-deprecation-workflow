@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -37,7 +37,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -50,8 +50,7 @@ jobs:
       # For the Try Scenarios
       - id: set-matrix
         run: |
-           echo "matrix=$(pnpm -s dlx @embroider/try list)" >> $GITHUB_OUTPUT
-          
+          echo "matrix=$(pnpm -s dlx @embroider/try list)" >> $GITHUB_OUTPUT
 
   floating:
     name: "Floating Dependencies"
@@ -59,7 +58,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -80,7 +79,7 @@ jobs:
       matrix: ${{fromJson(needs.test.outputs.matrix)}}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -88,12 +87,12 @@ jobs:
           cache: pnpm
       - name: Apply Scenario
         run: |
-           pnpm dlx @embroider/try apply ${{ matrix.name }}
-          
+          pnpm dlx @embroider/try apply ${{ matrix.name }}
+
       - name: Install Dependencies
         run: pnpm install --no-lockfile
       - name: Run Tests
         run: |
           pnpm test
-          
+
         env: ${{ matrix.env }}
