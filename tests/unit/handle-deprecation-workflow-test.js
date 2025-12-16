@@ -2,7 +2,7 @@
 
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
-import { handleDeprecationWorkflow } from 'ember-cli-deprecation-workflow';
+import { handleDeprecationWorkflow } from '#src/index.js';
 
 let originalWarn, originalConfig;
 
