@@ -26,17 +26,17 @@ const compatDeps = {
 function compatLTS(version) {
   return {
     name: `ember-lts-${version}`,
-      npm: {
-        devDependencies: {
-          'ember-source': `~${version}`,
-          ...compatDeps,
-        },
+    npm: {
+      devDependencies: {
+        'ember-source': `~${version}`,
+        ...compatDeps,
       },
-      env: {
-        ENABLE_COMPAT_BUILD: true,
-      },
-      files: compatFiles,
-  }
+    },
+    env: {
+      ENABLE_COMPAT_BUILD: true,
+    },
+    files: compatFiles,
+  };
 }
 
 export default {

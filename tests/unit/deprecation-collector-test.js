@@ -1,4 +1,3 @@
-/* eslint-disable qunit/require-expect */
 /* eslint no-console: 0 */
 
 import { module } from 'qunit';

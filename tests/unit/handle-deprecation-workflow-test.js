@@ -100,7 +100,6 @@ module('handleDeprecationWorkflow', function (hooks) {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  // eslint-disable-next-line qunit/require-expect
   test('deprecation logs with string matcher', function (assert) {
     assert.expect(1);
 
@@ -172,7 +171,6 @@ module('handleDeprecationWorkflow', function (hooks) {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  // eslint-disable-next-line qunit/require-expect
   test('deprecation logs with regex matcher', function (assert) {
     assert.expect(1);
 
@@ -268,7 +266,6 @@ module('handleDeprecationWorkflow', function (hooks) {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  // eslint-disable-next-line qunit/require-expect
   test('deprecation logs with id matcher', function (assert) {
     assert.expect(1);
 
@@ -340,7 +337,6 @@ module('handleDeprecationWorkflow', function (hooks) {
     assert.ok(true, 'Deprecation did not raise');
   });
 
-  // eslint-disable-next-line qunit/require-expect
   test('deprecation logs with id regex', function (assert) {
     assert.expect(1);
 
