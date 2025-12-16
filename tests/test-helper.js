@@ -1,6 +1,5 @@
 import EmberApp from 'ember-strict-application-resolver';
 import EmberRouter from '@ember/routing/router';
-import { dependencySatisfies } from '@embroider/macros';
 import * as QUnit from 'qunit';
 import { setApplication } from '@ember/test-helpers';
 import { setup } from 'qunit-dom';
