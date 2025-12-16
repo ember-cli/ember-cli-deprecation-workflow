@@ -23,34 +23,31 @@ const compatDeps = {
   '@ember/optional-features': '^2.2.0',
 };
 
+function compatLTS(version) {
+  return {
+    name: `ember-lts-${version}`,
+      npm: {
+        devDependencies: {
+          'ember-source': `~${version}`,
+          ...compatDeps,
+        },
+      },
+      env: {
+        ENABLE_COMPAT_BUILD: true,
+      },
+      files: compatFiles,
+  }
+}
+
 export default {
   scenarios: [
-    {
-      name: 'ember-lts-5.8',
-      npm: {
-        devDependencies: {
-          'ember-source': '~5.8.0',
-          ...compatDeps,
-        },
-      },
-      env: {
-        ENABLE_COMPAT_BUILD: true,
-      },
-      files: compatFiles,
-    },
-    {
-      name: 'ember-lts-5.12',
-      npm: {
-        devDependencies: {
-          'ember-source': '~5.12.0',
-          ...compatDeps,
-        },
-      },
-      env: {
-        ENABLE_COMPAT_BUILD: true,
-      },
-      files: compatFiles,
-    },
+    compatLTS('3.28'),
+    compatLTS('4.4'),
+    compatLTS('4.8'),
+    compatLTS('4.12'),
+    compatLTS('5.4'),
+    compatLTS('5.8'),
+    compatLTS('5.12'),
     {
       name: 'ember-lts-6.4',
       npm: {
