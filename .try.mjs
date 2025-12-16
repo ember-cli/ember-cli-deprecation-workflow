@@ -23,13 +23,18 @@ const compatDeps = {
   '@ember/optional-features': '^2.2.0',
 };
 
-function compatLTS(version) {
+const ancientDeps = {
+  'ember-cli': '^4.12.0',
+};
+
+function compatLTS(version, options = {}) {
   return {
     name: `ember-lts-${version}`,
     npm: {
       devDependencies: {
         'ember-source': `~${version}`,
         ...compatDeps,
+        ...options?.deps,
       },
     },
     env: {
@@ -41,7 +46,7 @@ function compatLTS(version) {
 
 export default {
   scenarios: [
-    compatLTS('3.28'),
+    compatLTS('3.28', { deps: ancientDeps }),
     compatLTS('4.4'),
     compatLTS('4.8'),
     compatLTS('4.12'),
