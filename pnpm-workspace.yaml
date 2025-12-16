@@ -1,3 +1,6 @@
+packages:
+  - "."
+
 # Docs: https://pnpm.io/settings
 # https://github.com/emberjs/rfcs/pull/907
 
