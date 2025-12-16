@@ -103,9 +103,9 @@
     "type": "addon",
     "main": "addon-main.cjs"
   },
-  "packageManager": "pnpm@8.15.9",
+  "packageManager": "pnpm@10.26.0",
   "volta": {
-    "node": "16.20.2",
-    "pnpm": "8.15.9"
+    "node": "22",
+    "pnpm": "10.26.0"
   }
 }
