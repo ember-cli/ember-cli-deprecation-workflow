@@ -23,6 +23,11 @@ addressing a single deprecation at a time, and prevents backsliding
 
 ### Compatibility
 
+4.x
+
+- Ember.js 3.28 until at least 6.10
+- ember-auto-import, or embroider with webpack and vite
+
 3.x
 
 - Ember.js 3.28 until at least 5.4
@@ -128,40 +133,6 @@ accidental introduction of deprecations), update your
 window.deprecationWorkflow.config = {
   throwOnUnhandled: true,
 };
-```
-
-### Template Deprecations
-
-By default, the console based deprecations that occur during template
-compilation are suppressed in favor of browser deprecations ran during the test
-suite. If you would prefer to still have the deprecations in the console, add
-the following to your `app/environment.js`:
-
-```javascript
-module.exports = function (env) {
-  var ENV = {};
-
-  // normal things here
-
-  ENV.logTemplateLintToConsole = true;
-};
-```
-
-### Configuration
-
-In some cases, it may be necessary to indicate a different `config` directory
-from the default one (`/config`). For example, you may want the flushed
-deprecations file to be referenced in a config directory like `my-config`.
-
-Adjust the `configPath` in your `package.json` file. The `/` will automatically
-be prefixed.
-
-```javascript
-{
-  'ember-addon': {
-    configPath: 'my-config'
-  }
-}
 ```
 
 ## Contributing
