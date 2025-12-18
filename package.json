@@ -75,12 +75,15 @@
     "prettier-plugin-ember-template-tag": "^2.0.4",
     "qunit": "^2.24.1",
     "qunit-dom": "^3.4.0",
+    "release-plan": "^0.17.0",
     "rollup": "^4.22.5",
     "testem": "^3.15.1",
     "vite": "^7.1.9"
   },
-  "ember": {
-    "edition": "octane"
+  "packageManager": "pnpm@10.26.0",
+  "volta": {
+    "node": "22",
+    "pnpm": "10.26.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -95,14 +98,12 @@
       "internal": ":house: Internal"
     }
   },
+  "ember": {
+    "edition": "octane"
+  },
   "ember-addon": {
     "version": 2,
     "type": "addon",
     "main": "addon-main.cjs"
-  },
-  "packageManager": "pnpm@10.26.0",
-  "volta": {
-    "node": "22",
-    "pnpm": "10.26.0"
   }
 }
