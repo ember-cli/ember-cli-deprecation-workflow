@@ -44,7 +44,6 @@
     "@ember/library-tsconfig": "^2.0.0",
     "@ember/test-helpers": "^5.2.1",
     "@ember/test-waiters": "^4.1.1",
-    "@embroider/addon-dev": "^8.1.0",
     "@embroider/compat": "^4.1.0",
     "@embroider/core": "^4.1.0",
     "@embroider/macros": "^1.18.0",
@@ -69,7 +68,6 @@
     "qunit": "^2.24.1",
     "qunit-dom": "^3.4.0",
     "release-plan": "^0.17.0",
-    "rollup": "^4.22.5",
     "testem": "^3.15.1",
     "vite": "^7.1.9"
   },
