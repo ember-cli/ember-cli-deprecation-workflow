@@ -13,29 +13,22 @@
   },
   "exports": {
     ".": {
-      "default": "./dist/index.js"
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
     },
-    "./addon-main.js": "./addon-main.cjs",
-    "./*.css": "./dist/*.css",
-    "./*": {
-      "default": "./dist/*.js"
-    }
+    "./addon-main.js": "./addon-main.cjs"
   },
   "files": [
     "addon-main.cjs",
-    "declarations",
-    "dist",
     "src"
   ],
   "scripts": {
-    "build": "rollup --config",
     "format": "prettier . --cache --write",
     "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
     "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
     "lint:format": "prettier . --cache --check",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
-    "prepack": "rollup --config",
     "start": "vite dev",
     "test": "vite build --mode=development --out-dir dist-tests && testem --file testem.cjs ci --port 0"
   },
