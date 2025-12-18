@@ -2,6 +2,22 @@
 
 ## Release (2025-12-18)
 
+* ember-cli-deprecation-workflow 4.0.1 (patch)
+
+#### :memo: Documentation
+* `ember-cli-deprecation-workflow`
+  * [#227](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/227) Adjust changelog wording ([@kategengler](https://github.com/kategengler))
+
+#### :house: Internal
+* `ember-cli-deprecation-workflow`
+  * [#224](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/224) Remove unneeded files and deps ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+## Release (2025-12-18)
+
 * ember-cli-deprecation-workflow 4.0.0 (major)
 
 #### :boom: Breaking Change
