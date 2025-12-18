@@ -1,7 +1,7 @@
 import { deprecate } from '@ember/debug';
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
-import { config } from 'dummy/deprecation-workflow';
+import { config } from '../deprecation-workflow';
 
 let originalWarn;
 

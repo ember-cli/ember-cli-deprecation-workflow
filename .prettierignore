@@ -3,11 +3,14 @@
 
 # compiled output
 /dist/
+/dist-*/
+/declarations/
 
 # misc
 /coverage/
-!.*
-.*/
-
-# ember-try
-/.node_modules.ember-try/
+pnpm-lock.yaml
+config/ember-cli-update.json
+*.yaml
+*.yml
+*.md
+*.html

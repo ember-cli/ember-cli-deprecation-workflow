@@ -1,5 +1,3 @@
-/* eslint-disable qunit/require-expect */
-
 import { deprecate } from '@ember/debug';
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
@@ -134,7 +132,6 @@ module('workflow config', function (hooks) {
     window.Testem.handleConsoleMessage = function (passedMessage) {
       count++;
       if (count <= limit) {
-        // eslint-disable-next-line qunit/no-conditional-assertions
         assert.strictEqual(
           passedMessage.substr(0, expected.length),
           expected,

@@ -1,4 +1,4 @@
-import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
+import setupDeprecationWorkflow from '#src/index.js';
 
 // We export this here to be able to import from our own tests
 export const config = {

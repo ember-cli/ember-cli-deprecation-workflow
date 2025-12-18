@@ -2,24 +2,27 @@
 
 ## Installation
 
-* `git clone https://github.com/mixonic/ember-cli-deprecation-workflow.git`
-* `cd ember-cli-deprecation-workflow`
-* `npm install`
+- `git clone <repository-url>`
+- `cd ember-cli-deprecation-workflow`
+- `pnpm install`
 
 ## Linting
 
-* `npm run lint`
-* `npm run lint:fix`
+- `pnpm lint`
+- `pnpm lint:fix`
+
+## Building the addon
+
+- `pnpm build`
 
 ## Running tests
 
-* `ember test` – Runs the test suite on the current Ember version
-* `ember test --server` – Runs the test suite in "watch mode"
-* `ember try:each` – Runs the test suite against multiple Ember versions
+- `pnpm test` – Runs the test suite on the current Ember version
+- `pnpm test:watch` – Runs the test suite in "watch mode"
 
-## Running the dummy application
+## Running the test application
 
-* `ember serve`
-* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
+- `pnpm start`
+- Visit the test application at [http://localhost:4200](http://localhost:4200).
 
 For more information on using ember-cli, visit [https://cli.emberjs.com/release/](https://cli.emberjs.com/release/).
