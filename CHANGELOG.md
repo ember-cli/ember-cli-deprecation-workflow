@@ -1,5 +1,22 @@
 # Changelog
 
+## Release (2025-12-18)
+
+* ember-cli-deprecation-workflow 4.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-cli-deprecation-workflow`
+  * [#222](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/222) Convert to v2 Addon - classic apps (using ember-cli for build) will want to remain on v3 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `ember-cli-deprecation-workflow`
+  * [#223](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/223) Update release plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#220](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/220) chore: Test latest LTS versions ([@TSenter](https://github.com/TSenter))
+
+#### Committers: 2
+- Tyler Senter ([@TSenter](https://github.com/TSenter))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-07-03)
 
 ember-cli-deprecation-workflow 3.4.0 (minor)
