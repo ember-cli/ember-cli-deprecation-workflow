@@ -6,7 +6,7 @@
 
 #### :boom: Breaking Change
 * `ember-cli-deprecation-workflow`
-  * [#222](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/222) Convert to v2 Addon - classic apps (using ember-cli for build) will want to remain on v3 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#222](https://github.com/ember-cli/ember-cli-deprecation-workflow/pull/222) Convert to v2 Addon - classic projects (not yet using embroider for builds) will want to remain on v3 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
 
 #### :house: Internal
 * `ember-cli-deprecation-workflow`
