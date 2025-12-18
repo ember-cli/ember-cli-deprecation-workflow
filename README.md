@@ -114,13 +114,19 @@ By default, production ember-cli builds already remove deprecation warnings. Any
 deprecations configured to `throw` or `log` will only do so in non-production
 builds.
 
-### Enable / Disable through configuration
+### Enable / Disable 
 
-If your app has disabled test files in development environment you can force enabling this addon through configuration in `ember-cli-build.js` instead:
-```javascript
-'ember-cli-deprecation-workflow': {
-  enabled: true,
-},
+inclusion of `ember-cli-deprecation-workflow` is controlled by imports, so if there is an environment that you wish to disable `ember-cli-deprecation-workflow` in, that can be controlled via `@embroider/macros` conditions
+
+```js
+// app.js
+import { macroCondition, isDevelopingApp, importSync } from '@embroider/macros';
+
+// Will only import your deprecation-workflow file while isDevelopingApp is true 
+// and will be stripped from your build if isDevelopingApp is false
+if (macroCondition(isDevelopingApp())) {
+  importSync('./deprecation-workflow.js'),
+}
 ```
 
 ### Catch-all
