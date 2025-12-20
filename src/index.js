@@ -3,8 +3,8 @@ import { registerDeprecationHandler } from '@ember/debug';
 const LOG_LIMIT = 100;
 
 export default function setupDeprecationWorkflow(config) {
-  self.deprecationWorkflow = self.deprecationWorkflow || {};
-  self.deprecationWorkflow.deprecationLog = {
+  globalThis.deprecationWorkflow = globalThis.deprecationWorkflow || {};
+  globalThis.deprecationWorkflow.deprecationLog = {
     messages: new Set(),
   };
 
@@ -14,7 +14,7 @@ export default function setupDeprecationWorkflow(config) {
 
   registerDeprecationHandler(deprecationCollector);
 
-  self.deprecationWorkflow.flushDeprecations = (options) =>
+  globalThis.deprecationWorkflow.flushDeprecations = (options) =>
     flushDeprecations({ config, ...options });
 }
 
@@ -46,7 +46,7 @@ export function detectWorkflow(config, message, options) {
 }
 
 export function flushDeprecations({ handler = 'silence', config = {} } = {}) {
-  let messages = self.deprecationWorkflow.deprecationLog.messages;
+  let messages = globalThis.deprecationWorkflow.deprecationLog.messages;
   let existing = config.workflow ?? [];
   let collected = messages
     .values()
@@ -82,12 +82,12 @@ export function handleDeprecationWorkflow(config, message, options, next) {
       case 'log': {
         let key = (options && options.id) || message;
 
-        if (!self.deprecationWorkflow.logCounts) {
-          self.deprecationWorkflow.logCounts = {};
+        if (!globalThis.deprecationWorkflow.logCounts) {
+          globalThis.deprecationWorkflow.logCounts = {};
         }
 
-        let count = self.deprecationWorkflow.logCounts[key] || 0;
-        self.deprecationWorkflow.logCounts[key] = ++count;
+        let count = globalThis.deprecationWorkflow.logCounts[key] || 0;
+        globalThis.deprecationWorkflow.logCounts[key] = ++count;
 
         if (count <= LOG_LIMIT) {
           console.warn('DEPRECATION: ' + message);
@@ -110,7 +110,7 @@ export function handleDeprecationWorkflow(config, message, options, next) {
 }
 
 export function deprecationCollector(message, options, next) {
-  self.deprecationWorkflow.deprecationLog.messages.add(options.id);
+  globalThis.deprecationWorkflow.deprecationLog.messages.add(options.id);
 
   next(message, options);
 }
