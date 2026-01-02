@@ -23,6 +23,11 @@ addressing a single deprecation at a time, and prevents backsliding
 
 ### Compatibility
 
+4.x
+
+- Ember.js 3.28 until at least 6.10
+- ember-auto-import, or embroider with webpack and vite
+
 3.x
 
 - Ember.js 3.28 until at least 5.4
@@ -55,7 +60,17 @@ addressing a single deprecation at a time, and prevents backsliding
 3. In your `app/app.js`, do: 
 
     ```js
-    import './deprecation-workflow';
+    import { macroCondition, isDevelopingApp, importSync } from '@embroider/macros';
+
+    // Will only import your deprecation-workflow file while isDevelopingApp is true 
+    // and will be stripped from your build if isDevelopingApp is false
+    //
+    // If you want to always include deprecation-workflow, 
+    // use:
+    //   import './deprecation-workflow.js';
+    if (macroCondition(isDevelopingApp())) {
+      importSync('./deprecation-workflow.js'),
+    }
     ```
 
 4. Run your test suite\* with `ember test --server`.
@@ -103,21 +118,6 @@ nice Json like JS object with all the deprecations in your app. The
 pass a string that must match the console message exactly or a `RegExp` for
 `ember-cli-deprecation-workflow` filter the log by.
 
-### Production builds
-
-By default, production ember-cli builds already remove deprecation warnings. Any
-deprecations configured to `throw` or `log` will only do so in non-production
-builds.
-
-### Enable / Disable through configuration
-
-If your app has disabled test files in development environment you can force enabling this addon through configuration in `ember-cli-build.js` instead:
-```javascript
-'ember-cli-deprecation-workflow': {
-  enabled: true,
-},
-```
-
 ### Catch-all
 
 To force all deprecations to throw (can be useful in larger teams to prevent
@@ -128,40 +128,6 @@ accidental introduction of deprecations), update your
 window.deprecationWorkflow.config = {
   throwOnUnhandled: true,
 };
-```
-
-### Template Deprecations
-
-By default, the console based deprecations that occur during template
-compilation are suppressed in favor of browser deprecations ran during the test
-suite. If you would prefer to still have the deprecations in the console, add
-the following to your `app/environment.js`:
-
-```javascript
-module.exports = function (env) {
-  var ENV = {};
-
-  // normal things here
-
-  ENV.logTemplateLintToConsole = true;
-};
-```
-
-### Configuration
-
-In some cases, it may be necessary to indicate a different `config` directory
-from the default one (`/config`). For example, you may want the flushed
-deprecations file to be referenced in a config directory like `my-config`.
-
-Adjust the `configPath` in your `package.json` file. The `/` will automatically
-be prefixed.
-
-```javascript
-{
-  'ember-addon': {
-    configPath: 'my-config'
-  }
-}
 ```
 
 ## Contributing
