@@ -60,7 +60,17 @@ addressing a single deprecation at a time, and prevents backsliding
 3. In your `app/app.js`, do: 
 
     ```js
-    import './deprecation-workflow';
+    import { macroCondition, isDevelopingApp, importSync } from '@embroider/macros';
+
+    // Will only import your deprecation-workflow file while isDevelopingApp is true 
+    // and will be stripped from your build if isDevelopingApp is false
+    //
+    // If you want to always include deprecation-workflow, 
+    // use:
+    //   import './deprecation-workflow.js';
+    if (macroCondition(isDevelopingApp())) {
+      importSync('./deprecation-workflow.js'),
+    }
     ```
 
 4. Run your test suite\* with `ember test --server`.
@@ -107,27 +117,6 @@ nice Json like JS object with all the deprecations in your app. The
 `matchMessage` property determines what to filter out of the console. You can
 pass a string that must match the console message exactly or a `RegExp` for
 `ember-cli-deprecation-workflow` filter the log by.
-
-### Production builds
-
-By default, production ember-cli builds already remove deprecation warnings. Any
-deprecations configured to `throw` or `log` will only do so in non-production
-builds.
-
-### Enable / Disable 
-
-inclusion of `ember-cli-deprecation-workflow` is controlled by imports, so if there is an environment that you wish to disable `ember-cli-deprecation-workflow` in, that can be controlled via `@embroider/macros` conditions
-
-```js
-// app.js
-import { macroCondition, isDevelopingApp, importSync } from '@embroider/macros';
-
-// Will only import your deprecation-workflow file while isDevelopingApp is true 
-// and will be stripped from your build if isDevelopingApp is false
-if (macroCondition(isDevelopingApp())) {
-  importSync('./deprecation-workflow.js'),
-}
-```
 
 ### Catch-all
 
