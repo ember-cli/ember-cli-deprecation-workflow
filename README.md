@@ -69,7 +69,7 @@ addressing a single deprecation at a time, and prevents backsliding
     // use:
     //   import './deprecation-workflow.js';
     if (macroCondition(isDevelopingApp())) {
-      importSync('./deprecation-workflow.js'),
+      importSync('./deprecation-workflow.js');
     }
     ```
 
