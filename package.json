@@ -73,7 +73,7 @@
   },
   "packageManager": "pnpm@10.26.0",
   "volta": {
-    "node": "22",
+    "node": "22.21.1",
     "pnpm": "10.26.0"
   },
   "publishConfig": {
