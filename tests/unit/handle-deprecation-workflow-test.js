@@ -386,4 +386,165 @@ module('handleDeprecationWorkflow', function (hooks) {
       );
     }, 'deprecation throws');
   });
+
+  test('pressing ember-source deprecation is tracked in pressingSilenced Set', function (assert) {
+    assert.expect(2);
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      {
+        id: 'ember.some-feature',
+        since: '6.0.0',
+        until: '7.0',
+        for: 'ember-source',
+      },
+      () => {},
+    );
+
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      1,
+      'pressing ember-source deprecation is added to the Set',
+    );
+    assert.ok(
+      self.deprecationWorkflow.pressingSilenced.has('ember.some-feature'),
+      'Set contains the deprecation id',
+    );
+  });
+
+  test('pressing ember-source deprecation is only counted once per unique id', function (assert) {
+    assert.expect(1);
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    const options = {
+      id: 'ember.some-feature',
+      since: '6.0.0',
+      until: '7.0',
+      for: 'ember-source',
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      options,
+      () => {},
+    );
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      options,
+      () => {},
+    );
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      options,
+      () => {},
+    );
+
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      1,
+      'Set contains only one entry after repeated firings of the same deprecation',
+    );
+  });
+
+  test('multiple distinct pressing ember-source deprecations are all tracked', function (assert) {
+    assert.expect(1);
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'First ember deprecation',
+      { id: 'ember.first', since: '6.0.0', until: '7.0', for: 'ember-source' },
+      () => {},
+    );
+
+    handleDeprecationWorkflow(
+      config,
+      'Second ember deprecation',
+      { id: 'ember.second', since: '6.0.0', until: '7.0', for: 'ember-source' },
+      () => {},
+    );
+
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      2,
+      'Set contains both deprecation ids',
+    );
+  });
+
+  test('deprecation silenced for ember-source with non-approaching until is not tracked', function (assert) {
+    assert.expect(1);
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: 'ember.far-future', handler: 'silence' }],
+    };
+
+    // 8.0 is not approaching from 6.11.0 (two major versions ahead)
+    handleDeprecationWorkflow(
+      config,
+      'Far future ember deprecation',
+      {
+        id: 'ember.far-future',
+        since: '6.0.0',
+        until: '8.0',
+        for: 'ember-source',
+      },
+      () => {},
+    );
+
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      0,
+      'non-approaching deprecation is not tracked',
+    );
+  });
+
+  test('deprecation silenced for non-ember-source is not tracked', function (assert) {
+    assert.expect(1);
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: 'some-addon.feature', handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Some addon deprecation',
+      {
+        id: 'some-addon.feature',
+        since: '1.0.0',
+        until: '7.0',
+        for: 'some-addon',
+      },
+      () => {},
+    );
+
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      0,
+      'non-ember-source deprecation is not tracked',
+    );
+  });
 });
