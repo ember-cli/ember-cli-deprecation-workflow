@@ -16,6 +16,18 @@ export default function setupDeprecationWorkflow(config) {
 
   self.deprecationWorkflow.flushDeprecations = (options) =>
     flushDeprecations({ config, ...options });
+
+  let silencedCount = 0;
+  for (let entry of config?.workflow ?? []) {
+    if (entry.handler === 'silence') {
+      silencedCount++;
+    }
+  }
+  if (silencedCount > 0) {
+    console.warn(
+      `Deprecation Workflow: ${silencedCount} deprecation(s) silenced.`,
+    );
+  }
 }
 
 function matchesWorkflow(matcher, value) {
