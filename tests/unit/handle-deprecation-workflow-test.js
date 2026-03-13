@@ -386,4 +386,188 @@ module('handleDeprecationWorkflow', function (hooks) {
       );
     }, 'deprecation throws');
   });
+
+  test('deprecation silenced for pressing ember-source deprecation logs count', function (assert) {
+    assert.expect(1);
+
+    let warnMessages = [];
+    console.warn = function (message) {
+      warnMessages.push(message);
+    };
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      {
+        id: 'ember.some-feature',
+        since: '6.0.0',
+        until: '7.0',
+        for: 'ember-source',
+      },
+      () => {},
+    );
+
+    assert.ok(
+      warnMessages.some((m) => m.includes('1 deprecation(s) silenced')),
+      'logs silenced count for pressing ember-source deprecation',
+    );
+  });
+
+  test('pressing ember-source deprecation is only counted once per unique id', function (assert) {
+    assert.expect(1);
+
+    let warnCount = 0;
+    console.warn = function () {
+      warnCount++;
+    };
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    const options = {
+      id: 'ember.some-feature',
+      since: '6.0.0',
+      until: '7.0',
+      for: 'ember-source',
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      options,
+      () => {},
+    );
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      options,
+      () => {},
+    );
+    handleDeprecationWorkflow(
+      config,
+      'Some ember deprecation',
+      options,
+      () => {},
+    );
+
+    assert.strictEqual(
+      warnCount,
+      1,
+      'warns only once per unique deprecation id',
+    );
+  });
+
+  test('multiple distinct pressing ember-source deprecations increment count', function (assert) {
+    assert.expect(2);
+
+    let warnMessages = [];
+    console.warn = function (message) {
+      warnMessages.push(message);
+    };
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: /^ember\..*/, handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'First ember deprecation',
+      { id: 'ember.first', since: '6.0.0', until: '7.0', for: 'ember-source' },
+      () => {},
+    );
+
+    handleDeprecationWorkflow(
+      config,
+      'Second ember deprecation',
+      { id: 'ember.second', since: '6.0.0', until: '7.0', for: 'ember-source' },
+      () => {},
+    );
+
+    assert.ok(
+      warnMessages.some((m) => m.includes('1 deprecation(s) silenced')),
+      'logs count 1 after first deprecation',
+    );
+    assert.ok(
+      warnMessages.some((m) => m.includes('2 deprecation(s) silenced')),
+      'logs count 2 after second deprecation',
+    );
+  });
+
+  test('deprecation silenced for ember-source with non-approaching until does not log', function (assert) {
+    assert.expect(1);
+
+    let warnMessages = [];
+    console.warn = function (message) {
+      warnMessages.push(message);
+    };
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: 'ember.far-future', handler: 'silence' }],
+    };
+
+    // 8.0 is not approaching from 6.11.0 (two major versions ahead)
+    handleDeprecationWorkflow(
+      config,
+      'Far future ember deprecation',
+      {
+        id: 'ember.far-future',
+        since: '6.0.0',
+        until: '8.0',
+        for: 'ember-source',
+      },
+      () => {},
+    );
+
+    assert.strictEqual(
+      warnMessages.length,
+      0,
+      'does not log when until is not approaching',
+    );
+  });
+
+  test('deprecation silenced for non-ember-source does not log', function (assert) {
+    assert.expect(1);
+
+    let warnMessages = [];
+    console.warn = function (message) {
+      warnMessages.push(message);
+    };
+
+    self.deprecationWorkflow.pressingSilenced = new Set();
+
+    const config = {
+      workflow: [{ matchId: 'some-addon.feature', handler: 'silence' }],
+    };
+
+    handleDeprecationWorkflow(
+      config,
+      'Some addon deprecation',
+      {
+        id: 'some-addon.feature',
+        since: '1.0.0',
+        until: '7.0',
+        for: 'some-addon',
+      },
+      () => {},
+    );
+
+    assert.strictEqual(
+      warnMessages.length,
+      0,
+      'does not log for non-ember-source deprecations',
+    );
+  });
 });

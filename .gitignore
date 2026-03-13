@@ -13,5 +13,6 @@ ember-cli-build.cjs
 
 # deps & caches
 node_modules/
+package-lock.json
 .eslintcache
 .prettiercache

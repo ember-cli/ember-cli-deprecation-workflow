@@ -16,7 +16,26 @@ module('setupDeprecationWorkflow', function (hooks) {
     console.warn = originalWarn;
   });
 
-  test('prints count of silenced deprecations when there are silenced entries', function (assert) {
+  test('initializes pressingSilenced as an empty Set', function (assert) {
+    setupDeprecationWorkflow({
+      workflow: [
+        { handler: 'silence', matchId: 'first' },
+        { handler: 'silence', matchId: 'second' },
+      ],
+    });
+
+    assert.ok(
+      self.deprecationWorkflow.pressingSilenced instanceof Set,
+      'pressingSilenced is a Set',
+    );
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      0,
+      'pressingSilenced starts empty',
+    );
+  });
+
+  test('does not log at setup time, even with silenced entries', function (assert) {
     assert.expect(1);
 
     let warnMessages = [];
@@ -32,46 +51,10 @@ module('setupDeprecationWorkflow', function (hooks) {
       ],
     });
 
-    assert.ok(
-      warnMessages.some((m) => m.includes('2 deprecation(s) silenced')),
-      'logs the number of silenced deprecations',
-    );
-  });
-
-  test('does not print silenced count when no entries are silenced', function (assert) {
-    assert.expect(1);
-
-    let warnMessages = [];
-    console.warn = function (message) {
-      warnMessages.push(message);
-    };
-
-    setupDeprecationWorkflow({
-      workflow: [
-        { handler: 'log', matchId: 'first' },
-        { handler: 'throw', matchId: 'second' },
-      ],
-    });
-
-    assert.notOk(
-      warnMessages.some((m) => m.includes('silenced')),
-      'does not log silenced count when no entries are silenced',
-    );
-  });
-
-  test('does not print silenced count when there is no workflow config', function (assert) {
-    assert.expect(1);
-
-    let warnMessages = [];
-    console.warn = function (message) {
-      warnMessages.push(message);
-    };
-
-    setupDeprecationWorkflow({});
-
-    assert.notOk(
-      warnMessages.some((m) => m.includes('silenced')),
-      'does not log silenced count when there is no workflow',
+    assert.strictEqual(
+      warnMessages.length,
+      0,
+      'no warnings are emitted at setup time',
     );
   });
 });
