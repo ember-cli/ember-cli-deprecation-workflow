@@ -1,3 +1,4 @@
+/* global QUnit */
 import { registerDeprecationHandler } from '@ember/debug';
 import { VERSION } from '@ember/version';
 
@@ -25,6 +26,16 @@ export default function setupDeprecationWorkflow(config) {
 
   self.deprecationWorkflow.flushDeprecations = (options) =>
     flushDeprecations({ config, ...options });
+
+  if (typeof QUnit !== 'undefined') {
+    let pressingSilenced = self.deprecationWorkflow.pressingSilenced;
+    QUnit.done(() => {
+      let count = pressingSilenced.size;
+      if (count > 0) {
+        console.warn(`Deprecation Workflow: ${count} deprecation(s) silenced.`);
+      }
+    });
+  }
 }
 
 export function isApproaching(until, currentVersion = VERSION) {
@@ -120,14 +131,8 @@ export function handleDeprecationWorkflow(config, message, options, next) {
           !isApproaching(options.until)
         )
           break;
-        let pressingSilenced = self.deprecationWorkflow.pressingSilenced;
         let key = options.id || message;
-        if (!pressingSilenced.has(key)) {
-          pressingSilenced.add(key);
-          console.warn(
-            `Deprecation Workflow: ${pressingSilenced.size} deprecation(s) silenced.`,
-          );
-        }
+        self.deprecationWorkflow.pressingSilenced.add(key);
         break;
       }
       case 'log': {

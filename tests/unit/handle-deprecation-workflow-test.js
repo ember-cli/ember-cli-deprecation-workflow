@@ -387,13 +387,8 @@ module('handleDeprecationWorkflow', function (hooks) {
     }, 'deprecation throws');
   });
 
-  test('deprecation silenced for pressing ember-source deprecation logs count', function (assert) {
-    assert.expect(1);
-
-    let warnMessages = [];
-    console.warn = function (message) {
-      warnMessages.push(message);
-    };
+  test('pressing ember-source deprecation is tracked in pressingSilenced Set', function (assert) {
+    assert.expect(2);
 
     self.deprecationWorkflow.pressingSilenced = new Set();
 
@@ -413,19 +408,19 @@ module('handleDeprecationWorkflow', function (hooks) {
       () => {},
     );
 
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      1,
+      'pressing ember-source deprecation is added to the Set',
+    );
     assert.ok(
-      warnMessages.some((m) => m.includes('1 deprecation(s) silenced')),
-      'logs silenced count for pressing ember-source deprecation',
+      self.deprecationWorkflow.pressingSilenced.has('ember.some-feature'),
+      'Set contains the deprecation id',
     );
   });
 
   test('pressing ember-source deprecation is only counted once per unique id', function (assert) {
     assert.expect(1);
-
-    let warnCount = 0;
-    console.warn = function () {
-      warnCount++;
-    };
 
     self.deprecationWorkflow.pressingSilenced = new Set();
 
@@ -460,19 +455,14 @@ module('handleDeprecationWorkflow', function (hooks) {
     );
 
     assert.strictEqual(
-      warnCount,
+      self.deprecationWorkflow.pressingSilenced.size,
       1,
-      'warns only once per unique deprecation id',
+      'Set contains only one entry after repeated firings of the same deprecation',
     );
   });
 
-  test('multiple distinct pressing ember-source deprecations increment count', function (assert) {
-    assert.expect(2);
-
-    let warnMessages = [];
-    console.warn = function (message) {
-      warnMessages.push(message);
-    };
+  test('multiple distinct pressing ember-source deprecations are all tracked', function (assert) {
+    assert.expect(1);
 
     self.deprecationWorkflow.pressingSilenced = new Set();
 
@@ -494,23 +484,15 @@ module('handleDeprecationWorkflow', function (hooks) {
       () => {},
     );
 
-    assert.ok(
-      warnMessages.some((m) => m.includes('1 deprecation(s) silenced')),
-      'logs count 1 after first deprecation',
-    );
-    assert.ok(
-      warnMessages.some((m) => m.includes('2 deprecation(s) silenced')),
-      'logs count 2 after second deprecation',
+    assert.strictEqual(
+      self.deprecationWorkflow.pressingSilenced.size,
+      2,
+      'Set contains both deprecation ids',
     );
   });
 
-  test('deprecation silenced for ember-source with non-approaching until does not log', function (assert) {
+  test('deprecation silenced for ember-source with non-approaching until is not tracked', function (assert) {
     assert.expect(1);
-
-    let warnMessages = [];
-    console.warn = function (message) {
-      warnMessages.push(message);
-    };
 
     self.deprecationWorkflow.pressingSilenced = new Set();
 
@@ -532,19 +514,14 @@ module('handleDeprecationWorkflow', function (hooks) {
     );
 
     assert.strictEqual(
-      warnMessages.length,
+      self.deprecationWorkflow.pressingSilenced.size,
       0,
-      'does not log when until is not approaching',
+      'non-approaching deprecation is not tracked',
     );
   });
 
-  test('deprecation silenced for non-ember-source does not log', function (assert) {
+  test('deprecation silenced for non-ember-source is not tracked', function (assert) {
     assert.expect(1);
-
-    let warnMessages = [];
-    console.warn = function (message) {
-      warnMessages.push(message);
-    };
 
     self.deprecationWorkflow.pressingSilenced = new Set();
 
@@ -565,9 +542,9 @@ module('handleDeprecationWorkflow', function (hooks) {
     );
 
     assert.strictEqual(
-      warnMessages.length,
+      self.deprecationWorkflow.pressingSilenced.size,
       0,
-      'does not log for non-ember-source deprecations',
+      'non-ember-source deprecation is not tracked',
     );
   });
 });

@@ -1,4 +1,5 @@
 /* eslint no-console: 0 */
+/* global QUnit */
 
 import { module } from 'qunit';
 import test from '../helpers/debug-test';
@@ -35,7 +36,7 @@ module('setupDeprecationWorkflow', function (hooks) {
     );
   });
 
-  test('does not log at setup time, even with silenced entries', function (assert) {
+  test('does not log at setup time', function (assert) {
     assert.expect(1);
 
     let warnMessages = [];
@@ -55,6 +56,62 @@ module('setupDeprecationWorkflow', function (hooks) {
       warnMessages.length,
       0,
       'no warnings are emitted at setup time',
+    );
+  });
+
+  test('registers a QUnit.done callback that logs silenced pressing deprecation count', function (assert) {
+    assert.expect(2);
+
+    let registeredCallback;
+    let originalQUnitDone = QUnit.done;
+    QUnit.done = function (callback) {
+      registeredCallback = callback;
+    };
+
+    let warnMessages = [];
+    console.warn = function (message) {
+      warnMessages.push(message);
+    };
+
+    setupDeprecationWorkflow({});
+    QUnit.done = originalQUnitDone;
+
+    // Simulate two pressing silenced deprecations discovered during the run
+    self.deprecationWorkflow.pressingSilenced.add('ember.first');
+    self.deprecationWorkflow.pressingSilenced.add('ember.second');
+
+    assert.ok(registeredCallback, 'QUnit.done was called with a callback');
+    registeredCallback();
+    assert.ok(
+      warnMessages.some((m) => m.includes('2 deprecation(s) silenced')),
+      'QUnit.done callback logs the count of pressing silenced deprecations',
+    );
+  });
+
+  test('QUnit.done callback logs nothing when no pressing deprecations are silenced', function (assert) {
+    assert.expect(1);
+
+    let registeredCallback;
+    let originalQUnitDone = QUnit.done;
+    QUnit.done = function (callback) {
+      registeredCallback = callback;
+    };
+
+    let warnMessages = [];
+    console.warn = function (message) {
+      warnMessages.push(message);
+    };
+
+    setupDeprecationWorkflow({});
+    QUnit.done = originalQUnitDone;
+
+    // No pressing silenced deprecations
+    registeredCallback();
+
+    assert.strictEqual(
+      warnMessages.length,
+      0,
+      'QUnit.done callback logs nothing when pressingSilenced is empty',
     );
   });
 });
